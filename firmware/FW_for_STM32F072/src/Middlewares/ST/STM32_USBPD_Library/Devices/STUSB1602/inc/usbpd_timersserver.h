@@ -67,14 +67,16 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 typedef enum {
-  TIM_PORT0_CRC,                /*!< TIMERSERVER CRC check on Port0 */
+  TIM_PORT0_CRC,                /*!< TIMERSERVER CRC check on Port0 not used in STUSB1602 */
   TIM_PORT0_RETRY,              /*!< TIMERSERVER Retry on Port0 */
-  TIM_PORT1_CRC,                /*!< TIMERSERVER CRC check on Port1 */
+  TIM_PORT1_CRC,                /*!< TIMERSERVER CRC check on Port1 not used in STUSB1602 */
   TIM_PORT1_RETRY,              /*!< TIMERSERVER Retry on Port1 */
+  TIM_PORT0_CA,                 /*!< TIMERSERVER CA check on Port0 used in STUSB1602 to controle Received byte duration for colision avoidance */
+  TIM_PORT1_CA,                 /*!< TIMERSERVER CA check on Port1 used in STUSB1602 to controle Received byte duration for colision avoidance */
   TIM_MAX                       /*!< TIMERSERVER reachs TIM Max */
 } TIM_identifier;
 
-#define TIM_MAX_TIME 10000 /*time in us, means 10 ms */
+#define TIM_MAX_TIME 10000u /*time in us, means 10 ms */
 /* Exported types ------------------------------------------------------------*/
 /* External variables --------------------------------------------------------*/
 /* Exported macros -----------------------------------------------------------*/

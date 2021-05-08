@@ -1,0 +1,16 @@
+Known fails:
+
+Test TD.VDM3.E1: no more aligned to latest PD3 specification
+Fail seen in Ellisys Reports:(xxx_USB Compliance Report.html)
+		STM32F072_MB1303_DRP_VDM
+		STM32F072_MB1303_SRC_VDM
+		STM32F072_MB1303_SNK_VDM
+		STM32F072_MB1303_DRP_SRCING_DEVICE
+
+Test BMC-PROT-R3-DISCOV no more aligned to latest PD3 specification
+Fail seen in MQP Reports:(xxx_PRO3_xxx.html)
+		STM32F072_MB1303_SRC_VDM
+		STM32F072_MB1303_SNK_VDM
+		STM32F072_MB1303_DRP_VDM
+		STM32F072_MB1303_DRP_SRCING_DEVICE
+Gives 2 fails: 	CAB_PROT_DISCOV_R3_F1 and VIF_DISCOV_R3_G1	

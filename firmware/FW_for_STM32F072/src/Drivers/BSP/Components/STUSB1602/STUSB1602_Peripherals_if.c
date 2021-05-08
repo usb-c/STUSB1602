@@ -41,7 +41,6 @@ I2C for Registers , SPI DMA CRC Timers for Phy .
 /* Includes ------------------------------------------------------------------*/
 #include "User_BSP.h"
 #include "STUSB1602_Peripherals_if.h"
-
 #undef __USBPD_PERIPHERAL_C_
 
 
@@ -61,8 +60,10 @@ void USBPD_HW_IF_GlobalHwInit(void)
   uint8_t nvm_read = 0;                   /*!< Variable used to check if NVM has been loaded correctly */  
   
   /* Configure the ADCx peripheral */
+#if defined (_ADC_MONITORING)
   HW_IF_ADC_Init();
-  HW_IF_CRC_Init();
+#endif
+
   HW_IF_PWR_DigitalGPIO_Init();
   
   /* used for the PRL/PE timing */
@@ -74,18 +75,17 @@ void USBPD_HW_IF_GlobalHwInit(void)
     HW_DAC_init(PortNum);
 #endif  /* defined(_BUCKCV) || defined( BOARD_100W)*/
     HW_IF_STUSB1602_IO_Init(PortNum);
-    
-    //  HW_IF_STUSB16xx_Reset(PortNum);
-    
+        
     /* Init peripherals required by the specified port*/
     STUSB1602_Driver_Init(PortNum);
     HW_IF_STUSB16xx_I2C_Init(PortNum);
-    //    HW_IF_STUSB16xx_Reset(PortNum);
 #ifdef _VVAR_FLASH  
-    if ( nvm_flash(STUSB1602_I2C_Add(PortNum)) == 4)/* if sommething was written in NVM , reset must be performe to take it into account */
-//    if ( nvm_flash_recup(STUSB1602_I2C_Add(PortNum)) == 4)/* if sommething was written in NVM , reset must be performe to take it into account */
+    /* if sommething was written in NVM , reset must be performe to take it into account */
+    /*   to update NVM content */
+    if ( nvm_flash(STUSB1602_I2C_Add(PortNum)) == 4)   
+      /* Or initial content of Nvm*/
+      /*     if ( nvm_flash_recup(STUSB1602_I2C_Add(PortNum)) == 4) */
     {
-      //  nvm_flash_recup(STUSB1602_I2C_Add(PortNum));
       HW_IF_STUSB16xx_Reset(PortNum);
     }
 #endif
@@ -101,26 +101,14 @@ void USBPD_HW_IF_GlobalHwInit(void)
     /* Add check of chip ID*/
     Ports[PortNum].Device_cut = STUSB1602_DEVICE_CUT_Get(STUSB1602_I2C_Add(PortNum));
     
-#if USBPD_PORT_COUNT == 2
-    if (PortNum == 1)
-    {
-      while (Ports[0].Device_cut != Ports[1].Device_cut)
-      {
-        Ports[PortNum].Device_cut = STUSB1602_DEVICE_CUT_Get(STUSB1602_I2C_Add(PortNum));
-      }
-    }
-#endif
+    STUSB1602_VBUS_Discharge_State_Set(STUSB1602_I2C_Add(PortNum),VBUS_Discharge_Path_Disable); 
+    STUSB1602_SW_RESET_Set(STUSB1602_I2C_Add(PortNum), No_SW_RST); /* to avoid STUSB under SW reset after a reboot */
+
     HAL_GPIO_WritePin(TX_EN_GPIO_PORT(PortNum),TX_EN_GPIO_PIN(PortNum),GPIO_PIN_RESET);
     /* SPI and DMA init */
     HW_IF_DMA_Init(PortNum);
     HW_IF_SPI_Init(PortNum);
     /* clear Alert status bits */
-//
-//    Ports[PortNum].Monitoring_Trans = STUSB1602_Monitoring_Status_Trans_Reg_Get(STUSB1602_I2C_Add(PortNum));
-//    Ports[PortNum].Monitoring_Status = STUSB1602_Monitoring_Status_Reg_Get(STUSB1602_I2C_Add(PortNum));
-//    i= STUSB1602_Hard_Fault_Trans_Status_Get(STUSB1602_I2C_Add(PortNum));
-//    UNUSED(i);
-//    Ports[PortNum].Hw_Fault.d8 =  STUSB1602_ReadRegSingle(STUSB1602_I2C_Add(PortNum), STUSB1602_HW_FAULT_STATUS_REG);
   } 
 }
 
@@ -136,7 +124,19 @@ void HW_IF_PWR_DigitalGPIO_Init()
   for(index=0;index<USBPD_POWSELn;index++)
   {
     USBPD_BSP_GPIOPins_TypeDef gpio = USBPD_POWSELs[index];
+
+#ifdef _GPIO_FOR_SRC  
+   /* Configure the powsels pin */
+    GPIO_InitStruct.Pin = gpio.GPIO_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     
+    HAL_GPIO_Init(gpio.GPIOx, &GPIO_InitStruct);
+    
+    /* Turn the pin off */
+    USBPD_HW_IF_GPIO_On(gpio);
+#else  
     /* Configure the powsels pin */
     GPIO_InitStruct.Pin = gpio.GPIO_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -147,6 +147,7 @@ void HW_IF_PWR_DigitalGPIO_Init()
     
     /* Turn the pin off */
     USBPD_HW_IF_GPIO_Off(gpio);
+#endif
   }
 #endif
 }
@@ -188,31 +189,14 @@ void HW_IF_STUSB1602_IO_Init(uint8_t PortNum)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(RESET_GPIO_PORT(PortNum), &GPIO_InitStruct);
 
-  /* Configure GPIO pins : DEBUG */
-  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10 | GPIO_PIN_11 |GPIO_PIN_12 ,GPIO_PIN_RESET);
-  GPIO_InitStruct.Pin = GPIO_PIN_10 | GPIO_PIN_11 |GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-  HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2 ,GPIO_PIN_RESET);
-  GPIO_InitStruct.Pin = GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-  
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(ALERT_GPIO_IRQHANDLER(PortNum), ALERT_GPIO_IRQPRIORITY(PortNum), 0);
+  HAL_NVIC_SetPriority(ALERT_GPIO_IRQHANDLER(PortNum), ALERT_GPIO_IRQPRIORITY(PortNum), 1);
   HAL_NVIC_EnableIRQ(ALERT_GPIO_IRQHANDLER(PortNum));
 }
 
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef STUSB16xx_I2CxHandle;         /*!< I2C Handle for port 0 */
-
-//I2C_HandleTypeDef STUSB16xx_I2CxHandle_P1;      /*!< I2C Handle for port 1 */
-
 
 /* Functions -----------------------------------------------------------------*/
 /**
@@ -224,40 +208,42 @@ void HW_IF_STUSB16xx_I2C_Init(uint8_t PortNum)
 {
   
   Ports[PortNum].hi2c->Instance =  I2C_INSTANCE(PortNum);
-#if defined (STM32F446xx)
+#if defined (I2C_CLOCKSPEED)
 Ports[PortNum].hi2c->Init.ClockSpeed = I2C_CLOCKSPEED(PortNum);                                        
+Ports[PortNum].hi2c->Init.DutyCycle       = I2C_DUTYCYCLE_2;
 #else  /*FO72 / F051*/     
 Ports[PortNum].hi2c->Init.Timing =  I2C_TIMING(PortNum);
-#endif  /*defined (STM32F446xx)*/
+#endif  /*defined (I2C_CLOCKSPEED)*/
   
   
   Ports[PortNum].hi2c->Init.OwnAddress1 = 0;
   Ports[PortNum].hi2c->Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   Ports[PortNum].hi2c->Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   Ports[PortNum].hi2c->Init.OwnAddress2 = 0;
-#if defined (STM32F446xx)
-                                        
-#else  /*FO72 / F051*/     
+#if defined (I2C_OA2_NOMASK)                                            
   Ports[PortNum].hi2c->Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-#endif  /*defined (STM32F446xx)*/  
+#endif  /*defined (I2C_OA2_NOMASK)*/  
   
   Ports[PortNum].hi2c->Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
   Ports[PortNum].hi2c->Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
   
   HAL_I2C_Init(Ports[PortNum].hi2c);
-  
+#ifdef HAL_I2CEx_ConfigAnalogFilter
   HAL_I2CEx_ConfigAnalogFilter(Ports[PortNum].hi2c, I2C_ANALOGFILTER_ENABLE);
+#endif
+#ifdef HAL_I2CEx_ConfigDigitalFilter  
+  HAL_I2CEx_ConfigDigitalFilter(Ports[PortNum].hi2c, 0)
+#endif    
 }
 /* Private function prototypes -----------------------------------------------*/
 /* COMM functions*/
 #if defined (_RTOS)
-osSemaphoreDef(sem_i2c_1602);
-osSemaphoreId sem_i2c_1602_id;
+osMutexDef(mut_i2c_1602);
+osMutexId mut_i2c_1602_id;
 #else   
 static STUSB1602_StatusTypeDef HW_IF_COMM_WAIT(uint32_t * I2C_Lock, uint32_t Timeout) ;
 static STUSB1602_StatusTypeDef HW_IF_COMM_RELEASE(uint32_t * I2C_Lock);
 uint32_t I2C_LockCount ;
-//uint32_t I2C_LockCount_P1 ;
 uint32_t duration;   
 extern uint32_t HAL_GetTick(void);
 #endif
@@ -284,8 +270,15 @@ void STUSB1602_Driver_Init(uint8_t PortNum)
   
   Ports[PortNum].hi2c = &STUSB16xx_I2CxHandle  ;
 #if defined (_RTOS)
-  
-  sem_i2c_1602_id = osSemaphoreCreate(osSemaphore(sem_i2c_1602),1);
+#if (USBPD_PORT_COUNT == 2)
+  if (PortNum == 1)
+  {
+  mut_i2c_1602_id = osMutexCreate(osMutex(mut_i2c_1602));
+  __enable_irq();
+  }
+#else
+  mut_i2c_1602_id =  osMutexCreate(osMutex(mut_i2c_1602)); 
+#endif
 #else
   I2C_LockCount = 0 ;
 #endif
@@ -367,12 +360,12 @@ STUSB1602_StatusTypeDef STUSB1602_ReadReg(uint8_t* pBuffer, uint8_t Addr, uint8_
 #if defined (_RTOS)
   /* try to acquire the communication resource to avoid the conflict */
   /* check to avoid count before OSKernel Start */
-  if (uxTaskGetNumberOfTasks() != 0) 
+  if (uxTaskGetNumberOfTasks() > 2 ) 
   {
-    if (osSemaphoreWait(sem_i2c_1602_id, 10) != osErrorOS)  /*osWait 10*/ 
+    if (osMutexWait(mut_i2c_1602_id, osWaitForever) != osErrorOS)  /*osWait 10*/ 
     {
       status = (STUSB1602_StatusTypeDef) HAL_I2C_Mem_Read(&STUSB16xx_I2CxHandle, (Addr<<1), (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, pBuffer, Size, TIMEOUT_MAX);
-      osSemaphoreRelease(sem_i2c_1602_id);
+      osMutexRelease(mut_i2c_1602_id);
     }
     else 
     {
@@ -429,12 +422,12 @@ STUSB1602_StatusTypeDef STUSB1602_WriteReg(uint8_t* pBuffer, uint8_t Addr, uint8
 #if defined (_RTOS)
   /* try to acquire the communication resource to avoid the conflict */
   /* check to avoid count before OSKernel Start */
-  if (uxTaskGetNumberOfTasks() != 0) 
+  if (uxTaskGetNumberOfTasks() > 2 )
   {
-    if (osSemaphoreWait(sem_i2c_1602_id, 10) != osErrorOS)  /*osWait 10*/ 
+    if (osMutexWait(mut_i2c_1602_id, osWaitForever) != osErrorOS)  /*osWait 10*/ 
     {
       status = (STUSB1602_StatusTypeDef)HAL_I2C_Mem_Write(&STUSB16xx_I2CxHandle, (Addr<<1), (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, pBuffer, Size,TIMEOUT_MAX);
-      osSemaphoreRelease(sem_i2c_1602_id);
+      osMutexRelease(mut_i2c_1602_id);
     }
     else 
     {
@@ -477,13 +470,13 @@ STUSB1602_StatusTypeDef STUSB1602_WriteRegSingle(const uint8_t Value, uint8_t Ad
 #if defined (_RTOS)
   /* try to acquire the communication resource to avoid the conflict */
   /* check to avoid count before OSKernel Start */
-  if (uxTaskGetNumberOfTasks() != 0) 
+ if (uxTaskGetNumberOfTasks() > 2 ) 
   {
-    if (osSemaphoreWait(sem_i2c_1602_id, 10) != osErrorOS)  /*osWait30*/ 
+    if (osMutexWait(mut_i2c_1602_id, osWaitForever) != osErrorOS)  /*osWait30*/ 
     {
       uint8_t value = Value;
       status = (STUSB1602_StatusTypeDef)HAL_I2C_Mem_Write(&STUSB16xx_I2CxHandle, (Addr<<1), (uint16_t)Reg, I2C_MEMADD_SIZE_8BIT, &value, 1, TIMEOUT_MAX);
-      osSemaphoreRelease(sem_i2c_1602_id);
+      osMutexRelease(mut_i2c_1602_id);
       return  status;
     }
     else 
@@ -533,7 +526,11 @@ void HW_IF_SPI_Init(uint8_t PortNum)
   
   phspi->Instance =           SPI_Instance(PortNum);
   phspi->Init.Mode =           SPI_MODE_SLAVE;
+#if !defined (SPI_ONE_LINE)
   phspi->Init.Direction =  SPI_DIRECTION_2LINES;
+#else
+    phspi->Init.Direction =  SPI_DIRECTION_1LINE;
+#endif
   phspi->Init.DataSize =   SPI_DATASIZE_8BIT;
   phspi->Init.CLKPolarity =     SPI_POLARITY_HIGH;
   phspi->Init.CLKPhase =   SPI_PHASE_1EDGE;
@@ -542,13 +539,13 @@ void HW_IF_SPI_Init(uint8_t PortNum)
   phspi->Init.TIMode =     SPI_TIMODE_DISABLE;
   phspi->Init.CRCCalculation =  SPI_CRCCALCULATION_DISABLE;
   phspi->Init.CRCPolynomial =   8;
-#if !defined (STM32F446xx)  
+  phspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+#if defined(SPI_CRC_LENGTH_DATASIZE)
   phspi->Init.CRCLength =   SPI_CRC_LENGTH_DATASIZE; 
+#endif
+#if defined(SPI_NSS_PULSE_DISABLE)
   phspi->Init.NSSPMode =   SPI_NSS_PULSE_DISABLE;
-#else 
-  phspi->Init.NSS = SPI_NSS_HARD_INPUT;
-#endif  /*!defined (STM32F446xx)*/
-  
+#endif  
   
   HAL_SPI_Init(phspi);
 }
@@ -572,9 +569,36 @@ void HW_IF_Switch_Mode(uint8_t PortNum, STUSB1602_SPI_Mode_TypeDef mode)
   /* when RX NSS is Hard SSM = 0 RXONLY = 1 */
   phspi->Instance->CR1 &= ~(1<<SPI_CR1_SSM_Pos);
   phspi->Instance->CR1 |= ((((~mode) & 1)<<SPI_CR1_SSM_Pos) & SPI_CR1_SSM) ;
+#if !defined(SPI_ONE_LINE)
   phspi->Instance->CR1 &= ~(1<<SPI_CR1_RXONLY_Pos);
   phspi->Instance->CR1 |= ((((mode) & 1)<<SPI_CR1_RXONLY_Pos) & SPI_CR1_RXONLY) ;
+#endif
+#if defined(SPI_ONE_LINE)
+    GPIO_InitTypeDef GPIO_InitStruct;
 
+  if (~mode)
+  {
+     GPIO_InitStruct.Pin = SPI_MISO_PIN(PortNum);
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = SPI_MISO_ALTERNATE(PortNum);
+    HAL_GPIO_Init(SPI_MISO_PORT(PortNum), &GPIO_InitStruct);
+  LL_SPI_SetTransferDirection(phspi->Instance,LL_SPI_HALF_DUPLEX_TX);
+  }
+  else
+  {
+    
+    GPIO_InitStruct.Pin = SPI_MISO_PIN(PortNum);
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = SPI_MISO_ALTERNATE(PortNum);
+    HAL_GPIO_Init(SPI_MISO_PORT(PortNum), &GPIO_InitStruct);
+  LL_SPI_SetTransferDirection(phspi->Instance,LL_SPI_HALF_DUPLEX_RX);
+  }
+
+#endif
   /* Enable/Disable RX NSS EXT Interrupt */
   HW_IF_NSS_RisingFalling_Interrupt (PortNum, mode == STUSB16xx_SPI_Mode_RX ? ENABLE : DISABLE);
   
@@ -589,16 +613,17 @@ void HW_IF_Switch_Mode(uint8_t PortNum, STUSB1602_SPI_Mode_TypeDef mode)
 void HW_IF_DMA_Init(uint8_t PortNum)
 {
   /* DMA controller clock enable */
-  DMA_CLK_ENABLE(PortNum);
+    DMA_CLK_ENABLE(PortNum);
   
   
   /* NVIC configuration for DMA */
-#if !defined(STM32F446xx)  
-  HAL_NVIC_SetPriority(DMACHIRQ(PortNum), DMACHIRQ_PRIO(PortNum), 0);
-#else
-  HAL_NVIC_SetPriority(TXDMACHIRQ(PortNum), DMACHIRQ_PRIO(PortNum), 0);
-  HAL_NVIC_SetPriority(RXDMACHIRQ(PortNum), DMACHIRQ_PRIO(PortNum), 0);
-#endif  
+  
+#if defined(DMAMUX_CxCR_DMAREQ_ID) 
+    __HAL_RCC_DMAMUX1_CLK_ENABLE();
+#endif     
+
+  HAL_NVIC_SetPriority(TXDMACHIRQ(PortNum), TXDMACHIRQ_PRIO(PortNum), TXDMACHIRQ_SUB_PRIO(PortNum));
+  
 }
 
 
@@ -619,12 +644,9 @@ void HW_IF_NSS_RisingFalling_Interrupt (uint8_t PortNum ,FunctionalState status)
     NVIC_SetPriority(SPI_NSS_LL_IRQHANDLER(PortNum),SPI_NSS_LL_IRQPRIORITY(PortNum));
     
     /* External Line initialization */
-#if !defined (STM32F446xx)
- 	LL_APB1_GRP2_EnableClock(SPI_NSS_LL_APB(PortNum));
-#else    
+
     SPI_NSS_LL_APB_EN_CLK(PortNum);
-#endif    
-//    LL_APB1_GRP1_EnableClock(SPI_NSS_LL_APB(PortNum));
+
     LL_SYSCFG_SetEXTISource(SPI_NSS_LL_PORT(PortNum), SPI_NSS_LL_SYS_EXTI(PortNum));
     
     EXTI_InitStruct.Line_0_31 = SPI_NSS_LL_EXTI(PortNum);
@@ -636,53 +658,15 @@ void HW_IF_NSS_RisingFalling_Interrupt (uint8_t PortNum ,FunctionalState status)
   else
   {
     /* External Line deinitialization */
-#if !defined (STM32F446xx)
- 	LL_APB1_GRP2_EnableClock(SPI_NSS_LL_APB(PortNum));
-#else    
     SPI_NSS_LL_APB_EN_CLK(PortNum);
-#endif    //    LL_APB1_GRP2_DisableClock(SPI_NSS_LL_APB(PortNum));
     LL_SYSCFG_SetEXTISource(SPI_NSS_LL_PORT(PortNum), SPI_NSS_LL_SYS_EXTI(PortNum));
-    
+  
     EXTI_InitStruct.Line_0_31 = SPI_NSS_LL_EXTI(PortNum);
     EXTI_InitStruct.LineCommand = DISABLE;
     EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
     EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_NONE;
     LL_EXTI_Init(&EXTI_InitStruct);
   }  
-}
-
-
-/**
-* @}
-*/
-
-/**
-* @brief  CRC init procedure
-* @retval None
-*/
-void HW_IF_CRC_Init(void)
-{
-  /* (1) Enable peripheral clock for CRC                   *********************/
-  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_CRC);
-  /* Configure CRC calculation unit with default generating polynomial, 32-bit */
-  /* Reset value is LL_CRC_DEFAULT_CRC32_POLY */
-  //  LL_CRC_SetPolynomialCoef(CRC, LL_CRC_DEFAULT_CRC32_POLY);  
-  /* Reset value is LL_CRC_POLYLENGTH_32B */
-  // LL_CRC_SetPolynomialSize(CRC, LL_CRC_POLYLENGTH_32B);
-#if !defined (STM32F446xx)  
-  /* Initialize default CRC initial value */
-  /* Reset value is LL_CRC_DEFAULT_CRC_INITVALUE */
-  LL_CRC_SetInitialData(CRC, LL_CRC_DEFAULT_CRC_INITVALUE);  
-  
-  /* Set input data inversion mode : No inversion*/
-  /* Reset value is LL_CRC_INDATA_REVERSE_NONE */
-  LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_BYTE);
-  //   LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_WORD);
-  
-  /* Set output data inversion mode : No inversion */
-  /* Reset value is LL_CRC_OUTDATA_REVERSE_NONE */
-  LL_CRC_SetOutputDataReverseMode(CRC, LL_CRC_OUTDATA_REVERSE_BIT);
-#endif /*defined (STM32F446xx)*/
 }
 
 /* Private functions ---------------------------------------------------------*/
@@ -706,28 +690,52 @@ void STUSB16xx_HW_IF_TX_DMA_Init(uint8_t PortNum)
   Ports[PortNum].hspi.hdmatx = hdma_tx_spi;
   
   /* Peripheral DMA init*/
+#if defined(TX_DMASTREAM)
+hdma_tx_spi->Instance =                   TX_DMASTREAM(PortNum);
+#if defined(TX_DMACH)
+hdma_tx_spi->Init.Channel =               TX_DMACH(PortNum);
+#endif
+#else   
   hdma_tx_spi->Instance =                   TX_DMACH(PortNum);
+#endif
+#if defined(DMA_REQUEST_SPI_TX  )
+  hdma_tx_spi->Init.Request = DMA_REQUEST_SPI_TX(PortNum);
+#endif
   hdma_tx_spi->Init.Direction =             DMA_MEMORY_TO_PERIPH;
   hdma_tx_spi->Init.PeriphInc =             DMA_PINC_DISABLE;
   hdma_tx_spi->Init.MemInc =                DMA_MINC_ENABLE;
   hdma_tx_spi->Init.PeriphDataAlignment =   DMA_PDATAALIGN_BYTE;
   hdma_tx_spi->Init.MemDataAlignment =      DMA_MDATAALIGN_BYTE;
+#ifdef DMA_PFCTRL
+  hdma_tx_spi->Init.Mode =  DMA_NORMAL;               /*  DMA_PFCTRL; */
+  hdma_tx_spi->Init.FIFOMode = DMA_FIFOMODE_DISABLE;    /* FIFO mode enabled       DMA_FIFOMODE_ENABLE  */
+  hdma_tx_spi->Init.FIFOThreshold = DMA_FIFO_THRESHOLD_1QUARTERFULL; /* FIFO threshold: 1/4 full   */
+  hdma_tx_spi->Init.MemBurst = DMA_MBURST_SINGLE;              /* Memory burst                     */
+  hdma_tx_spi->Init.PeriphBurst = DMA_PBURST_SINGLE;           /* Peripheral burst                 */
+#else  
   hdma_tx_spi->Init.Mode =                  DMA_NORMAL;
-  hdma_tx_spi->Init.Priority =              DMACHIRQ_PRIO(PortNum);
+#endif  
+  hdma_tx_spi->Init.Priority =              DMA_PRIORITY_LOW;
   HAL_DMA_Init(hdma_tx_spi);
+  
 
-#if !defined(STM32F446xx)  
 #if defined (DMA1_Channel7)  
   if ( TX_DMACH(PortNum) == DMA1_Channel7)
+#if defined(__HAL_DMA_REMAP_CHANNEL_ENABLE)
     __HAL_DMA_REMAP_CHANNEL_ENABLE(DMA_REMAP_SPI2_DMA_CH67);
+#elif defined (HAL_REMAPDMA_SPI1_RX_DMA1_CH7)
+	__HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_SPI1_RX_DMA1_CH7);
+    
 #endif
+#endif
+
   __HAL_LINKDMA((&Ports[PortNum].hspi),hdmatx,(*hdma_tx_spi));
   
   /* Enable IRQ DMA */
-  HAL_NVIC_EnableIRQ(DMACHIRQ(PortNum));
-#else
   HAL_NVIC_EnableIRQ(TXDMACHIRQ(PortNum));
-#endif   
+#if defined (SPI_SR_FTLVL)  
+  __HAL_DMA_DISABLE_IT(hdma_tx_spi,  __HAL_DMA_GET_HT_FLAG_INDEX(&Ports[PortNum].hdmatx));  
+#endif 
 }
 
 
@@ -738,39 +746,62 @@ void STUSB16xx_HW_IF_TX_DMA_Init(uint8_t PortNum)
 */ 
 void STUSB16xx_HW_IF_RX_DMA_Init(uint8_t PortNum)
 {
+  #ifdef RX_DMACH
   /* Get the peripheral handler variable */
   DMA_HandleTypeDef* hdma_rx_spi = &(Ports[PortNum].hdmarx);
   
   /* Peripheral DMA init*/
+#if defined(RX_DMASTREAM)
+  hdma_rx_spi->Instance =                   RX_DMASTREAM(PortNum);
+#if defined(RX_DMACH)  
+  hdma_rx_spi->Init.Channel =               RX_DMACH(PortNum);
+#endif
+#else 
   hdma_rx_spi->Instance =                   RX_DMACH(PortNum);
+#endif
+#if defined(DMA_REQUEST_SPI_RX)
+      hdma_rx_spi->Init.Request = DMA_REQUEST_SPI_RX(PortNum);
+#endif
   hdma_rx_spi->Init.Direction =             DMA_PERIPH_TO_MEMORY;
   hdma_rx_spi->Init.PeriphInc =             DMA_PINC_DISABLE;
   hdma_rx_spi->Init.MemInc =                DMA_MINC_ENABLE;
   hdma_rx_spi->Init.PeriphDataAlignment =   DMA_PDATAALIGN_BYTE;
   hdma_rx_spi->Init.MemDataAlignment =      DMA_MDATAALIGN_BYTE;
+#ifdef DMA_PFCTRL
+  hdma_rx_spi->Init.Mode =  DMA_NORMAL;               /*  DMA_PFCTRL; */
+  hdma_rx_spi->Init.FIFOMode = DMA_FIFOMODE_DISABLE;            /* FIFO mode enabled       DMA_FIFOMODE_ENABLE         */
+  hdma_rx_spi->Init.FIFOThreshold = DMA_FIFO_THRESHOLD_1QUARTERFULL; /* FIFO threshold: 1/4 full   */
+  hdma_rx_spi->Init.MemBurst = DMA_MBURST_SINGLE;              /* Memory burst                     */
+  hdma_rx_spi->Init.PeriphBurst = DMA_PBURST_SINGLE;           /* Peripheral burst                 */
+#else  
   hdma_rx_spi->Init.Mode =                  DMA_NORMAL;
-  hdma_rx_spi->Init.Priority =              DMA_PRIORITY_VERY_HIGH;
+#endif   
+  hdma_rx_spi->Init.Priority =              DMA_PRIORITY_HIGH;
   HAL_DMA_Init(hdma_rx_spi);
-  
+
   /* Set the DMA handler of the peripheral handler */
-  Ports[PortNum].hspi.hdmarx = hdma_rx_spi; 
-#if !defined(STM32F446xx)  
+
 #if defined (DMA1_Channel6) 
   if ( RX_DMACH(PortNum) == DMA1_Channel6)
+#if defined(__HAL_DMA_REMAP_CHANNEL_ENABLE)
     __HAL_DMA_REMAP_CHANNEL_ENABLE(DMA_REMAP_SPI2_DMA_CH67);
+#elif defined (HAL_REMAPDMA_SPI1_RX_DMA1_CH6)
+	__HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_SPI1_RX_DMA1_CH6);
 #endif 
+#endif
   __HAL_LINKDMA((&Ports[PortNum].hspi),hdmarx,(*hdma_rx_spi));
-  
+ 
   /* NVIC configuration for DMA & SPI */
   HAL_NVIC_SetPriority(SPI_IRQn(PortNum), SPIx_IRQ_PRIO(PortNum), 0);
   
-  /* Enable IRQ DMA */
-  
-  HAL_NVIC_EnableIRQ(DMACHIRQ(PortNum));
-#else
-  HAL_NVIC_EnableIRQ(RXDMACHIRQ(PortNum));
-#endif  
-  
+#endif
+   __HAL_SPI_DISABLE_IT(&Ports[PortNum].hspi, (SPI_IT_RXNE | SPI_IT_ERR | SPI_IT_TXE ));
+#ifdef RX_DMACH   
+   /* disabling DMA IT at this point is mandatory to avoid propagating IT from DMA)*/
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_HT_FLAG_INDEX(&Ports[PortNum].hdmarx));  
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_TC_FLAG_INDEX(&Ports[PortNum].hdmarx));  
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_TE_FLAG_INDEX(&Ports[PortNum].hdmarx));  
+#endif
 }
 
 
@@ -807,14 +838,11 @@ void STUSB16xx_HW_IF_Set_DMA_Circular_Mode(uint8_t PortNum)
   __HAL_LINKDMA((&Ports[PortNum].hspi),hdmatx,(*hdma_tx_spi));
   
   /* DMA interrupt init */
-#if !defined(STM32F446xx)
-  HAL_NVIC_SetPriority(DMACHIRQ(PortNum), DMACHIRQ_PRIO(PortNum), 0);
-#else
-  HAL_NVIC_SetPriority(TXDMACHIRQ(PortNum), DMACHIRQ_PRIO(PortNum), 0);
-#endif
+
+  HAL_NVIC_SetPriority(TXDMACHIRQ(PortNum), TXDMACHIRQ_PRIO(PortNum),TXDMACHIRQ_SUB_PRIO(PortNum));
 }
 
-/** @}*/ // End of PUBLIC_FUNCTIONS group
+/** @}*/ 
 
 
 /* Private functions ---------------------------------------------------------*/

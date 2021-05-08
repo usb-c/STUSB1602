@@ -50,7 +50,7 @@
 extern "C" {
 #endif
 
-///* Includes ------------------------------------------------------------------*/
+/* Includes ------------------------------------------------------------------*/
 #include "User_BSP.h"
 
    /**
@@ -69,15 +69,6 @@ typedef enum
 /** @defgroup USBPD_DEVICE_PORTHANDLE_Exported_Defines USBPD DEVICE PORTHANDLE Exported Defines
   * @{
   */
-
-#define USBPD_LOWEST_IRQ_PRIO   3   /*!< Lowest priority                    */
-#define USBPD_LOW_IRQ_PRIO      1   /*!< High priority shift value          */
-#define USBPD_HIGH_IRQ_PRIO     0   /*!< Low priority shift value           */
-#define RX_IRQ_PRIO             0   /*!< Rx priority for first interrupt @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
-#define TX_IRQ_PRIO             0   /*!< Tx interrupt priority @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
-#define DMA_TIME_ELAPSED        50  /*!< DMA Time Elapsed value [us]       */
-#define DMA_TIME_COUNT_COMPARE  10   /*!< DMA Time Count Compare value [us] */
-#define DMA_TIME_TASK           20   /*!< DMA Time Task [us]                */
 
 
 #define I2C_ENTER_CRITICAL_SECTION()  uint32_t primask= __get_PRIMASK();\
@@ -120,7 +111,6 @@ void HW_IF_STUSB1602_IO_Init(uint8_t PortNum);
 void HW_IF_STUSB16xx_I2C_Init(uint8_t PortNum);
 
 void HW_IF_SPI_Init(uint8_t PortNum);
-//void HW_IF_SPI_Mode(uint8_t PortNum, STUSB1602_SPI_Mode_TypeDef mode);
 void HW_IF_Switch_Mode(uint8_t PortNum, STUSB1602_SPI_Mode_TypeDef mode);
 void HW_IF_DMA_Init(uint8_t PortNum);
 void HW_IF_NSS_RisingFalling_Interrupt (uint8_t PortNum ,FunctionalState status);
@@ -128,7 +118,5 @@ void STUSB16xx_HW_IF_TX_DMA_Init(uint8_t PortNum);
 void STUSB16xx_HW_IF_RX_DMA_Init(uint8_t PortNum);
 void STUSB16xx_HW_IF_Set_DMA_Normal_Mode(uint8_t PortNum);
 void STUSB16xx_HW_IF_Set_DMA_Circular_Mode(uint8_t PortNum);
-void HW_IF_CRC_Init(void);
-/*#warning "Peripheral header eof 2"*/
+
 #endif
-/*#warning "Peripheral header eof"*/

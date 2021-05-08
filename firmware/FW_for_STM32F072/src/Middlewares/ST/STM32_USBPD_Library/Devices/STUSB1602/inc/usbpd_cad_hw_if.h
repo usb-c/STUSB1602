@@ -86,7 +86,9 @@ typedef enum
   USBPD_CAD_STATE_SWITCH_TO_SRC,      /*!< USBPD CAD State switch to Source                      */
   USBPD_CAD_STATE_SWITCH_TO_SNK,      /*!< USBPD CAD State switch to Sink                        */
   USBPD_CAD_STATE_SWITCH_TO_DETACHED, /*!< USBPD CAD State switch to Detached                    */
-  USPPD_CAD_STATE_UNKNOW              /*!< USBPD CAD State unknow                                */
+  USBPD_CAD_STATE_ENTER_ERRORRECOVERY,
+  USBPD_CAD_STATE_EXIT_ERRORRECOVERY,
+  USPPD_CAD_STATE_UNKNOW,             /*!< USBPD CAD State unknow                                */
 } USBPD_CAD_STATE;
 /**
   * @}

@@ -53,7 +53,6 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-// #include "STUSB1602_Peripherals_if.h"
 #include "usbpd_def.h"
 #include "usbpd_porthandle.h"
 
@@ -134,7 +133,7 @@ typedef struct
 #define TX_BUFFER_LEN         ( 28 )          /*!< Size of Tx Buffer           */
 #define TX_FREQ               ( 300000 )      /*!< Freq of USBPD transmission [Hz]  */
 #define BMC_TX_FREQ           ( 2 * TX_FREQ ) /*!< Freq of BMC transmission   [Hz]  */
-#define CAD_threshold_VBus    4750 // MV2ADC(500)     /*!< Vbus Threshold           */
+#define CAD_threshold_VBus    4750            /*!< Vbus Threshold           */
 #define BIST_MAX_LENGTH       ( 60 )          /*!< 28 Bytes 60 times *    */
 /**
 * @}
@@ -196,12 +195,11 @@ void USBPDM1_AssertRd(uint8_t PortNum);
 void USBPDM1_DeAssertRp(uint8_t PortNum);
 void USBPDM1_DeAssertRd(uint8_t PortNum);
 FunctionalState HW_IF_PWR_IsEnabled(uint8_t PortNum);
-uint32_t USBPD_HW_IF_CRC_Calculate(uint8_t *pBuffer, uint16_t len);
 USBPD_StatusTypeDef USBPD_HW_IF_SendBuffer(uint8_t PortNum, uint8_t *pBuffer, uint32_t Bitsize);
 USBPD_StatusTypeDef USBPD_HW_IF_Send_BIST_Pattern(uint8_t PortNum);
 HAL_StatusTypeDef HW_IF_PWR_Enable(uint8_t PortNum, USBPD_FunctionalState state, CCxPin_TypeDef Cc, uint32_t VconnState, USBPD_PortPowerRole_TypeDef role);
 USBPD_FunctionalState HW_IF_PWR_VBUSIsEnabled(uint8_t PortNum);
-void USBPD_SINGLE_TIM_IC_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t tim_it);
+//void USBPD_SINGLE_TIM_IC_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t tim_it);
 void USBPD_HW_IF_Reset(uint8_t PortNum, USBPD_HRPRS_Mode_TypeDef Mode);
 void USBPD_HW_IF_EXTI_Callback(uint16_t GPIO_Pin);
 uint8_t USBPD_16xx_IsResistor_SinkTxOk(uint8_t PortNum);

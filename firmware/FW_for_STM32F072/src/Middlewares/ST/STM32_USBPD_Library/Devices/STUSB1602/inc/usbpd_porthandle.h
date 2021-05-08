@@ -74,26 +74,19 @@ extern "C" {
 /** @defgroup USBPD_DEVICE_PORTHANDLE_Exported_Types USBPD DEVICE PORTHANDLE Exported Types
   * @{
   */
-
-#if !defined (_UNCHUNKED_SUPPORT)
-#define MAX_DATA_LEN 40
-#define __RX_DATA_LEN 30    
-#else  
-#define MAX_DATA_LEN 270 /* this length must only be use for TX , Rx buffer is alocated by Policy Engine */
-#define __RX_DATA_LEN 260 + 4  
-#endif
-#define __TX_BUFF_SIZE ((uint16_t)( MAX_DATA_LEN + 8 ))                                 /*!< Transmission buffer size (bytes) */
-#define __TX_BUFF_BITSIZE_MAX ((uint16_t)(__TX_BUFF_SIZE * ((uint16_t)8)))  /*!< Transmission buffer bitsize */
-// #define __RX_DATA_LEN MAX_DATA_LEN                      /*!< size of the incoming buffer */
 #define   TX_PREAMBLE             0xAA    /*!< Preamble byte 0xAA = 10101010b */
-#define   TX_PREAMBLE_SIZE        8       /*!< Amount of repeated preamble bytes */
-#define   TX_BUFFER_SIZE          (((MAX_DATA_LEN * 10 ) / 8 )+ TX_PREAMBLE_SIZE + 10 + 1)  /*!< Amount of bytes constituting the packet to be transmitted */ 
-#define   RX_BUFFER_SIZE          (((MAX_DATA_LEN * 10 ) / 8 )+ TX_PREAMBLE_SIZE + 10 + 1)  /*!< Amount of bytes constituting the packet to be received */
+#define   TX_PREAMBLE_SIZE        8u       /*!< Amount of repeated preamble bytes */
+#define   SOP_AND_HEADER_SIZE     5u       /*!< Amount addition of Header and SOP in bytes */  
+#define   CRC_ENCODED             5u       /* CRC in 5b code in byte */  
   
+#define __RX_DATA_LEN (USBPD_MAX_RX_BUFFER_SIZE)      /* header + 28 bytes */ /* this length is defined in usbpd_def.h*/  
+
+#define MAX_DATA_LEN (uint16_t)((((uint16_t ) __RX_DATA_LEN * 10 ) /8 )+ SOP_AND_HEADER_SIZE + CRC_ENCODED + 1)
+#define   TXRX_BUFFER_SIZE     (MAX_DATA_LEN + TX_PREAMBLE_SIZE )  /*!< Amount of bytes constituting the packet 349 bytes for unchunck 54 for chunck*/ 
 /**
   * @brief Default current limit of the power switches supplying VCONN on the CC pins
   */
-typedef enum
+typedef enum                       
 {
   VConn_Ilim_350mA = 0x00,  /*!< VCONN current limit set to 350 mA */
   VConn_Ilim_300mA = 0x01,  /*!< VCONN current limit set to 300 mA */
@@ -121,6 +114,11 @@ typedef struct
   uint32_t    dataoffset;             /*!< Offset inside RxDataBuf      */
   uint32_t    index;                  /*!< Word index inside RXBuf      */
   uint32_t    offset;                 /*!< Bit index inside RXBuf       */
+#ifdef __STAT
+  uint8_t preamble_offset;                        /*!< Offset identifies the byte of data after preamble */
+  uint8_t preamble_index;                         /*!< Index identifies the bit of data after preamble */
+  uint32_t preamble_counter;                   /*!< Preamble counter */
+#endif  
 } UnwrapData_TypeDef;
 
 /**
@@ -173,7 +171,7 @@ typedef struct
     * @param  PortNum The current port number
     * @retval None
     */
-  void (*USBPD_HW_IF_TxCompleted)(uint8_t PortNum);
+  void (*USBPD_HW_IF_TxCompleted)(uint8_t PortNum, uint32_t Status);
   /**
     * @brief  Bist data sent callback from PHY_HW_IF
     * @param  PortNum   Index of current used port
@@ -232,10 +230,6 @@ typedef struct
 {
   uint8_t                     Instance;        /*!< USBPD_PORT number                              */
   uint8_t                     *pTxRxBuffPtr;     /*!< Pointer to Tx Buffer                           */
-  uint16_t                    TxXferSize;      /*!< Tx Transfer size                               */
-//  uint8_t                     *pRxBuffPtr;     /*!< Pointer to Raw Rx transfer Buffer              */
-  uint32_t                    *pRxDataPtr;     /*!< Pointer to 5bdecoded data                      */
-  uint16_t                    RxXferSize;      /*!< Rx Transfer size                               */
   CCxPin_TypeDef              CCx;             /*!< CC pin used for communication                  */
   FlagStatus                  CCxChange;       /*!< CC event change                                */
   HAL_LockTypeDef             Lock;            /*!< Locking object                                 */
@@ -249,16 +243,16 @@ typedef struct
   UnwrapData_TypeDef          unwrapdata;      /*!< Fields used for decoding                       */
   SPI_HandleTypeDef           hspi;            /*!< SPI Handle parameters                          */
   DMA_HandleTypeDef           hdmatx;          /*!< Tx DMA Handle parameters                       */
+#ifdef RX_DMACH
   DMA_HandleTypeDef           hdmarx;          /*!< Rx DMA Handle parameters                       */
+#endif  
   I2C_HandleTypeDef  *         hi2c;            /*!< I2C Handle pointer                            */
   USBPD_HW_IF_Callbacks       cbs;             /*!< Port callbacks, see @ref USBPD_HW_IF_Callbacks */
   uint8_t                     AlertEventCount; /*!< Alert event counter                            */
   uint8_t                     Error_Recovery_Flag; /*!< Error recovery on going flag               */
   uint8_t                     NbDetach;        /*!< Number of CC detach                            */
   uint8_t(*IsSwapOngoing)(uint8_t);            /*!< Function to check if a swap is ongoing used by @ref HW_IF_check_bus_idle */
-#ifdef _RTOS   
   void (*USBPD_CAD_WakeUp)(void);               /*!< function used to wakeup cad task   */  
-#endif  
   STUSB1602_MONITORING_STATUS_RegTypeDef Monitoring_Status ; /*!< Monitoring Parameters on Vbus and Vconn                    */ 
   STUSB1602_MONITORING_STATUS_TRANS_RegTypeDef Monitoring_Trans ; /*!< Monitoring Parameters on Vbus and Vconn                    */   
   STUSB1602_HW_FAULT_STATUS_RegTypeDef Hw_Fault; /*!< Hardware fault on analog system              */

@@ -51,7 +51,6 @@
 
 /* Port management functions */
 void HW_IF_Port_SetInitialRole(uint8_t PortNum,USBPD_PortPowerRole_TypeDef role);
-//void HW_IF_STUSB1602_Registers_Init(uint8_t PortNum);
 void HW_IF_Port_Set_CC(uint8_t PortNum, CCxPin_TypeDef cc);
 
 /* IOs management functions */
@@ -62,7 +61,6 @@ void HW_IF_STUSB16xx_Reset(uint8_t PortNum);
 
 
 USBPD_StatusTypeDef USBPD_HW_IF_PortHwInit(uint8_t PortNum, USBPD_HW_IF_Callbacks cbs, USBPD_PortPowerRole_TypeDef role);
-//USBPD_StatusTypeDef USBPD_HW_IF_PRS_Start(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole, USBPD_HRPRS_Mode_TypeDef Mode);
 USBPD_StatusTypeDef USBPD_HW_IF_PRS_Assert_Rd(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
 USBPD_StatusTypeDef USBPD_HW_IF_PRS_Assert_Rp(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
 USBPD_StatusTypeDef USBPD_HW_IF_PRS_Vbus_OFF(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRole);
@@ -74,6 +72,8 @@ USBPD_StatusTypeDef USBPD_HW_IF_HR_End(uint8_t PortNum, USBPD_PortPowerRole_Type
 USBPD_StatusTypeDef USBPD_HW_IF_DataRole(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_HW_IF_ResetDataRole(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_HW_IF_ErrorRecovery(uint8_t PortNum);
+void USBPD_HW_IF_EnterErrorRecovery(uint8_t PortNum);
+void USBPD_HW_IF_ExitErrorRecovery(uint8_t PortNum);
 
 /* Public Monitoring functions */ 
 USBPD_StatusTypeDef USBPD_HW_IF_CheckVBusPresence(uint8_t PortNum, uint32_t Timeout);

@@ -62,16 +62,11 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Definition for TIMx clock resources */
-#define TIMx                           TIM2
-#define TIMx_CLK_ENABLE                __HAL_RCC_TIM2_CLK_ENABLE()
-#define TIMx_IRQ                       TIM2_IRQn
-
+/* clock source is defined in BSP .h file */
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
-
 /**
   * @brief  Initialization of TIMERSERVER, used for CRC and RETRY operations
   * @retval None
@@ -79,20 +74,28 @@
 void USBPD_TIM_Init(void)
 {
   TIMx_CLK_ENABLE;
-
+ #if (USBPD_PORT_COUNT == 2)
+  TIM_PE_CLK_ENABLE;
+#endif  
   /***************************/
   /* Time base configuration */
   /***************************/
 
   /* Counter mode: select up-counting mode */
   LL_TIM_SetCounterMode(TIMx, LL_TIM_COUNTERMODE_UP);
-
+#if (USBPD_PORT_COUNT == 2)
+  LL_TIM_SetCounterMode(TIM_PE, LL_TIM_COUNTERMODE_UP);
+#endif
   /* Set the pre-scaler value to have TIMx counter clock equal to 1 MHz */
-  LL_TIM_SetPrescaler(TIMx, __LL_TIM_CALC_PSC(SystemCoreClock, 1000000));
-
-  /* Set the auto-reload value to have a counter frequency of 250Hz */
-  LL_TIM_SetAutoReload(TIMx, __LL_TIM_CALC_ARR(SystemCoreClock, LL_TIM_GetPrescaler(TIMx), 250));
-
+  LL_TIM_SetPrescaler(TIMx, __LL_TIM_CALC_PSC(TIMx_Clock_Freq, 1000000));
+#if (USBPD_PORT_COUNT == 2)  
+  LL_TIM_SetPrescaler(TIM_PE, __LL_TIM_CALC_PSC(TIM_PE_Clock_Freq, 1000000));
+#endif  
+  /* Set the auto-reload value to have a counter frequency of 100Hz */
+  LL_TIM_SetAutoReload(TIMx, __LL_TIM_CALC_ARR(TIMx_Clock_Freq, LL_TIM_GetPrescaler(TIMx), 100u));
+#if (USBPD_PORT_COUNT == 2)  
+  LL_TIM_SetAutoReload(TIM_PE, __LL_TIM_CALC_ARR(TIM_PE_Clock_Freq, LL_TIM_GetPrescaler(TIM_PE), 100u));
+#endif 
   /*********************************/
   /* Output waveform configuration */
   /*********************************/
@@ -102,15 +105,25 @@ void USBPD_TIM_Init(void)
   LL_TIM_OC_SetMode(TIMx, LL_TIM_CHANNEL_CH2, LL_TIM_OCMODE_TOGGLE);
   LL_TIM_OC_SetMode(TIMx, LL_TIM_CHANNEL_CH3, LL_TIM_OCMODE_TOGGLE);
   LL_TIM_OC_SetMode(TIMx, LL_TIM_CHANNEL_CH4, LL_TIM_OCMODE_TOGGLE);
+#if (USBPD_PORT_COUNT == 2)
+  LL_TIM_OC_SetMode(TIM_PE, LL_TIM_CHANNEL_CH1, LL_TIM_OCMODE_TOGGLE);
+  LL_TIM_OC_SetMode(TIM_PE, LL_TIM_CHANNEL_CH2, LL_TIM_OCMODE_TOGGLE);
+#endif 
 
   /* Set output channel polarity: OC is active high */
   LL_TIM_OC_SetPolarity(TIMx, LL_TIM_CHANNEL_CH1, LL_TIM_OCPOLARITY_HIGH);
   LL_TIM_OC_SetPolarity(TIMx, LL_TIM_CHANNEL_CH2, LL_TIM_OCPOLARITY_HIGH);
   LL_TIM_OC_SetPolarity(TIMx, LL_TIM_CHANNEL_CH3, LL_TIM_OCPOLARITY_HIGH);
   LL_TIM_OC_SetPolarity(TIMx, LL_TIM_CHANNEL_CH4, LL_TIM_OCPOLARITY_HIGH);
-
+#if (USBPD_PORT_COUNT == 2)
+  LL_TIM_OC_SetPolarity(TIM_PE, LL_TIM_CHANNEL_CH1, LL_TIM_OCPOLARITY_HIGH);
+  LL_TIM_OC_SetPolarity(TIM_PE, LL_TIM_CHANNEL_CH2, LL_TIM_OCPOLARITY_HIGH);
+#endif 
   /* Enable counter */
   LL_TIM_EnableCounter(TIMx);
+#if (USBPD_PORT_COUNT == 2)
+  LL_TIM_EnableCounter(TIM_PE);
+#endif 
 }
 
 
@@ -124,22 +137,37 @@ void USBPD_TIM_Start(TIM_identifier id, uint16_t us_time)
 {
   switch (id)
   {
-    case TIM_PORT0_CRC:
-      LL_TIM_OC_SetCompareCH1(TIMx, (us_time + TIMx->CNT) % 4000);
-      LL_TIM_ClearFlag_CC1(TIMx);
-      break;
-    case TIM_PORT0_RETRY:
-      LL_TIM_OC_SetCompareCH2(TIMx, (us_time + TIMx->CNT) % 4000);
-      LL_TIM_ClearFlag_CC2(TIMx);
-      break;
-    case TIM_PORT1_CRC:
-      LL_TIM_OC_SetCompareCH3(TIMx, (us_time + TIMx->CNT) % 4000);
-      LL_TIM_ClearFlag_CC3(TIMx);
-      break;
-    case TIM_PORT1_RETRY:
-      LL_TIM_OC_SetCompareCH4(TIMx, (us_time + TIMx->CNT) % 4000);
+  case TIM_PORT0_CA:
+    LL_TIM_OC_SetCompareCH1(TIMx, (us_time + TIMx->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC1(TIMx);
+    break;
+  case TIM_PORT0_RETRY:
+    LL_TIM_OC_SetCompareCH2(TIMx, (us_time + TIMx->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC2(TIMx);
+    break;
+#if (USBPD_PORT_COUNT == 2)
+  case TIM_PORT1_CA:
+    LL_TIM_OC_SetCompareCH3(TIMx, (us_time + TIMx->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC3(TIMx);
+    break;
+  case TIM_PORT1_RETRY:
+      LL_TIM_OC_SetCompareCH4(TIMx, (us_time + TIMx->CNT) % TIM_MAX_TIME);
       LL_TIM_ClearFlag_CC4(TIMx);
       break;
+  case TIM_PORT0_CRC:
+    LL_TIM_OC_SetCompareCH1(TIM_PE, (us_time + TIM_PE->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC1(TIM_PE);
+    break;
+  case TIM_PORT1_CRC:
+    LL_TIM_OC_SetCompareCH2(TIM_PE, (us_time + TIM_PE->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC2(TIM_PE);
+    break;
+#else
+  case TIM_PORT0_CRC:
+    LL_TIM_OC_SetCompareCH3(TIMx, (us_time + TIMx->CNT) % TIM_MAX_TIME);
+    LL_TIM_ClearFlag_CC3(TIMx);
+    break;
+#endif    
     default:
       break;
   }
@@ -155,16 +183,25 @@ uint8_t USBPD_TIM_IsExpired(TIM_identifier id)
 {
   switch (id)
   {
-    case TIM_PORT0_CRC:
-      return LL_TIM_IsActiveFlag_CC1(TIMx);
-    case TIM_PORT0_RETRY:
-      return LL_TIM_IsActiveFlag_CC2(TIMx);
-    case TIM_PORT1_CRC:
-      return LL_TIM_IsActiveFlag_CC3(TIMx);
-    case TIM_PORT1_RETRY:
-      return LL_TIM_IsActiveFlag_CC4(TIMx);
-    default:
-      break;
+  case TIM_PORT0_CA:
+    return LL_TIM_IsActiveFlag_CC1(TIMx);
+  case TIM_PORT0_RETRY:
+    return LL_TIM_IsActiveFlag_CC2(TIMx);
+#if (USBPD_PORT_COUNT == 2)
+  case TIM_PORT1_CA:
+    return LL_TIM_IsActiveFlag_CC3(TIMx);
+  case TIM_PORT1_RETRY:
+    return LL_TIM_IsActiveFlag_CC4(TIMx);
+  case TIM_PORT0_CRC:
+    return LL_TIM_IsActiveFlag_CC1(TIM_PE);
+  case TIM_PORT1_CRC:
+    return LL_TIM_IsActiveFlag_CC2(TIM_PE);    
+#else
+  case TIM_PORT0_CRC:
+    return LL_TIM_IsActiveFlag_CC3(TIMx);
+#endif     
+  default:
+    break;
   }
   return 1;
 }

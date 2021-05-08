@@ -79,8 +79,8 @@
   */ 
 STUSB1602_ALERT_STATUS_RegTypeDef STUSB1602_Alert_Raise_Get(uint8_t Addr)
 {
-    static uint8_t Data[2];
-    static STUSB1602_ALERT_STATUS_RegTypeDef Value;
+    uint8_t Data[2];
+    STUSB1602_ALERT_STATUS_RegTypeDef Value;
 
     STUSB1602_ReadReg(&Data[0], Addr, STUSB1602_ALERT_STATUS_REG, 2); 
     
@@ -213,12 +213,6 @@ STUSB1602_StatusTypeDef STUSB1602_HW_Fault_Alrt_Int_Mask_Set(uint8_t Addr, HW_Fa
 
 /* REG_0x0D_CC_DETECTION_STATUS_TRANS *****************************************/
 
-// /** @addtogroup REG_0x0D_CC_DETECTION_STATUS_TRANS
-//  * @brief  STUSB1602 Checks CC_DETECTION_STATUS_TRANS REG (0x0D -- RC)
-//   * @{
-//   */
-//
-//
 /**
   * @brief  STUSB1602 Checks Attach State Transition Reg (Bit0 0x0D -- RC)
   * @param  Addr I2C address of port controller device
@@ -1216,6 +1210,26 @@ uint8_t STUSB1602_VBUS_VShift_High_Get(uint8_t Addr)
   * @param Set The VShift_High value >= 5% (expressed in %) to set the high threshold value  
   * @retval STUSB1602_StatusTypeDef 
   */   
+STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_Set(uint8_t Addr, uint8_t HSet, uint8_t LSet)
+{
+    
+    STUSB1602_StatusTypeDef status = STUSB1602_OK;
+    
+    STUSB1602_VBUS_RANGE_MONITORING_CTRL_RegTypeDef reg;
+//    STUSB1602_ReadReg(&reg.d8, Addr, STUSB1602_VBUS_RANGE_MONITORING_CTRL_REG, 1); 
+    LSet = (LSet>0) ? -LSet : LSet;
+    reg.b.VBUS_VSHIFT_HIGH = (HSet - 5);
+    reg.b.VBUS_VSHIFT_LOW = (-LSet - 5);
+    status = STUSB1602_WriteReg(&reg.d8, Addr, STUSB1602_VBUS_RANGE_MONITORING_CTRL_REG, 1);
+        
+    return status;
+}
+/**
+  * @brief STUSB1602 Sets the VBUS_VShift_High (bit7:4 0x22 -- R/W)
+  * @param Addr I2C address of port controller device
+  * @param Set The VShift_High value >= 5% (expressed in %) to set the high threshold value  
+  * @retval STUSB1602_StatusTypeDef 
+  */   
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_High_Set(uint8_t Addr, uint8_t Set)
 {
     
@@ -1758,7 +1772,24 @@ STUSB1602_StatusTypeDef STUSB1602_VBUS_Range_State_Set(uint8_t Addr, VBUS_Range_
      
    return status;  
 }
-
+/**
+  * @brief STUSB1602 sets the VBUS_presence_State (EN or DIS) (bit7 0x2E -- R/W)
+  * @param Addr I2C address of port controller device
+  * @param st status to be set 
+  * @retval STUSB1602_StatusTypeDef 
+  */   
+STUSB1602_StatusTypeDef STUSB1602_VBUS_Presence_State_Set(uint8_t Addr, VBUS_Presence_State_TypeDef st)
+{      
+   STUSB1602_StatusTypeDef status = STUSB1602_OK;
+   
+   STUSB1602_VBUS_MONITORING_CTRL_RegTypeDef reg;
+   STUSB1602_ReadReg(&reg.d8, Addr, STUSB1602_VBUS_MONITORING_CTRL_REG, 1); 
+   
+   reg.b.VBUS_PRESENCE_DISABLE = st;
+   status = STUSB1602_WriteReg(&reg.d8, Addr, STUSB1602_VBUS_MONITORING_CTRL_REG, 1);
+     
+   return status;  
+}
 
 /**
 * @brief STUSB1602 sets the VBUS_VSAFE0V_Threshold (EN or DIS) (bit2:1 0x2E -- R/W)

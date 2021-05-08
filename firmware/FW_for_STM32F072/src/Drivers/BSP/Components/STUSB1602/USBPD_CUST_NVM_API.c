@@ -42,7 +42,6 @@ extern STUSB1602_StatusTypeDef STUSB1602_WriteReg(uint8_t* pBuffer, uint8_t Addr
 #define	SECTOR_2	0x04
 #define	SECTOR_3	0x08
 #define	SECTOR_4	0x10
-//	#define	SECTOR_5	0x20
 
 typedef enum
 {
@@ -100,7 +99,7 @@ uint8_t nvm_flash(uint8_t Addr)
 #elif defined (_STUSB4761)
   if ((sector4[5]& 0x91)!= 0x91 )
   {
-    sector4[5] = sector4[5] | 0x91 ; 
+    sector4[5] = sector4[5] | 0x91 ; /* Disable Monitoring and VDDtracking at startup */
     if ( CUST_EnterWriteMode(Addr, SECTOR_4  )!= STUSB1602_OK ) return status;
     if ( CUST_WriteSector(Addr,4,&sector4[0])!= STUSB1602_OK ) return status;
     Write_flag = 1;
@@ -218,7 +217,6 @@ setting power enable and flash reset
 STUSB1602_StatusTypeDef CUST_EnterReadMode(uint8_t Addr)
 {
   unsigned char Buffer[10];
-  STUSB1602_StatusTypeDef status = STUSB1602_ERROR ;
   
   Buffer[0]=FTP_CUST_PASSWORD;  /* Set Password*/
   if ( STUSB1602_WriteReg(&Buffer[0], Addr, FTP_CUST_PASSWORD_REG, 1) != STUSB1602_OK ) return STUSB1602_ERROR;
@@ -227,7 +225,7 @@ STUSB1602_StatusTypeDef CUST_EnterReadMode(uint8_t Addr)
   if ( STUSB1602_WriteReg(&Buffer[0], Addr, FTP_CTRL_0, 1) != STUSB1602_OK ) return STUSB1602_ERROR;	
   Buffer[0]= 0;
   if ( STUSB1602_WriteReg(&Buffer[0], Addr, FTP_CTRL_0, 1) != STUSB1602_OK ) return STUSB1602_ERROR;
-  return status;
+  return STUSB1602_OK;
 }
 
 /***************************  void CUST_ReadSector(uint8_t Port,char SectorNum, unsigned char *SectorData) ***************************

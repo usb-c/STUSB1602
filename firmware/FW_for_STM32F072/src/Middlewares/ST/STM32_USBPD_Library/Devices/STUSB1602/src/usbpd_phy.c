@@ -1,47 +1,21 @@
 /**
-  ******************************************************************************
-  * @file    usbpd_phy.c
-  * @author  AMG Application Team
-  * @brief   This file contains PHY layer functions.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
-  * All rights reserved.</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without 
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice, 
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other 
-  *    contributors to this software may be used to endorse or promote products 
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this 
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under 
-  *    this license is void and will automatically terminate your rights under 
-  *    this license. 
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
+******************************************************************************
+* @file    usbpd_phy.c
+* @author  AMG Application Team
+* @brief   This file contains PHY layer functions.
+******************************************************************************
+* @attention
+*
+* <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V. 
+* All rights reserved.</center></h2>
+*
+* This software component is licensed by ST under Ultimate Liberty license
+* SLA0044, the "License"; You may not use this file except in compliance with
+* the License. You may obtain a copy of the License at:
+*                             www.st.com/SLA0044
+*
+******************************************************************************
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbpd_def.h"
@@ -49,39 +23,39 @@
 #include "User_BSP.h"
 
 /** @addtogroup STM32_USBPD_LIBRARY
-  * @{
-  */
-
+* @{
+*/
 /** @addtogroup USBPD_DEVICE
-  * @{
-  */
+* @{
+*/
 
 /** @addtogroup USBPD_DEVICE_PHY
-  * @brief   This file contains PHY layer functions.
-  * @details Receive from PRL a message and create a structured packet (according to the USBPD specifications):
-  *          |SOP|DATA:[HEADER|DATAOBJECTS]|CRC|EOP|
-  * @{
-  */
+* @brief   This file contains PHY layer functions.
+* @details Receive from PRL a message and create a structured packet (according to the USBPD specifications):
+*          |SOP|DATA:[HEADER|DATAOBJECTS]|CRC|EOP|
+* @{
+*/
 
 /* Private defines -----------------------------------------------------------*/
 /** @defgroup USBPD_DEVICE_PHY_Private_defines USBPD DEVICE PHY Private defines
-  * @brief PHY internally used defines
-  * @{
-  */
+* @brief PHY internally used defines
+* @{
+*/
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /* Private typedef -----------------------------------------------------------*/
 /** @defgroup USBPD_DEVICE_PHY_Private_typedef USBPD DEVICE PHY Private typedef
-  * @brief Structures and enums internally used by the PHY layer
-  * @{
-  */
+* @brief Structures and enums internally used by the PHY layer
+* @{
+*/
 extern STUSB16xx_PORT_HandleTypeDef Ports[];
+extern const uint32_t crc32_tab[] ;
 /**
-  * @brief Private struct to store buffers and Tx variables
-  */
+* @brief Private struct to store buffers and Tx variables
+*/
 #ifdef __STAT
 typedef struct
 {
@@ -91,7 +65,7 @@ typedef struct
   uint32_t TxError;
   uint32_t ResetCount;
   uint32_t ResetError;
-
+  
   /* Rx stats */
   uint32_t RxSopCorrected;
   uint32_t RX2Count;
@@ -103,13 +77,13 @@ typedef struct
   uint32_t RX2ErrorUnsupportedSOP;
   uint32_t RX2ErrorInvalidSOP;
   uint32_t RX2ErrorInvalidSymbol;
-
+  
 } PHY_StatsTypeDef;
 #endif
 
 /**
-  * @brief Status available for the PHY layer
-  */
+* @brief Status available for the PHY layer
+*/
 typedef enum
 {
   PHY_StateNone         = 0,  /*!< PHY State Not available              */
@@ -122,25 +96,27 @@ typedef enum
 } PHY_State;
 
 /**
- * @brief structure to support the decoding on fly during the reception
- */
+* @brief structure to support the decoding on fly during the reception
+*/
 typedef struct
 {
   USBPD_PHY_RX_Status_TypeDef Status;       /*!< Status of the reception process   */
   uint32_t OrderSet;                        /*!< Last orderset received            */
   USBPD_SOPType_TypeDef MsgType;            /*!< Type of the incoming message      */
   uint32_t DataCount;                       /*!< Counting of received data         */
+  uint32_t   Rx_CRC;                         /* CRC storage */  
+  uint32_t   Calc_CRC;                       /* CRC storage for on going calculation */
 } PHY_RxDecodingTypeDef;
 
 /**
-  * @brief Handle to support the data of the layer
-  */
+* @brief Handle to support the data of the layer
+*/
 typedef struct
 {
   const USBPD_PHY_Callbacks  *cbs;                /*!< callbacks of the USBPD_CORE_PRL */
   uint8_t*   pRxBuffer;                     /*!< buffer provided by the USBPD_CORE_PRL */
   PHY_State  State;                         /*!< Current state of the PHY layer @ref PHY_State */
-  uint32_t   TxBuffer[__TX_BUFF_SIZE/4];    /*!< Temporary TX buffer in 5B coding (32 bit size), no BMC coding, ready for USBPD_HW_IF */
+  uint8_t*   pTxBuffer;                     /*!< Temporary TX buffer in 5B coding (32 bit size), no BMC coding, ready for USBPD_HW_IF */
   uint32_t   TxDatabitLen;                  /*!< TX buffer len (bits) */
   PHY_RxDecodingTypeDef RxDec;              /*!< var to support the RX decoding */
   uint32_t   SupportedSOP;                  /*!< bit field SOP"Debug SOP'Debug SOP" SOP' SOP */
@@ -151,32 +127,32 @@ typedef struct
 } PHY_HandleTypeDef;
 
 /**
-  * @brief prototype definition shared in several callbacks
-  */
+* @brief prototype definition shared in several callbacks
+*/
 typedef void (*PHY_CB_t)(uint8_t PortNum, USBPD_SOPType_TypeDef Type); 
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /* Private define and macro --------------------------------------------------*/
 /** @defgroup USBPD_DEVICE_PHY_Private_macros USBPD DEVICE PHY Private macros
-  * @brief defines and macros to support the coding/decoding through lookup table and bit operations
-  * @{
-  */
+* @brief defines and macros to support the coding/decoding through lookup table and bit operations
+* @{
+*/
 #define __SIZE     ((uint8_t)4)               /*!< Size in bytes of the coding/decoding variables */
 #define __SIZEBIT   ((uint16_t)((__SIZE)*8))  /*!< Size in bits of the coding/decoding variables */
 #define __BITMASK(__VAL__) ((1<<(__VAL__))-1) /*!< Create a n bit mask i.e. n=5 => 0x1F */
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /** @defgroup USBPD_DEVICE_PHY_Key_Code K-Codes 
-  * @brief  K-Codes available in the Symbol Encoding Table
-  * @details  K-Codes available in the Symbol Encoding Table, according to the USBPD specifications
-  * @{
-  */
+* @brief  K-Codes available in the Symbol Encoding Table
+* @details  K-Codes available in the Symbol Encoding Table, according to the USBPD specifications
+* @{
+*/
 #define KC_S_SYNC1 0x18 /*!< Startsynch #1 */
 #define KC_S_SYNC2 0x11 /*!< Startsynch #2 */
 #define KC_S_SYNC3 0x06 /*!< Startsynch #3 */
@@ -185,20 +161,20 @@ typedef void (*PHY_CB_t)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 #define KC_S_EOP   0x0D /*!< EOP End Of Packet */
 #define KC_BITSIZE 0x05 /*!< Size of in bits of the K-Code */
 /**
-  * @}
-  */
+* @}
+*/
 
 #define SYM_FOR_WORD        6  /*!< Number of symbols inside a 32bit word for coding/decoding */
 
 /** @defgroup USBPD_DEVICE_PHY_Order_Set Order Set definition and tools
-  * @brief  Tools for ordersets and defined items
-  * @details  Tools to  create the ordersets by the K-Codes and definition, refer to the USBPD specifications
-  * @{
-  */
+* @brief  Tools for ordersets and defined items
+* @details  Tools to  create the ordersets by the K-Codes and definition, refer to the USBPD specifications
+* @{
+*/
 
 /**
-  * @brief Orderset creation through the 4 K-Codes
-  */
+* @brief Orderset creation through the 4 K-Codes
+*/
 #define OS_MAKE(_KC1_, _KC2_, _KC3_, _KC4_)   ((_KC1_) | ((_KC2_)<<5) | ((_KC3_)<<10) | ((_KC4_)<<15))
 #define OS_KC_NUM   4                                                               /*!< Num of K-Code in a Orderset */
 #define OS_BITSIZE ((KC_BITSIZE) * (OS_KC_NUM))                                     /*!< Orderset size in bits */
@@ -212,8 +188,8 @@ typedef void (*PHY_CB_t)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 #define OS_SYM_HARD_RESET  OS_MAKE(KC_S_RST1,  KC_S_RST1,  KC_S_RST1,  KC_S_RST2 )  /*!< Hard Reset */
 #define OS_SYM_CABLE_RESET OS_MAKE(KC_S_RST1,  KC_S_SYNC1, KC_S_RST1,  KC_S_SYNC3)  /*!< Cable Reset */
 /**
-  * @}
-  */
+* @}
+*/
 
 #define CODE_5B_INVALID 0xFF                                                    /*!< Invalid symbol */
 #define CODE_5B_20BIT_INVALID 0xFFFFFFFF                                        /*!< Invalid group symbols */
@@ -227,21 +203,21 @@ typedef void (*PHY_CB_t)(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
 
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /* Private variables ---------------------------------------------------------*/
 /** @defgroup USBPD_DEVICE_PHY_Private_variables USBPD DEVICE PHY Private variables
-  * @brief PHY variable and const, 
-  * @details In this section there are the lookup tables: @ref coding4b5b and @ref decoding5b4b
-  *          useful to improve the performance of the coding/decoding processes
-  * @{
-  */
+* @brief PHY variable and const, 
+* @details In this section there are the lookup tables: @ref coding4b5b and @ref decoding5b4b
+*          useful to improve the performance of the coding/decoding processes
+* @{
+*/
 
 /**
-  * @brief List of valid Order sets
-  */
-static const uint32_t OrderSets[OS_NUM] =
+* @brief List of valid Order sets
+*/
+const uint32_t OrderSets[OS_NUM] =
 {
   OS_SYM_SOP          , /*!<  SOP*  MESSAGES       */
   OS_SYM_SOP_1        , /*!<  SOP'  MESSAGES       */
@@ -253,9 +229,9 @@ static const uint32_t OrderSets[OS_NUM] =
 };
 
 /**
-  * @brief Lookup Table 4b/5b coding
-  */
-static const uint8_t coding4b5b[] =
+* @brief Lookup Table 4b/5b coding
+*/
+const uint8_t coding4b5b[] =
 {
   0x1E, /*!< 0 = 0000 => 11110 */
   0x09, /*!< 1 = 0001 => 01001 */
@@ -276,10 +252,10 @@ static const uint8_t coding4b5b[] =
 };
 
 /**
-  * @brief Lookup Table 5b/4b decoding
-  * @details Lookup Table 5b/4b decoding to quick decoding of the symbols
-  */
-static const uint8_t decoding5b4b[] =
+* @brief Lookup Table 5b/4b decoding
+* @details Lookup Table 5b/4b decoding to quick decoding of the symbols
+*/
+const uint8_t decoding5b4b[] =
 {
   CODE_5B_INVALID, /* 00 = 00000 => E--- */
   CODE_5B_INVALID, /* 01 = 00001 => E--- */
@@ -318,19 +294,19 @@ static const uint8_t decoding5b4b[] =
 /** Internal struct for RXTX ref to @ref PHY_HandleTypeDef */
 static PHY_HandleTypeDef PHY_Ports[USBPD_PORT_COUNT];
 /** 
-  * @}
-  */
+* @}
+*/
 
 /* Private function prototypes -----------------------------------------------*/
 /** @defgroup USBPD_DEVICE_PHY_Private_functions USBPD DEVICE PHY Private functions
-  * @{
-  */
+* @{
+*/
 void                        PHY_Stat_Reset(uint8_t PortNum);
 USBPD_StatusTypeDef         PHY_PortInit(uint8_t PortNum, const USBPD_PHY_Callbacks *pCallback, uint8_t *pRxBuffer, uint32_t SupportedSOP);
 USBPD_StatusTypeDef         PHY_PreparePacket(uint8_t PortNum, USBPD_SOPType_TypeDef Type, uint8_t* pPacketBuffer, uint16_t Size);
 void                        PHY_TxBuffer_Reset(uint8_t PortNum);
 void                        PHY_BistCompleted(uint8_t PortNum, USBPD_BISTMsg_TypeDef bistmode);
-void                        PHY_TxCompleted(uint8_t portnum);
+void                        PHY_TxCompleted(uint8_t portnum, uint32_t Status);
 USBPD_SOPType_TypeDef       PHY_SopDetect(uint8_t PortNum, uint32_t OrderSet);
 void                        PHY_TxBuffer_Append(uint8_t PortNum, uint32_t val, uint16_t nbit);
 void                        USBPD_PHY_ResetCompleted(uint8_t PortNum, USBPD_SOPType_TypeDef Type);
@@ -342,23 +318,23 @@ void PHY_Stat_Reset(uint8_t PortNum);
 #endif /* __STAT */
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /* Exported functions ---------------------------------------------------------*/
 
 /** @defgroup USBPD_DEVICE_PHY_Exported_Functions USBPD DEVICE PHY Exported functions
-  * @{
-  */
+* @{
+*/
 /**
-  * @brief  Initialize the PHY of a specified port.
-  * @param  PortNum       Number of the port.
-  * @param  pCallbacks    PHY callbacks
-  * @param  pRxBuffer     Buffer to storage received message.
-  * @param  PowerRole     Power Role of the board.
-  * @param  SupportedSOP  Supported SOP
-  * @retval USBPD_StatusTypeDef status
-  */
+* @brief  Initialize the PHY of a specified port.
+* @param  PortNum       Number of the port.
+* @param  pCallbacks    PHY callbacks
+* @param  pRxBuffer     Buffer to storage received message.
+* @param  PowerRole     Power Role of the board.
+* @param  SupportedSOP  bit field of the supported SOP
+* @retval status        @ref USBPD_OK
+*/
 USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *pCallbacks, uint8_t *pRxBuffer, USBPD_PortPowerRole_TypeDef PowerRole, uint32_t SupportedSOP)
 {
   /* set all callbacks */
@@ -371,7 +347,7 @@ USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *p
   
   /* Initialize the hardware for the port */
   USBPD_HW_IF_PortHwInit(PortNum, hwif_cbs, PowerRole);
-
+  
   /* Initialize port related functionalities inside this layer */
   if (PHY_PortInit(PortNum, pCallbacks, pRxBuffer, SupportedSOP))
   {
@@ -381,26 +357,37 @@ USBPD_StatusTypeDef USBPD_PHY_Init(uint8_t PortNum, const USBPD_PHY_Callbacks *p
 #ifdef __STAT
   PHY_Stat_Reset(PortNum);
 #endif
-
+  
   return USBPD_OK;
 }
 
 /**
-  * @brief  return the retry counter value in us.
-  * @param  PortNum    Number of the port.
-  * @retval retry counter value in us.
-  */
+* @brief  this function return the retry counter value in us.
+* @note   time used to determine when the protocol layer must re-send a message not aknowledge by a goodCRC
+* @param  PortNum    Number of the port.
+* @retval retry counter value in us.
+*/
 uint32_t USBPD_PHY_GetRetryTimerValue(uint8_t PortNum)
 {
-//#warning " NPE : to be tuned for 1602"
   return 920u;
 }
 
 /**
-  * @brief  Reset the PHY of a specified port.
-  * @param  PortNum    Number of the port.
-  * @retval None
-  */
+* @brief  this function return the min time to wait before sending a goodCRC to ack a message (in us).
+* @note   time used to guarantee the min time of 26us between two PD message.
+* @param  PortNum    Number of the port.
+* @retval value in us.
+*/
+uint16_t USBPD_PHY_GetMinGOODCRCTimerValue(uint8_t PortNum)
+{
+  return 26u; /* PE launch timer TIM_PORT0_CRC or TIM_PORT1_CRC to avoid sending CRC too early thoses 2 timer are stubify in STUSB1602 */ 
+}
+
+/**
+* @brief  Reset the PHY of a specified port.
+* @param  PortNum    Number of the port.
+* @retval None
+*/
 void USBPD_PHY_Reset(uint8_t PortNum)
 {
   /* reset PHY layer */
@@ -408,40 +395,11 @@ void USBPD_PHY_Reset(uint8_t PortNum)
 }
 
 /**
-  * @brief  Enable RX
-  * @param  PortNum    Number of the port.
-  * @retval None
-  */
-void USBPD_PHY_EnableRX(uint8_t PortNum)
-{
-  /* In case user application needs to implement a mechanism for enabling/disabling
-     Rx chain with specific sequence, this function could be used to enable the Rx path.
-     Implementation left on user side.
-  */
-    PHY_Ports[PortNum].RxEnable = 1;
-}
-
-/**
-  * @brief  Disable RX
-  * @param  PortNum    Number of the port.
-  * @retval None
-  */
-void USBPD_PHY_DisableRX(uint8_t PortNum)
-{
-  /* In case user application needs to implement a mechanism for enabling/disabling
-     Rx chain with specific sequence, this function could be used to disable the Rx path.
-     Implementation left on user side.
-  */
-    PHY_Ports[PortNum].RxEnable = 0;
-
-}
-
-/**
-  * @brief  Request to send a reset on a port.
-  * @param  PortNum      Number of the port
-  * @param  Type      Type of reset (hard or cable reset) @ref USBPD_SOPType_TypeDef
-  * @retval USBPD_StatusTypeDef status
-  */
+* @brief  Request to send a reset on a port.
+* @param  PortNum      Number of the port
+* @param  Type      Type of reset (hard or cable reset) @ref USBPD_SOPType_TypeDef
+* @retval USBPD_StatusTypeDef status
+*/
 USBPD_StatusTypeDef USBPD_PHY_ResetRequest(uint8_t PortNum, USBPD_SOPType_TypeDef Type)
 {
   /* Send the requested reset */
@@ -455,13 +413,8 @@ USBPD_StatusTypeDef USBPD_PHY_ResetRequest(uint8_t PortNum, USBPD_SOPType_TypeDe
 #endif
     return USBPD_ERROR;
   }
-
+  
   PHY_Ports[PortNum].State = PHY_StateBusy;
-
-  /* reset PHY layer */
-  PHY_TxBuffer_Reset(PortNum);
-  /* reset HW_IF layer */
-  /* USBPD_HW_IF_Reset(PortNum, REQUEST); */
   
   /* Send reset information to PRL layer */
   if (PHY_Ports[PortNum].cbs->USBPD_PHY_ResetCompleted != NULL)
@@ -475,20 +428,19 @@ USBPD_StatusTypeDef USBPD_PHY_ResetRequest(uint8_t PortNum, USBPD_SOPType_TypeDe
 }
 
 /**
-  * @brief  Send a Message.
-  * @param  PortNum     Number of the port
-  * @param  Type      Type of the message
-  * @param  pBuffer      Pointer to the buffer to be transmitted
-  * @param  Size      Size of the buffer (bytes)
-  * @retval USBPD_StatusTypeDef status
-  */
+* @brief  Send a Message.
+* @param  PortNum     Number of the port
+* @param  Type      Type of the message
+* @param  pBuffer      Pointer to the buffer to be transmitted
+* @param  Size      Size of the buffer (bytes)
+* @retval USBPD_StatusTypeDef status
+*/
 USBPD_StatusTypeDef USBPD_PHY_SendMessage(uint8_t PortNum, USBPD_SOPType_TypeDef Type, uint8_t *pBuffer, uint16_t Size)
 {
   USBPD_StatusTypeDef res = USBPD_FAIL;
 #ifdef __STAT
   PHY_Ports[PortNum].Stats.TxCount++;
 #endif
-  
   if (PHY_Ports[PortNum].State != PHY_StateNone)
   {
     
@@ -500,20 +452,23 @@ USBPD_StatusTypeDef USBPD_PHY_SendMessage(uint8_t PortNum, USBPD_SOPType_TypeDef
   }
   /* Prepare the packet to be sent, structure: <SOP><DATA><CRC><EOP> */
   res = PHY_PreparePacket(PortNum, Type, pBuffer, Size);
-
+  
   /* if ok pass the packet to the HW_IF to be sent */
   if (res == USBPD_OK)
   {
+    
+    if (Size == 20 )
+      __NOP();
     /* Setup the State of the port */
     PHY_Ports[PortNum].State = PHY_StateBusyTxStart;
-    res = USBPD_HW_IF_SendBuffer(PortNum, (uint8_t *)PHY_Ports[PortNum].TxBuffer,  PHY_Ports[PortNum].TxDatabitLen);
+    res = USBPD_HW_IF_SendBuffer(PortNum, (uint8_t *)Ports[PortNum].pTxRxBuffPtr,  PHY_Ports[PortNum].TxDatabitLen);
   }
   else
   {
     /* in any case return a generic error */
     return USBPD_ERROR;
   }
-
+  
 #ifdef __STAT
   if (USBPD_OK == res)
   {
@@ -527,15 +482,15 @@ USBPD_StatusTypeDef USBPD_PHY_SendMessage(uint8_t PortNum, USBPD_SOPType_TypeDef
 #endif
   /* reset the status of the port */
   PHY_Ports[PortNum].State = PHY_StateNone;
-
+  
   return res;
 }
 
 /**
-  * @brief  Send BIST pattern.
-  * @param  PortNum    Number of the port
-  * @retval USBPD status
-  */
+* @brief  Send BIST pattern.
+* @param  PortNum    Number of the port
+* @retval status    @ref USBPD_OK
+*/
 USBPD_StatusTypeDef USBPD_PHY_Send_BIST_Pattern(uint8_t PortNum)
 {
   USBPD_StatusTypeDef res = USBPD_OK;
@@ -552,11 +507,11 @@ USBPD_StatusTypeDef USBPD_PHY_Send_BIST_Pattern(uint8_t PortNum)
 }
 
 /**
-  * @brief  Request PHY to exit of BIST mode 2
-  * @param  PortNum   port number value
-  * @param  mode      SOP BIST MODE 2
-  * @retval USBPD status
-  */
+* @brief  Request PHY to exit of BIST mode 2
+* @param  PortNum   port number value
+* @param  mode      SOP BIST MODE 2
+* @retval USBPD status
+*/
 USBPD_StatusTypeDef USBPD_PHY_ExitTransmit(uint8_t PortNum, USBPD_SOPType_TypeDef mode)
 {
   /* Empty function */
@@ -566,33 +521,34 @@ USBPD_StatusTypeDef USBPD_PHY_ExitTransmit(uint8_t PortNum, USBPD_SOPType_TypeDe
 }
 
 /**
-  * @brief  Reset completed notification.
-  * @param  PortNum   Number of the port
-  * @param  Type      PD Type
-  * @retval None
-  */
+* @brief  Reset completed notification.
+* @param  PortNum   Number of the port
+* @param  Type      PD Type
+* @retval None
+*/
 void USBPD_PHY_ResetCompleted(uint8_t PortNum, USBPD_SOPType_TypeDef Type)
 {
   PHY_Ports[PortNum].State = PHY_StateBusy;
-
+  
   /* perform a PHY layer reset */
   USBPD_PHY_Reset(PortNum);
-
+  
   /* notify to upper level (PRL) */
   if (PHY_Ports[PortNum].cbs->USBPD_PHY_ResetCompleted != NULL)
   {
     PHY_Ports[PortNum].cbs->USBPD_PHY_ResetCompleted(PortNum, Type);
   }
-
+  
   /* reset the status of the port */
   PHY_Ports[PortNum].State = PHY_StateNone;
 }
 
 /**
-  * @brief  Set the SinkTxNg value of the resistor, used in the collision avoidance
-  * @param  PortNum  Number of the port
-  * @retval None
-  */
+* @brief  Set the SinkTxNg value of the resistor,
+* @note   used to manage the collision avoidance
+* @param  PortNum  Number of the port
+* @retval None
+*/
 void USBPD_PHY_SetResistor_SinkTxNG(uint8_t PortNum)
 {
   /* Call the low level function to change the exposed resistence */
@@ -600,10 +556,11 @@ void USBPD_PHY_SetResistor_SinkTxNG(uint8_t PortNum)
 }
 
 /**
-  * @brief  function to set the SinkTxOK
-  * @param  PortNum  Number of the port
-  * @retval none.
-  */
+* @brief  function to set the SinkTxOK
+* @note   used to manage the collision avoidance
+* @param  PortNum  Number of the port.
+* @retval none.
+*/
 void USBPD_PHY_SetResistor_SinkTxOK(uint8_t PortNum)
 {
   /* Call the low level function to change the exposed resistence */
@@ -611,22 +568,29 @@ void USBPD_PHY_SetResistor_SinkTxOK(uint8_t PortNum)
 }
 
 /**
-  * @brief  function to set the supported SOP
-  * @param  PortNum       Number of the port.
-  * @param  SOPSupported  List of the supported SOP
-  * @retval None.
-  */
+* @brief  function to set the supported SOP
+* @param  PortNum       Number of the port.
+* @param  SOPSupported  List of the supported SOP
+* @retval None.
+*/
 void USBPD_PHY_SOPSupported(uint8_t PortNum,uint32_t SOPSupported)
 {
-//#warning "added for SOP capability"
   PHY_Ports[PortNum].SupportedSOP = SOPSupported;
+#if _DEBUG_TRACE
+  uint8_t tab[32];
+  uint8_t size;
+  size = sprintf((char*)tab, "SOPSupported: %ld", SOPSupported);
+  USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0, tab, size); 
+#endif
+  
 }
 
 /**
-  * @brief  Check if SinkTxOK is set or not
-  * @param  PortNum  Number of the port.
-  * @retval USBPD_TRUE or USBPD_FALSE
-  */
+* @brief  Check if SinkTxOK is set or not
+* @note   used to manage the collision avoidance
+* @param  PortNum  Number of the port.
+* @retval USBPD_TRUE or USBPD_FALSE
+*/
 uint8_t USBPD_PHY_IsResistor_SinkTxOk(uint8_t PortNum)
 {
   /* Call the low level function to check the exposed resistence */
@@ -634,31 +598,60 @@ uint8_t USBPD_PHY_IsResistor_SinkTxOk(uint8_t PortNum)
 }
 
 /**
- * @brief  function to set the SinkTxOK
- * @param  PortNum  Number of the port.
- * @retval USBPD_TRUE USBPD_FALSE.
-  */
+* @brief  function to generate an FRS signalling
+* @param  PortNum  Number of the port.
+* @retval None.
+*/
 void USBPD_PHY_FastRoleSwapSignalling(uint8_t PortNum)
 {
 }
 
 /**
-  * @}
+* @brief  function used to enable RX
+* @param  PortNum    Number of the port.
+* @retval None
+*/
+void USBPD_PHY_EnableRX(uint8_t PortNum)
+{
+  /* In case user application needs to implement a mechanism for enabling/disabling
+  Rx chain with specific sequence, this function could be used to enable the Rx path.
+  Implementation left on user side.
   */
-
-/** @addtogroup USBPD_DEVICE_PHY_Private_functions
-  * @brief PHY internally used functions
-  * @{
-  */
+  PHY_Ports[PortNum].RxEnable = 1;
+}
 
 /**
-  * @brief  Port initiatlization
-  * @param  PortNum       Number of the port
-  * @param  pCallback     PHY callbacks 
-  * @param  pRxBuffer     Pointer on the reception buffer
-  * @param  SupportedSOP  Supported SOP
-  * @retval USBPD Status
+* @brief  function used to disable RX
+* @param  PortNum    Number of the port.
+* @retval None
+*/
+void USBPD_PHY_DisableRX(uint8_t PortNum)
+{
+  /* In case user application needs to implement a mechanism for enabling/disabling
+  Rx chain with specific sequence, this function could be used to disable the Rx path.
+  Implementation left on user side.
   */
+  PHY_Ports[PortNum].RxEnable = 0;
+  
+}
+
+/**
+* @}
+*/
+
+/** @addtogroup USBPD_DEVICE_PHY_Private_functions
+* @brief PHY internally used functions
+* @{
+*/
+
+/**
+* @brief  Port initiatlization
+* @param  PortNum       Number of the port
+* @param  pCallback     PHY callbacks 
+* @param  pRxBuffer     Pointer on the reception buffer
+* @param  SupportedSOP  Supported SOP
+* @retval USBPD Status
+*/
 USBPD_StatusTypeDef PHY_PortInit(uint8_t PortNum, const USBPD_PHY_Callbacks *pCallback, uint8_t *pRxBuffer, uint32_t SupportedSOP)
 {
   /* Associate the RXBUF */
@@ -669,41 +662,45 @@ USBPD_StatusTypeDef PHY_PortInit(uint8_t PortNum, const USBPD_PHY_Callbacks *pCa
   PHY_Ports[PortNum].cbs = pCallback;
   PHY_TxBuffer_Reset(PortNum);
   PHY_Ports[PortNum].State = PHY_StateNone;
-  PHY_Ports[PortNum].RxEnable = 1;
+  PHY_Ports[PortNum].RxEnable = 0;
   
   return USBPD_OK;
 }
 
 /**
-  * @brief  PRL Hard Reset indication from PHY
-  * @param  PortNum Port Number of the port
-  * @retval None
-  */
+* @brief  PRL Hard Reset indication from PHY
+* @param  PortNum Port Number of the port
+* @retval None
+*/
 void PHY_TxBuffer_Reset(uint8_t PortNum)
 {
   /* Clean the buffer*/
-  memset((void *)PHY_Ports[PortNum].TxBuffer, 0, __TX_BUFF_SIZE);
-
+  
+  
+  
+  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
+  memset( Ports[PortNum].pTxRxBuffPtr, TX_PREAMBLE, TX_PREAMBLE_SIZE);                          /* preamble is added */
+  PHY_Ports[PortNum].pTxBuffer = Ports[PortNum].pTxRxBuffPtr + TX_PREAMBLE_SIZE;
   PHY_Ports[PortNum].TxDatabitLen = 0;
-
+  
   PHY_Ports[PortNum].State        = PHY_StateNone;
-  PHY_Ports[PortNum].RxEnable     = 1;
+
 }
 
 /**
-  * @brief  PRL Hard Reset indication from PHY
-  * @param  PortNum  Number of the port
-  * @param  val      Appending value to the TX buffer
-  * @param  nbit     Number of valid bits
-  * @retval None
-  */
+* @brief  PRL Hard Reset indication from PHY
+* @param  PortNum  Number of the port
+* @param  val      Appending value to the TX buffer
+* @param  nbit     Number of valid bits
+* @retval None
+*/
 void PHY_TxBuffer_Append(uint8_t PortNum, uint32_t val, uint16_t nbit)
 {
-  uint32_t *pBuffer = (uint32_t *)PHY_Ports[PortNum].TxBuffer;
+  uint32_t *pBuffer = (uint32_t *)PHY_Ports[PortNum].pTxBuffer;
   uint32_t *pOffset = (uint32_t *)&PHY_Ports[PortNum].TxDatabitLen;
   uint32_t map = __BITMASK(nbit);
   uint32_t value = val & map;
-
+  
   uint32_t pos = *pOffset / __SIZEBIT;
   uint32_t bit = *pOffset % __SIZEBIT;
   
@@ -720,10 +717,10 @@ void PHY_TxBuffer_Append(uint8_t PortNum, uint32_t val, uint16_t nbit)
 }
 
 /**
-  * @brief  Encode a byte (8bits) to 5B representation (output 10 bit)
-  * @param  val    Convert two nibble 8bits in two symbols (10bits)
-  * @retval None
-  */
+* @brief  Encode a byte (8bits) to 5B representation (output 10 bit)
+* @param  val    Convert two nibble 8bits in two symbols (10bits)
+* @retval None
+*/
 __STATIC_INLINE uint32_t PHY_Encode5b_Byte(uint8_t val)
 {
   /* using the lookup table, achieve quickly the corresponding 5bit value */
@@ -731,10 +728,10 @@ __STATIC_INLINE uint32_t PHY_Encode5b_Byte(uint8_t val)
 }
 
 /**
-  * @brief  Encode a short (16bits) to its 5B representation (output 20 bit)
-  * @param  val    Convert four nibble 16bits in four symbols (20bits)
-  * @retval None
-  */
+* @brief  Encode a short (16bits) to its 5B representation (output 20 bit)
+* @param  val    Convert four nibble 16bits in four symbols (20bits)
+* @retval None
+*/
 __STATIC_INLINE uint32_t PHY_Encode5b_Short(uint16_t val)
 {
   /* managed calling 2 times the byte conversion */
@@ -742,63 +739,63 @@ __STATIC_INLINE uint32_t PHY_Encode5b_Short(uint16_t val)
 }
 
 /**
-  * @brief  Prepare data packet
-  * @param  PortNum      Number of the port
-  * @param  Type        PD type
-  * @param  pBuffer     Pointer on the PD buffer
-  * @param  Size        Size of the PD buffer
-  * @retval USBPD Status
-  */
+* @brief  Prepare data packet
+* @param  PortNum      Number of the port
+* @param  Type        PD type
+* @param  pBuffer     Pointer on the PD buffer
+* @param  Size        Size of the PD buffer
+* @retval USBPD Status
+*/
 USBPD_StatusTypeDef PHY_PreparePacket(uint8_t PortNum, USBPD_SOPType_TypeDef Type, uint8_t *pBuffer, uint16_t Size)
 {
   /* get if it is a reset (hard or cable) */
-  uint8_t resetRequired = Type == USBPD_SOPTYPE_HARD_RESET || Type == USBPD_SOPTYPE_CABLE_RESET;
-   /* check the size, according to the following criteria: Exist a n : 2+(n+1)*4 = size, where n is the number of Objects */
-
+  uint8_t resetRequired = ((Type == USBPD_SOPTYPE_HARD_RESET || Type == USBPD_SOPTYPE_CABLE_RESET )? 1 : 0);
+  /* check the size, according to the following criteria: Exist a n : 2+(n+1)*4 = size, where n is the number of Objects */
+  
   /* in case of chunked message,  header size needs to be removed */
   if (!resetRequired  && ((Size < 2) || (Size > MAX_DATA_LEN)))
-
+    
   {
     /* the size is not a USBPD PRL message */
     return USBPD_ERROR;
   }
-
+  
   if (!USBPD_PORT_IsValid(PortNum) || (!resetRequired && pBuffer == NULL))
   {
     return USBPD_ERROR;
   }
-
+  
   uint32_t value        = 0;
-  uint32_t crc_value    = 0;
-//  uint32_t *pOffset    = (uint32_t *)&PHY_Ports[PortNum].TxDatabitLen;
-  uint16_t val16        = 0;
+  uint32_t crc_value    = 0xFFFFFFFF;
+  uint8_t val8          = 0;
   uint32_t i            = 0;
-
+  
+  
   /* Clean the Tx buffer */
   PHY_TxBuffer_Reset(PortNum);
-
+  
   /* Start Of Packet SOP */
   PHY_TxBuffer_Append(PortNum, OrderSets[(uint8_t)Type], OS_BITSIZE);
-
+  
   if (!resetRequired)
   {
-    /* calculate crc */
-    crc_value = USBPD_HW_IF_CRC_Calculate(pBuffer, Size);
-
     /* encoding data */
-    for (i = 0; i < Size; i += 2)
+    for (i = 0; i < Size; i ++)
     {
-      val16 = pBuffer[i] | (pBuffer[i + 1] << 8);
-      value = PHY_Encode5b_Short(val16);
-      PHY_TxBuffer_Append(PortNum, value, CODE_5B_ITEM4_BITSIZE);
+      val8 = pBuffer[i] ;
+      value = PHY_Encode5b_Byte(val8);
+      PHY_TxBuffer_Append(PortNum, value, CODE_5B_ITEM2_BITSIZE);
+      /* calculate crc in loop */
+      crc_value ^= pBuffer[i] ;
+      crc_value = crc32_tab[crc_value & 0xFF] ^ (crc_value >> 8) ;
     }
-
+    crc_value ^= 0xFFFFFFFF; 
     /* appending CRC (32 bits) */
     value = PHY_Encode5b_Short(crc_value & 0x0000FFFF);
     PHY_TxBuffer_Append(PortNum, value, CODE_5B_ITEM4_BITSIZE);
     value = PHY_Encode5b_Short((crc_value >> 16) & 0x0000FFFF);
     PHY_TxBuffer_Append(PortNum, value, CODE_5B_ITEM4_BITSIZE);
-
+    
     /* appending EOP */
     PHY_TxBuffer_Append(PortNum, KC_S_EOP, CODE_5B_ITEM1_BITSIZE);
   }
@@ -807,18 +804,18 @@ USBPD_StatusTypeDef PHY_PreparePacket(uint8_t PortNum, USBPD_SOPType_TypeDef Typ
 }
 
 /**
-  * @brief  SOP Detect, according to the spec with not correct bits
-  * @param  PortNum  Number of the port
-  * @param  OrderSet Ordered Sets
-  * @retval SOP Type based on @ref USBPD_SOPType_TypeDef
-  */
+* @brief  SOP Detect, according to the spec with not correct bits
+* @param  PortNum  Number of the port
+* @param  OrderSet Ordered Sets
+* @retval SOP Type based on @ref USBPD_SOPType_TypeDef
+*/
 USBPD_SOPType_TypeDef PHY_SopDetect(uint8_t PortNum, uint32_t OrderSet)
 {
   USBPD_SOPType_TypeDef type = USBPD_SOPTYPE_INVALID;
-
+  
   uint32_t temp;
   uint32_t count, index;
-
+  
   for (index = 0; index < OS_NUM; index++)
   {
     /* If the orderset mismatchs with one of the available(supported) 
@@ -881,17 +878,17 @@ USBPD_SOPType_TypeDef PHY_SopDetect(uint8_t PortNum, uint32_t OrderSet)
   return type;
 }
 /**
-  * @brief  Decoding 10 bits and return the byte (Decoding 5B/4B)
-  * @param  value    Masked to 10 bits
-  * @retval return   the decoded value or -1 
-  */
+* @brief  Decoding 10 bits and return the byte (Decoding 5B/4B)
+* @param  value    Masked to 10 bits
+* @retval return   the decoded value or -1 
+*/
 __STATIC_INLINE int16_t Decode10Bit(uint32_t value)
 {
   uint8_t v0,v1;
   
   v0 = decoding5b4b[(value >>  0) & 0x1F]; /* decoding first nibble */
   v1 = decoding5b4b[(value >>  5) & 0x1F]; /* decoding second nibble */
-
+  
   /* check if there is an error */
   if (v0 == CODE_5B_INVALID || v1 == CODE_5B_INVALID) 
   {
@@ -903,10 +900,10 @@ __STATIC_INLINE int16_t Decode10Bit(uint32_t value)
 }
 
 /** @addtogroup USBPD_DEVICE_PHY_Private_functions_generic_callbacks generic callbacks functions
-  * @brief   PHY internally function used as callback from HW_IF layer
-  * @details 
-  * @{
-  */
+* @brief   PHY internally function used as callback from HW_IF layer
+* @details 
+* @{
+*/
 #ifdef __STAT
 void PHY_Stat_Reset(uint8_t PortNum)
 {
@@ -915,11 +912,11 @@ void PHY_Stat_Reset(uint8_t PortNum)
 #endif
 
 /**
- * @brief  Callback to notify the BIST is completed
- * @param  PortNum   Number of the port
- * @param  bistmode  Modality of the BIST
- * @retval none.
- */
+* @brief  Callback to notify the BIST is completed
+* @param  PortNum   Number of the port
+* @param  bistmode  Modality of the BIST
+* @retval none.
+*/
 void PHY_BistCompleted(uint8_t PortNum, USBPD_BISTMsg_TypeDef bistmode)
 {
   if (PHY_Ports[PortNum].cbs->USBPD_PHY_BistCompleted)
@@ -929,61 +926,60 @@ void PHY_BistCompleted(uint8_t PortNum, USBPD_BISTMsg_TypeDef bistmode)
 }
 
 /**
- * @brief  Callback to notify the a transmission is completed
- * @param  PortNum  Number of the port.
- * @retval none.
- */
-void PHY_TxCompleted(uint8_t PortNum)
+* @brief  Callback to notify the a transmission is completed
+* @param  PortNum  Number of the port.
+* @retval none.
+*/
+void PHY_TxCompleted(uint8_t PortNum, uint32_t Status)
 {
   PHY_Ports[PortNum].State = PHY_StateNone;
   if (PHY_Ports[PortNum].cbs->USBPD_PHY_TxCompleted)
   {
-    PHY_Ports[PortNum].cbs->USBPD_PHY_TxCompleted(PortNum);
+    PHY_Ports[PortNum].cbs->USBPD_PHY_TxCompleted(PortNum, Status);
   }
 }
 /** 
-  * @}
-  */
+* @}
+*/
 
 /** @addtogroup USBPD_DEVICE_PHY_Private_functions_reception_callbacks reception callbacks functions (called by the decoding on fly process)
-  * @brief PHY internally function used as callback from HW_IF layer for the decoding phase
-  * @details 
-  * @{
-  */
+* @brief PHY internally function used as callback from HW_IF layer for the decoding phase
+* @details 
+* @{
+*/
 
 /**
- * @brief  Callback to notify the start of reception
- * @param  PortNum  Number of the port.
- * @retval Status of current reception.
- */
+* @brief  Callback to notify the start of reception
+* @param  PortNum  Number of the port.
+* @retval Status of current reception.
+*/
 USBPD_PHY_RX_Status_TypeDef PHY_Rx_Reset(uint8_t PortNum)
 {
   /* Get the pointer to the decoding structure */
- PHY_RxDecodingTypeDef *pRxData = (PHY_RxDecodingTypeDef *)&PHY_Ports[PortNum].RxDec;
-//  PHY_RxDecodingTypeDef *pRxData = (PHY_RxDecodingTypeDef *)PHY_Ports[PortNum].pRxBuffer;
+  PHY_RxDecodingTypeDef *pRxData = (PHY_RxDecodingTypeDef *)&PHY_Ports[PortNum].RxDec;
   /* reset the status of the RX process */
   pRxData->Status = USBPD_PHY_RX_STATUS_NONE;
-
+  
   /* reset the variable of count and memory */
   pRxData->DataCount = 0;
- // memset(pRxData->Data, 0, __RX_DATA_LEN);  /* 
-
+  //memset(PHY_Ports[PortNum].pRxBuffer, 0, __RX_DATA_LEN);  
+  
   /* reset the type of SOP */
   pRxData->MsgType = USBPD_SOPTYPE_INVALID;
-
+  
   /* reset the type of OrderSet received */
   pRxData->OrderSet = 0x00;
-
+  
   return pRxData->Status;
 }
 
 /**
-  * @brief   Callback to notify the new data available for the current reception 
-  * @details A state machine to receive data and decode them on fly (during the reception the other bits)
-  * @param   PortNum  Number of the port.
-  * @param   data     New received data
-  * @retval  Status of current reception.
-  */
+* @brief   Callback to notify the new data available for the current reception 
+* @details A state machine to receive data and decode them on fly (during the reception the other bits)
+* @param   PortNum  Number of the port.
+* @param   data     New received data
+* @retval  Status of current reception.
+*/
 USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /* 10 bits => 1 byte */
 {
   
@@ -998,18 +994,20 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
   case USBPD_PHY_RX_STATUS_NONE:
     /* received first part of the SOP, store it for next check */
     pRxData->OrderSet = data;
-
+    
     /* move the status in SOP dection condition */
     pRxData->Status = USBPD_PHY_RX_STATUS_SOP_DETECTING;
     break;
     /* first information in the message is the SOP (after the preamble)*/
+  case USBPD_PHY_RX_STATUS_MESSAGE_READY:
+    break;
   case USBPD_PHY_RX_STATUS_SOP_DETECTING:
     /* received second part of the SOP */
     pRxData->OrderSet |= data<<10;
-
+    
     /* SOP detection */
     pRxData->MsgType = PHY_SopDetect(PortNum, pRxData->OrderSet);
-
+    
     /* move to the next state according to the received SOP */
     switch(pRxData->MsgType)
     {
@@ -1035,6 +1033,7 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
       {
         /* move to state to receive data */
         pRxData->Status = USBPD_PHY_RX_STATUS_DATA;
+        pRxData->Calc_CRC = 0xFFFFFFFF;
       }
       else
       {
@@ -1045,9 +1044,9 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
       pRxData->Status = USBPD_PHY_RX_STATUS_ERROR_INVALID_SOP;
       break;
     }
-
+    
     break;
-
+    
     /* state to receive data and decode it on fly */
   case USBPD_PHY_RX_STATUS_DATA:
     if ((data & CODE_5B_ITEM1_MASK) == KC_S_EOP)
@@ -1067,9 +1066,24 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
       }
       else
       { 
-/* add the decoded data (4B) to the buffer and increment the counter */
-       pRxbuf = PHY_Ports[PortNum].pRxBuffer + PHY_Ports[PortNum].RxDec.DataCount++;         
-       *pRxbuf =  (uint8_t )(data4b_temp & 0x00FF);
+        /* add the decoded data (4B) to the buffer and increment the counter */
+        
+        if (pRxData->DataCount < __RX_DATA_LEN ) 
+          pRxbuf = PHY_Ports[PortNum].pRxBuffer + pRxData->DataCount++;         
+        else 
+        {
+          uint8_t index_byte = pRxData->DataCount++ - __RX_DATA_LEN;
+          if( index_byte >= 4 )
+          {
+            __NOP();
+            break;
+          }
+          pRxbuf = (uint8_t *)&pRxData->Rx_CRC + index_byte; 
+        }
+        *pRxbuf =  (uint8_t )(data4b_temp & 0x00FF);
+        /* Rx crc calculation */
+        pRxData->Calc_CRC ^= *pRxbuf ;
+        pRxData->Calc_CRC = crc32_tab[pRxData->Calc_CRC & 0xFF] ^ (pRxData->Calc_CRC >> 8) ;
       }
     }
     /* note: the status is the same, no move/change */
@@ -1077,6 +1091,7 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
   default:
     /* reset the variable of count and memory */
     pRxData->DataCount = 0;
+    pRxData->Rx_CRC = 0 ;
     break;
   }
   
@@ -1084,21 +1099,23 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
 }
 
 /**
-  * @brief  Callback to notify the end of the current reception
-  * @param  PortNum  Number of the port
-  * @retval Status of current reception
-  */
+* @brief  Callback to notify the end of the current reception
+* @param  PortNum  Number of the port
+* @retval Status of current reception
+*/
 USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
 {
-  uint32_t crc_read,crc_calc;
+  //  uint32_t crc_calc;
   PHY_RxDecodingTypeDef * pRxData = (PHY_RxDecodingTypeDef *)&PHY_Ports[PortNum].RxDec;
-  if (pRxData->Status != USBPD_PHY_RX_STATUS_MESSAGE_READY)
-  {
+  if (PHY_Ports[PortNum].RxEnable == 0)
+    return USBPD_PHY_RX_STATUS_ERROR_UNSUPPORTED_SOP;
+    if (pRxData->Status != USBPD_PHY_RX_STATUS_MESSAGE_READY)
+    { 
 #ifdef __STAT
-    PHY_Ports[PortNum].Stats.RX2Error++;
-
-    switch (pRxData->Status)
-    {
+      PHY_Ports[PortNum].Stats.RX2Error++;
+      
+      switch (pRxData->Status)
+      {
       case USBPD_PHY_RX_STATUS_ERROR_UNSUPPORTED_SOP:
         PHY_Ports[PortNum].Stats.RX2ErrorUnsupportedSOP++;
         break;
@@ -1113,12 +1130,12 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
         break;
       default :
         break;
-    }
+      }
 #endif
-    
-    return pRxData->Status;
-  }
-
+      
+      return pRxData->Status;
+    }
+  
   if (pRxData->MsgType == USBPD_SOPTYPE_HARD_RESET || pRxData->MsgType == USBPD_SOPTYPE_CABLE_RESET)
   {
     /* received a hard reset, call the callback, no other checks */
@@ -1131,33 +1148,27 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
     }
     return pRxData->Status = USBPD_PHY_RX_STATUS_OK;
   }
-
+  
   /* incoming message is a valid SOP with an EOP */
   /* set the pointer to the RxBuffer from PRL */
   uint8_t *pRxBuffer = PHY_Ports[PortNum].pRxBuffer;
   if (pRxData->DataCount >=4)
   {
-    /* calculate the crc for the incoming message */
-    crc_calc = USBPD_HW_IF_CRC_Calculate(pRxBuffer, pRxData->DataCount - 4);
     
-    /* get the crc from the incoming message */
-    uint8_t *pCrcField = pRxBuffer + pRxData->DataCount - 4;
-    crc_read = *pCrcField;
-    pCrcField++;
-    crc_read |= ((*pCrcField) << 8);
-    pCrcField++;
-    crc_read |= ((*pCrcField) << 16);
-    pCrcField++;
-    crc_read |= ((*pCrcField) << 24);
-    pCrcField++;
+    if (pRxData->DataCount > (__RX_DATA_LEN + 4)  )
+      return pRxData->Status = USBPD_PHY_RX_STATUS_ERROR_CRC_FAILED;
+    /* calculate the crc for the incoming message */
+    
+    pRxData->Calc_CRC ^= 0xFFFFFFFF;
   }
   else
   {
     return pRxData->Status = USBPD_PHY_RX_STATUS_ERROR_CRC_FAILED;
     
   }
+  
   /* if it isn't ok discard the incoming message */
-  if (crc_read != crc_calc)
+  if (pRxData->Calc_CRC != 0x2144DF1C)
   {
 #ifdef __STAT
     PHY_Ports[PortNum].Stats.RX2Error++;
@@ -1167,7 +1178,7 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
   }
   
   uint8_t FirstDataInBuf = *pRxBuffer;
-
+  
   if ((( FirstDataInBuf & 0x1F) != 0x01) &&  (Ports[PortNum].unwrapdata.exed_flag == 2))
     return pRxData->Status = USBPD_PHY_RX_STATUS_ERROR_INVALID_SYMBOL;  
   /* call the callback */
@@ -1182,7 +1193,7 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
   
   return pRxData->Status = USBPD_PHY_RX_STATUS_OK;
   
-   
+  
 }
 
 /**
@@ -1190,16 +1201,16 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Completed(uint8_t PortNum)
 */
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /**
-  * @}
-  */
+* @}
+*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

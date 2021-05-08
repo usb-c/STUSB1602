@@ -50,7 +50,7 @@
 extern "C"
 {
 #endif
- 
+
 /**
   * @addtogroup BSP
   * @{
@@ -94,13 +94,25 @@ extern "C"
 #endif
 
 
-#if defined(USBPD_STUSB1605)
-#include "tcpc.h"
-#endif /* USBPD_STUSB1605 */
+#define TIMx                           TIM2
+#define TIMx_Clock_Freq                (SystemCoreClock )        // depend on APB clock freq timer is connected 
+#define TIMx_CLK_ENABLE                __HAL_RCC_TIM2_CLK_ENABLE()
+#define TIMx_IRQ                       TIM2_IRQn
 
+#if (USBPD_PORT_COUNT == 2)
+#define TIM_PE                         TIM3
+#define TIM_PE_Clock_Freq              (SystemCoreClock )        // depend on APB clock freq timer is connected 
+#define TIM_PE_CLK_ENABLE              __HAL_RCC_TIM3_CLK_ENABLE()
+#endif  
   
+#define USBPD_LOWEST_IRQ_PRIO   3   /*!< Lowest priority                    */
+#define USBPD_LOW_IRQ_PRIO      1   /*!< High priority shift value          */
+#define USBPD_HIGH_IRQ_PRIO     2   /*!< Low priority shift value           */
   
-  
+#define RX_IRQ_PRIO             2   /*!< Rx priority for first interrupt @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
+#define TX_IRQ_PRIO             2   /*!< Tx interrupt priority @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
+
+
   
 /** @defgroup P-NUCLEO-USB001_Exported_Macros Exported Macros
   * @{
@@ -147,7 +159,7 @@ void USBPD_HW_IF_GPIO_Toggle(USBPD_BSP_GPIOPins_TypeDef gpio);
 #define ALERT_GPIO_PORT(__PORT__)           ( GPIOA )                                       /*!< ALERT GPIO Port           */
 #define ALERT_GPIO_PIN(__PORT__)            ((__PORT__ == 0) ? GPIO_PIN_1 : GPIO_PIN_2 )    /*!< ALERT GPIO Pin            */
 #define ALERT_GPIO_IRQHANDLER(__PORT__)     ((__PORT__ == 0) ? EXTI0_1_IRQn : EXTI2_3_IRQn )/*!< ALERT GPIO IRQn           */
-#define ALERT_GPIO_IRQPRIORITY(__PORT__)    ( USBPD_LOW_IRQ_PRIO )                          /*!< ALERT IRQ priority        */
+#define ALERT_GPIO_IRQPRIORITY(__PORT__)    ( RX_IRQ_PRIO )                       /*!< ALERT IRQ priority        */
 
 /* I2C */
 #ifndef __VVAR
@@ -184,33 +196,45 @@ void USBPD_HW_IF_GPIO_Toggle(USBPD_BSP_GPIOPins_TypeDef gpio);
 #define SPI_NSS_ALTERNATE(__PORT__)             ((__PORT__ == 0) ? GPIO_AF0_SPI2         : GPIO_AF0_SPI1 )          /*!< SPI: NSS Alternate Function */
 #define SPI_NSS_LL_APB(__PORT__)                ( LL_APB1_GRP2_PERIPH_SYSCFG )                                      /*!< SPI: NSS LL Group     */
 #define SPI_NSS_LL_PORT(__PORT__)               ((__PORT__ == 0) ? LL_SYSCFG_EXTI_PORTB  : LL_SYSCFG_EXTI_PORTA )   /*!< SPI: NSS LL Port      */
+#define SPI_NSS_LL_APB_EN_CLK(__PORT__)         ((__PORT__ == 0) ? LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2)  : LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SPI1) )
+#define SPI_NSS_LL_APB_DIS_CLK(__PORT__)        ((__PORT__ == 0) ? LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_SPI2)  : LL_APB1_GRP2_DisableClock(LL_APB1_GRP2_PERIPH_SPI1) )
+
+    
 #define SPI_NSS_LL_SYS_EXTI(__PORT__)           ((__PORT__ == 0) ? LL_SYSCFG_EXTI_LINE12 : LL_SYSCFG_EXTI_LINE15 )  /*!< SPI: NSS LL CFG EXTI Line */
 #define SPI_NSS_LL_EXTI(__PORT__)               ((__PORT__ == 0) ? LL_EXTI_LINE_12 : LL_EXTI_LINE_15 )              /*!< SPI: NSS LL EXTI Line */
 #define SPI_NSS_LL_IRQHANDLER(__PORT__)         ( EXTI4_15_IRQn )                                                   /*!< SPI: NSS LL IRQn      */
-#define SPI_NSS_LL_IRQPRIORITY(__PORT__)        ( RX_IRQ_PRIO + USBPD_LOW_IRQ_PRIO )                            /*!< SPI: NSS LL IRQ priority */
+#define SPI_NSS_LL_IRQPRIORITY(__PORT__)        ( RX_IRQ_PRIO  )                                                    /*!< SPI: NSS LL IRQ priority */
 #define SPI_CLK_PORT(__PORT__)                  ( GPIOB )                                                           /*!< SPI: CLK Port         */
 #define SPI_CLK_PIN(__PORT__)                   ((__PORT__ == 0) ? GPIO_PIN_13           : GPIO_PIN_3 )             /*!< SPI: CLK Pin          */
 #define SPI_CLK_ALTERNATE(__PORT__)             ((__PORT__ == 0) ? GPIO_AF0_SPI2         : GPIO_AF0_SPI1 )          /*!< SPI: CLK Alternate Function */
 #define SPI_MISO_PORT(__PORT__)                 ( GPIOB )                                                           /*!< SPI: MISO Port        */
 #define SPI_MISO_PIN(__PORT__)                  ((__PORT__ == 0) ? GPIO_PIN_14           : GPIO_PIN_4 )             /*!< SPI: MISO Pin         */
 #define SPI_MISO_ALTERNATE(__PORT__)            ((__PORT__ == 0) ? GPIO_AF0_SPI2         : GPIO_AF0_SPI1 )          /*!< SPI: MISO Alternate Function */
+#if !defined(SPI_ONE_LINE)
 #define SPI_MOSI_PORT(__PORT__)                 ( GPIOB )                                                           /*!< SPI: MOSI Port        */
 #define SPI_MOSI_PIN(__PORT__)                  ((__PORT__ == 0) ? GPIO_PIN_15           : GPIO_PIN_5 )             /*!< SPI: MOSI Pin         */
 #define SPI_MOSI_ALTERNATE(__PORT__)            ((__PORT__ == 0) ? GPIO_AF0_SPI2         : GPIO_AF0_SPI1 )          /*!< SPI: MOSI Alternate Function */
-
+#endif
 /* Definition for SPIx's NVIC */
 #define SPI_IRQn(__PORT__)                       ((__PORT__ == 0) ? SPI2_IRQn            : SPI1_IRQn )
 #define SPIx_IRQHandler(__PORT__)                ((__PORT__ == 0) ? SPI2_IRQHandler      : SPI1_IRQHandler )
-#define SPIx_IRQ_PRIO(__PORT__)                 ( RX_IRQ_PRIO )    /*!< SPI: IRQ priority  must be higher    */
+#define SPIx_IRQ_PRIO(__PORT__)                 ( 0 )    /*!< SPI: IRQ priority  must be higher    */
 
 
 /* DMA */
 #define TX_DMACH(__PORT__)                      ((__PORT__ == 0) ? DMA1_Channel7            : DMA1_Channel3 )       /*!< DMA: Tx Channel       */
+#define TXDMACHIRQ(__PORT__)                      ((__PORT__ == 0) ? DMA1_Channel4_5_6_7_IRQn : DMA1_Channel2_3_IRQn) /*!< DMA: IRQn             */
 #define RX_DMACH(__PORT__)                      ((__PORT__ == 0) ? DMA1_Channel6            : DMA1_Channel2 )       /*!< DMA: Rx Channel       */
-#define DMACHIRQ(__PORT__)                      ((__PORT__ == 0) ? DMA1_Channel4_5_6_7_IRQn : DMA1_Channel2_3_IRQn) /*!< DMA: IRQn             */
+#define RXDMACHIRQ(__PORT__)                      ((__PORT__ == 0) ? DMA1_Channel4_5_6_7_IRQn : DMA1_Channel2_3_IRQn) /*!< DMA: IRQn             */
 
+#define TXDMACHIRQ_PRIO(__PORT__)                  (TX_IRQ_PRIO )                              /*!< DMA: IRQ priority     */
+#define TXDMACHIRQ_SUB_PRIO(__PORT__)              (0)                              /*!< DMA: IRQ priority     */
+//#define RXDMACHIRQ_PRIO(__PORT__)                  (RX_IRQ_PRIO )                              /*!< DMA: IRQ priority     */
+//#define RXDMACHIRQ_SUB_PRIO(__PORT__)              (2)                              /*!< DMA: IRQ priority     */
 
-#define DMACHIRQ_PRIO(__PORT__)                 ( (TX_IRQ_PRIO + USBPD_HIGH_IRQ_PRIO))                              /*!< DMA: IRQ priority     */
+#define SPARE_BIT_SUB_CORRECTION                 0
+#define PHY_TXRX_BYTE_TIMEOUT                    60u  /*!< Max time to recieve or send a byte Time Elapsed value [us]       */
+#define SWCALL_RX_STOP(PORT)  LL_EXTI_WriteReg(SWIER, SPI_NSS_PIN(PORT))  /* Macro Generating SWIE */
 
 /**
   * @}
@@ -237,8 +261,7 @@ else \
   __HAL_RCC_I2C2_CLK_DISABLE();  \
 } while(0)                                      /*!< Disables Clock of I2C peripheral for the specified port */
 
-#define GET_PORT_FROM_SPI(hspi) \
-( (uint8_t)( hspi->Instance == SPI_Instance(0) )? 0 : 1 )  /*!< GET Port Number from SPI peripheral   */
+#define GET_PORT_FROM_SPI(hspi)  ( (uint8_t)( hspi->Instance == SPI_Instance(0) )? 0 : 1 )  /*!< GET Port Number from SPI peripheral   */
 
 #define SPI_CLK_ENABLE(PortNum) do { \
 if (PortNum==0) \
@@ -254,6 +277,19 @@ else \
   __HAL_RCC_SPI1_CLK_DISABLE();  \
 } while(0)                                      /*!< Disables Clock of SPI peripheral for the specified port */
 
+#define SPI_FORCE_RESET(PortNum) do { \
+if (PortNum==0) \
+  __HAL_RCC_SPI2_FORCE_RESET(); \
+else \
+  __HAL_RCC_SPI1_FORCE_RESET();  \
+} while(0) 
+
+#define SPI_RELEASE_RESET(PortNum) do { \
+if (PortNum==0) \
+  __HAL_RCC_SPI2_RELEASE_RESET(); \
+else \
+  __HAL_RCC_SPI1_RELEASE_RESET();  \
+} while(0) 
 #define DMA_CLK_ENABLE(PortNum) do { \
 if (PortNum==0) \
   __HAL_RCC_DMA1_CLK_ENABLE(); \
@@ -269,7 +305,7 @@ else \
 } while(0)                                      /*!< Disables Clock of DMA peripheral for the specified port */
 
 
-#define TIM_CRC(TIM_identifier) ((TIM_identifier == TIM_PORT0_CRC )? TIM_PORT0_CRC:TIM_PORT1_CRC)
+//#define TIM_CRC(TIM_identifier) ((TIM_identifier == TIM_PORT0_CRC )? TIM_PORT0_CRC:TIM_PORT1_CRC)
 
 // #define USBPD_BSP_I2CxHandle                    hi2c2
 #define STUSB1602_I2C_Add_0     					0x28 	/*<! Address 0 */
@@ -319,7 +355,8 @@ else \
 #define LED_PORT_CC(__PORT__)   (__PORT__ == USBPD_PORT_0 ? LED_PORT0_CC : LED_PORT1_CC)
 #define LED_PORT_VBUS(__PORT__) (__PORT__ == USBPD_PORT_0 ? LED_PORT0_VBUS : LED_PORT1_VBUS) 
 
-
+#define DRP_pin                                 GPIO_PIN_8
+#define DRP_port                                GPIOA
 
 /**
   * @}
@@ -346,6 +383,9 @@ else \
 
 #define BUTTONx_GPIO_CLK_ENABLE(__INDEX__)    do { if((__INDEX__) == 0) USER_BUTTON_GPIO_CLK_ENABLE();} while(0)
 #define BUTTONx_GPIO_CLK_DISABLE(__INDEX__)   (((__INDEX__) == 0) ? USER_BUTTON_GPIO_CLK_DISABLE() : 0)
+
+
+
 /**
   * @}
   */ 
@@ -370,18 +410,17 @@ typedef enum
 #define HW_IF_ADC        ADC1
 /* ADC Exported define for MB1303 board */
 #if (USBPD_PORT_COUNT == 1)
-#define USBPD_ADCn    3                                    /*!< Number of Analog channel used by ADC */
+#define USBPD_ADCn    2                                    /*!< Number of Analog channel used by ADC */
 #define USBPD_ADC_INT_CHANNEL    0          /*!< Number of internal channel used */     
-#define ADCCONVERTEDVALUES_BUFFER_SIZE    3 /*!< Size of array containing ADC converted values: set to ADC sequencer number of ranks converted, to have a rank in each address */
-#define VBUS_INDEX(__PORT__)    ( 2 )                      /*!< Index of the VBus channel for the specified Port inside @ref ADCxConvertedValues */
+#define VBUS_INDEX(__PORT__)    ( 1 )                      /*!< Index of the VBus channel for the specified Port inside @ref ADCxConvertedValues */
 #define IBUS_INDEX(__PORT__)    ( 0 )                      /*!< Index of the IBus channel for the specified Port inside @ref ADCxConvertedValues */
 #elif (USBPD_PORT_COUNT == 2)
-#define USBPD_ADCn    5                                     /*!< Number of Analog channel used by ADC */
+#define USBPD_ADCn    4                                     /*!< Number of Analog channel used by ADC */
 #define USBPD_ADC_INT_CHANNEL    0          /*!< Number of internal channel used */     
-#define ADCCONVERTEDVALUES_BUFFER_SIZE    5 /*!< Size of array containing ADC converted values: set to ADC sequencer number of ranks converted, to have a rank in each address */
-#define VBUS_INDEX(__PORT__)    ((__PORT__ == 0) ? 4 : 2)  /*!< Index of the VBus channel for the specified Port inside @ref ADCxConvertedValues */
+#define VBUS_INDEX(__PORT__)    ((__PORT__ == 0) ? 3 : 2)  /*!< Index of the VBus channel for the specified Port inside @ref ADCxConvertedValues */
 #define IBUS_INDEX(__PORT__)    ((__PORT__ == 0) ? 1 : 0)  /*!< Index of the IBus channel for the specified Port inside @ref ADCxConvertedValues */
 #endif
+#define ADCCONVERTEDVALUES_BUFFER_SIZE    USBPD_ADCn + USBPD_ADC_INT_CHANNEL /*!< Size of array containing ADC converted values: set to ADC sequencer number of ranks converted, to have a rank in each address */
 
 #if defined (P_NUCLEO_002_C)
 // STUSB16xx_PORT_HandleTypeDef Ports[USBPD_PORT_COUNT];
@@ -408,7 +447,7 @@ static const USBPD_BSP_GPIOPins_TypeDef USBPD_ADCs[USBPD_ADCn] =
   USBPD_BSP_ADC(GPIOB, 0, ADC_CHANNEL_8),  /*ADC2 on schematic - VBUS port1*/
   USBPD_BSP_ADC(GPIOA, 4, ADC_CHANNEL_4),  /*ADC3 on schematic - IBUS port1*/
 #endif
-  USBPD_BSP_ADC(GPIOC, 0, ADC_CHANNEL_10),  /*ADC4 on schematic - PowConn17*/
+//  USBPD_BSP_ADC(GPIOC, 0, ADC_CHANNEL_10),  /*ADC4 on schematic - PowConn17*/
 } ;
 
 /* Macro for ADCx DMA resources */

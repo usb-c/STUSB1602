@@ -44,8 +44,6 @@
 
    
 /* Includes ------------------------------------------------------------------*/
-//#include "usbpd_porthandle.h"
-//#include "stdint.h"
 
 /** @addtogroup STM32_USBPD_LIBRARY
   * @{
@@ -129,16 +127,6 @@
 * @{
 */
 
-///**
-// * @brief  STUSB1602 Status
-//  */
-//typedef enum
-//{
-//	STUSB1602_OK       = 0x00,		/*!< Device OK 		*/
-//	STUSB1602_ERROR    = 0x01,		/*!< Device ERROR 	*/
-//	STUSB1602_BUSY     = 0x02,		/*!< Device BUSY 	*/
-//	STUSB1602_TIMEOUT  = 0x03		/*!< Device TIMEOUT */
-//} STUSB1602_StatusTypeDef;
 
 /** @defgroup STUSB1602_REGISTERS_TYPES STUSB1602 Registers types
  * @brief STUSB1602 Register structure definitions
@@ -591,7 +579,7 @@ typedef union
 	uint8_t VBUS_RANGE_DISABLE		:	1;
 	uint8_t _Reserved_5			:	1;
 	uint8_t VDD_OVLO_DISABLE		:	1;
-        uint8_t _Reserved_7			:	1;
+        uint8_t VBUS_PRESENCE_DISABLE		:	1;
   } b;
 } STUSB1602_VBUS_MONITORING_CTRL_RegTypeDef;
 
@@ -1343,6 +1331,16 @@ typedef enum
 } VBUS_Range_State_TypeDef;
 
 /**
+ * @brief USB PD VBUS_PRESSENCE_DISABLE
+ * @Address 2Eh - Bit7
+ * @Access R/W
+  */
+typedef enum
+{
+  VBUS_Presence_Enable                       = 0,              /*!< DEFAULT: Enable VBUS voltage presence detection */
+  VBUS_Presence_Disable                      = 1               /*!< Disable VBUS voltage Presence detection  */
+} VBUS_Presence_State_TypeDef;
+/**
  * @brief USB PD VBUS_VSAFE0V_THRESHOLD
  * @Address 2Eh - Bit2:1
  * @Access R/W
@@ -1448,24 +1446,12 @@ Attach_State_Trans_TypeDef STUSB1602_Attach_State_Trans_Get(uint8_t Addr);
 Attach_State_TypeDef STUSB1602_Attach_State_Get(uint8_t Addr);
 VCONN_Supply_State_TypeDef STUSB1602_VCONN_Supply_State_Get(uint8_t Addr);
 Data_Role_TypeDef STUSB1602_Data_Role_Get(uint8_t Addr);
-//Power_Role_TypeDef STUSB1602_Power_Role_Get(uint8_t Addr);
-//StartUp_Mode_TypeDef STUSB1602_StartUp_Mode_Get(uint8_t Addr);
-//Attach_Mode_TypeDef STUSB1602_Attach_Mode_Get(uint8_t Addr);
 
 /*0x0F*/
 STUSB1602_MONITORING_STATUS_TRANS_RegTypeDef STUSB1602_Monitoring_Status_Trans_Reg_Get(uint8_t Addr);
-//PD_TypeC_Handshake_TypeDef STUSB1602_PD_TypeC_HandShake_Get(uint8_t Addr);
-//VBUS_Valid_Trans_TypeDef STUSB1602_VBUS_Valid_Trans_Get(uint8_t Addr);
-//VBUS_VSAFE0V_Trans_TypeDef STUSB1602_VBUS_VSAFE0V_Trans_Get(uint8_t Addr);
-//VBUS_Presence_Trans_TypeDef STUSB1602_VBUS_Presence_Trans_Get(uint8_t Addr);
-//VCONN_Presence_Trans_TypeDef STUSB1602_VCONN_Presence_Trans_Get(uint8_t Addr);
 
 /*0x10*/
 STUSB1602_MONITORING_STATUS_RegTypeDef STUSB1602_Monitoring_Status_Reg_Get(uint8_t Addr);
-//VBUS_Valid_TypeDef STUSB1602_VBUS_Valid_Get(uint8_t Addr);
-//VBUS_VSAFE0V_TypeDef STUSB1602_VBUS_VSAFE0V_Get(uint8_t Addr);
-//VBUS_Presence_TypeDef STUSB1602_VBUS_Presence_Get(uint8_t Addr);
-//VCONN_Presence_TypeDef STUSB1602_VCONN_Presence_Get(uint8_t Addr);
 
 /*0x11*/
 CCxPin_Attached_TypeDef STUSB1602_CCx_Pin_Attach_Get(uint8_t Addr);
@@ -1476,11 +1462,11 @@ TypeC_FSM_State_TypeDef STUSB1602_TypeC_FSM_State_Get(uint8_t Addr);
 STUSB1602_HW_FAULT_STATUS_TRANS_RegTypeDef STUSB1602_Hard_Fault_Trans_Status_Get(uint8_t Addr);
 Thermal_Fault_TypeDef STUSB1602_Thermal_Fault_Get(uint8_t Addr);
 /* don't remove yet the five following */
-//VPU_OVP_Fault_Trans_TypeDef STUSB1602_VPU_OVP_Fault_Trans_Get(uint8_t Addr);
-//VPU_Presence_Trans_TypeDef STUSB1602_VPU_Presence_Trans_Get(uint8_t Addr);
-//VCONN_SW_RVP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_RVP_Fault_Trans_Get(uint8_t Addr);
-//VCONN_SW_OCP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_OCP_Fault_Trans_Get(uint8_t Addr);
-//VCONN_SW_OVP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_OVP_Fault_Trans_Get(uint8_t Addr);
+/*VPU_OVP_Fault_Trans_TypeDef STUSB1602_VPU_OVP_Fault_Trans_Get(uint8_t Addr);                */
+/*VPU_Presence_Trans_TypeDef STUSB1602_VPU_Presence_Trans_Get(uint8_t Addr);                  */
+/*VCONN_SW_RVP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_RVP_Fault_Trans_Get(uint8_t Addr);      */
+/*VCONN_SW_OCP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_OCP_Fault_Trans_Get(uint8_t Addr);      */
+/*VCONN_SW_OVP_Fault_Trans_TypeDef STUSB1602_VCONN_SW_OVP_Fault_Trans_Get(uint8_t Addr);      */
 
 /*0x13*/
 VPU_OVP_Fault_TypeDef STUSB1602_VPU_OVP_Fault_Get(uint8_t Addr);
@@ -1492,14 +1478,10 @@ VCONN_SW_OCP_Fault_CC2_TypeDef STUSB1602_VCONN_SW_OCP_Fault_CC2_Get(uint8_t Addr
 VCONN_SW_OVP_Fault_CC1_TypeDef STUSB1602_VCONN_SW_OVP_Fault_CC1_Get(uint8_t Addr);
 VCONN_SW_OVP_Fault_CC2_TypeDef STUSB1602_VCONN_SW_OVP_Fault_CC2_Get(uint8_t Addr);
 
-///*0x17*/
-//Bus_Idle_TypeDef STUSB1602_Bus_Idle_Status_Get(uint8_t Addr);
-
 /*0x18*/
 STUSB1602_CC_DETECTION_STATUS_RegTypeDef STUSB1602_CC_Detection_Status_Get(uint8_t Addr);
 Current_Capability_Advertised_TypeDef STUSB1602_Current_Advertised_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_Current_Advertised_Set(uint8_t Addr, Current_Capability_Advertised_TypeDef curr_cap);
-// SNK_Disconnect_Mode_TypeDef STUSB1602_SNK_Disconnect_Mode_Status_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_SNK_Disconnect_Mode_Status_Set(uint8_t Addr, SNK_Disconnect_Mode_TypeDef st);
 VCONN_Discharge_Status_TypeDef STUSB1602_VCONN_Discharge_Status_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VCONN_Discharge_Status_Set(uint8_t Addr, VCONN_Discharge_Status_TypeDef st);
@@ -1537,7 +1519,7 @@ uint8_t STUSB1602_VBUS_VShift_High_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_High_Set(uint8_t Addr, uint8_t Set);
 int8_t STUSB1602_VBUS_VShift_Low_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_Low_Set(uint8_t Addr, int8_t Set);
-
+STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_Set(uint8_t Addr, uint8_t HSet, uint8_t LSet);
 /*0x23*/
 SW_RESET_TypeDef STUSB1602_SW_RESET_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_SW_RESET_Set(uint8_t Addr, SW_RESET_TypeDef Rst);
@@ -1567,6 +1549,7 @@ VDD_OVLO_Threshold_TypeDef STUSB1602_VDD_OVLO_Threshold_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VDD_OVLO_Threshold_Set(uint8_t Addr, VDD_OVLO_Threshold_TypeDef st);
 VBUS_Range_State_TypeDef STUSB1602_VBUS_Range_State_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_Range_State_Set(uint8_t Addr, VBUS_Range_State_TypeDef st);
+STUSB1602_StatusTypeDef STUSB1602_VBUS_Presence_State_Set(uint8_t Addr, VBUS_Presence_State_TypeDef st);
 VBUS_VSAFE0V_Threshold_TypeDef STUSB1602_VBUS_VSAFE0V_Threshold_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VSAFE0V_Threshold_Set(uint8_t Addr, VBUS_VSAFE0V_Threshold_TypeDef st);
 VDD_UVLO_Threshold_TypeDef STUSB1602_VDD_UVLO_Threshold_Get(uint8_t Addr);

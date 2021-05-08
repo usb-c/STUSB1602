@@ -211,45 +211,92 @@
 
     (#) Optionally, in case of usage of ADC with interruptions:
          (++) Disable the NVIC for ADC
-              using function HAL_NVIC_EnableIRQ(ADCx_IRQn)
+              using function HAL_NVIC_DisableIRQ(ADCx_IRQn)
 
     (#) Optionally, in case of usage of DMA:
          (++) Deinitialize the DMA
-              using function HAL_DMA_Init().
+              using function HAL_DMA_DeInit().
          (++) Disable the NVIC for DMA
-              using function HAL_NVIC_EnableIRQ(DMAx_Channelx_IRQn)
+              using function HAL_NVIC_DisableIRQ(DMAx_Channelx_IRQn)
 
     [..]
+
+    *** Callback registration ***
+    =============================================
+    [..]
+
+     The compilation flag USE_HAL_ADC_REGISTER_CALLBACKS, when set to 1,
+     allows the user to configure dynamically the driver callbacks.
+     Use Functions @ref HAL_ADC_RegisterCallback()
+     to register an interrupt callback.
+    [..]
+
+     Function @ref HAL_ADC_RegisterCallback() allows to register following callbacks:
+       (+) ConvCpltCallback               : ADC conversion complete callback
+       (+) ConvHalfCpltCallback           : ADC conversion DMA half-transfer callback
+       (+) LevelOutOfWindowCallback       : ADC analog watchdog 1 callback
+       (+) ErrorCallback                  : ADC error callback
+       (+) MspInitCallback                : ADC Msp Init callback
+       (+) MspDeInitCallback              : ADC Msp DeInit callback
+     This function takes as parameters the HAL peripheral handle, the Callback ID
+     and a pointer to the user callback function.
+    [..]
+
+     Use function @ref HAL_ADC_UnRegisterCallback to reset a callback to the default
+     weak function.
+    [..]
+
+     @ref HAL_ADC_UnRegisterCallback takes as parameters the HAL peripheral handle,
+     and the Callback ID.
+     This function allows to reset following callbacks:
+       (+) ConvCpltCallback               : ADC conversion complete callback
+       (+) ConvHalfCpltCallback           : ADC conversion DMA half-transfer callback
+       (+) LevelOutOfWindowCallback       : ADC analog watchdog 1 callback
+       (+) ErrorCallback                  : ADC error callback
+       (+) MspInitCallback                : ADC Msp Init callback
+       (+) MspDeInitCallback              : ADC Msp DeInit callback
+     [..]
+
+     By default, after the @ref HAL_ADC_Init() and when the state is @ref HAL_ADC_STATE_RESET
+     all callbacks are set to the corresponding weak functions:
+     examples @ref HAL_ADC_ConvCpltCallback(), @ref HAL_ADC_ErrorCallback().
+     Exception done for MspInit and MspDeInit functions that are
+     reset to the legacy weak functions in the @ref HAL_ADC_Init()/ @ref HAL_ADC_DeInit() only when
+     these callbacks are null (not registered beforehand).
+    [..]
+
+     If MspInit or MspDeInit are not null, the @ref HAL_ADC_Init()/ @ref HAL_ADC_DeInit()
+     keep and use the user MspInit/MspDeInit callbacks (registered beforehand) whatever the state.
+     [..]
+
+     Callbacks can be registered/unregistered in @ref HAL_ADC_STATE_READY state only.
+     Exception done MspInit/MspDeInit functions that can be registered/unregistered
+     in @ref HAL_ADC_STATE_READY or @ref HAL_ADC_STATE_RESET state,
+     thus registered (user) MspInit/DeInit callbacks can be used during the Init/DeInit.
+    [..]
+
+     Then, the user first registers the MspInit/MspDeInit user callbacks
+     using @ref HAL_ADC_RegisterCallback() before calling @ref HAL_ADC_DeInit()
+     or @ref HAL_ADC_Init() function.
+     [..]
+
+     When the compilation flag USE_HAL_ADC_REGISTER_CALLBACKS is set to 0 or
+     not defined, the callback registration feature is not available and all callbacks
+     are set to the corresponding weak functions.
   
     @endverbatim
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************  
+  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -353,7 +400,7 @@ static void ADC_DMAError(DMA_HandleTypeDef *hdma);
   * @note   This function configures the ADC within 2 scopes: scope of entire 
   *         ADC and scope of regular group. For parameters details, see comments 
   *         of structure "ADC_InitTypeDef".
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
@@ -399,8 +446,24 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
     /* Allocate lock resource and initialize it */
     hadc->Lock = HAL_UNLOCKED;
     
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+    /* Init the ADC Callback settings */
+    hadc->ConvCpltCallback              = HAL_ADC_ConvCpltCallback;                 /* Legacy weak callback */
+    hadc->ConvHalfCpltCallback          = HAL_ADC_ConvHalfCpltCallback;             /* Legacy weak callback */
+    hadc->LevelOutOfWindowCallback      = HAL_ADC_LevelOutOfWindowCallback;         /* Legacy weak callback */
+    hadc->ErrorCallback                 = HAL_ADC_ErrorCallback;                    /* Legacy weak callback */
+    
+    if (hadc->MspInitCallback == NULL)
+    {
+      hadc->MspInitCallback = HAL_ADC_MspInit; /* Legacy weak MspInit  */
+    }
+    
+    /* Init the low level hardware */
+    hadc->MspInitCallback(hadc);
+#else
     /* Init the low level hardware */
     HAL_ADC_MspInit(hadc);
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
   }
   
   /* Configuration of ADC parameters if previous preliminary actions are      */ 
@@ -467,13 +530,13 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
                                 ADC_CFGR1_SCANDIR |
                                 ADC_CFGR1_DMACFG   );
 
-    tmpCFGR1 |= (ADC_CFGR1_AUTOWAIT(hadc->Init.LowPowerAutoWait)        |
-                 ADC_CFGR1_AUTOOFF(hadc->Init.LowPowerAutoPowerOff)     |
-                 ADC_CFGR1_CONTINUOUS(hadc->Init.ContinuousConvMode)    |
-                 ADC_CFGR1_OVERRUN(hadc->Init.Overrun)                  |
-                 hadc->Init.DataAlign                                   |
-                 ADC_SCANDIR(hadc->Init.ScanConvMode)                   |
-                 ADC_CFGR1_DMACONTREQ(hadc->Init.DMAContinuousRequests)  );
+    tmpCFGR1 |= (ADC_CFGR1_AUTOWAIT((uint32_t)hadc->Init.LowPowerAutoWait)        |
+                 ADC_CFGR1_AUTOOFF((uint32_t)hadc->Init.LowPowerAutoPowerOff)     |
+                 ADC_CFGR1_CONTINUOUS((uint32_t)hadc->Init.ContinuousConvMode)    |
+                 ADC_CFGR1_OVERRUN(hadc->Init.Overrun)                            |
+                 hadc->Init.DataAlign                                             |
+                 ADC_SCANDIR(hadc->Init.ScanConvMode)                             |
+                 ADC_CFGR1_DMACONTREQ((uint32_t)hadc->Init.DMAContinuousRequests)  );
     
     /* Enable discontinuous mode only if continuous mode is disabled */
     if (hadc->Init.DiscontinuousConvMode == ENABLE)
@@ -579,7 +642,7 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
   *         bypassed without error reporting: it can be the intended behaviour in
   *         case of reset of a single ADC while the other ADCs sharing the same 
   *         common group is still running.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
@@ -674,10 +737,20 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
     /*                                                                        */
     /*  __HAL_RCC_ADC1_FORCE_RESET()                                                  */
     /*  __HAL_RCC_ADC1_RELEASE_RESET()                                                */
+
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+    if (hadc->MspDeInitCallback == NULL)
+    {
+      hadc->MspDeInitCallback = HAL_ADC_MspDeInit; /* Legacy weak MspDeInit  */
+    }
     
     /* DeInit the low level hardware */
+    hadc->MspDeInitCallback(hadc);
+#else
+    /* DeInit the low level hardware */
     HAL_ADC_MspDeInit(hadc);
-    
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
+
     /* Set ADC error code to none */
     ADC_CLEAR_ERRORCODE(hadc);
     
@@ -695,7 +768,7 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
     
 /**
   * @brief  Initializes the ADC MSP.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
@@ -710,7 +783,7 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  DeInitializes the ADC MSP.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
@@ -722,6 +795,202 @@ __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
 }
+
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+/**
+  * @brief  Register a User ADC Callback
+  *         To be used instead of the weak predefined callback
+  * @param  hadc Pointer to a ADC_HandleTypeDef structure that contains
+  *                the configuration information for the specified ADC.
+  * @param  CallbackID ID of the callback to be registered
+  *         This parameter can be one of the following values:
+  *          @arg @ref HAL_ADC_CONVERSION_COMPLETE_CB_ID      ADC conversion complete callback ID
+  *          @arg @ref HAL_ADC_CONVERSION_HALF_CB_ID          ADC conversion complete callback ID
+  *          @arg @ref HAL_ADC_LEVEL_OUT_OF_WINDOW_1_CB_ID    ADC analog watchdog 1 callback ID
+  *          @arg @ref HAL_ADC_ERROR_CB_ID                    ADC error callback ID
+  *          @arg @ref HAL_ADC_INJ_CONVERSION_COMPLETE_CB_ID  ADC group injected conversion complete callback ID
+  *          @arg @ref HAL_ADC_MSPINIT_CB_ID                  ADC Msp Init callback ID
+  *          @arg @ref HAL_ADC_MSPDEINIT_CB_ID                ADC Msp DeInit callback ID
+  *          @arg @ref HAL_ADC_MSPINIT_CB_ID MspInit callback ID
+  *          @arg @ref HAL_ADC_MSPDEINIT_CB_ID MspDeInit callback ID
+  * @param  pCallback pointer to the Callback function
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_ADC_RegisterCallback(ADC_HandleTypeDef *hadc, HAL_ADC_CallbackIDTypeDef CallbackID, pADC_CallbackTypeDef pCallback)
+{
+  HAL_StatusTypeDef status = HAL_OK;
+  
+  if (pCallback == NULL)
+  {
+    /* Update the error code */
+    hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+
+    return HAL_ERROR;
+  }
+  
+  if ((hadc->State & HAL_ADC_STATE_READY) != 0)
+  {
+    switch (CallbackID)
+    {
+      case HAL_ADC_CONVERSION_COMPLETE_CB_ID :
+        hadc->ConvCpltCallback = pCallback;
+        break;
+      
+      case HAL_ADC_CONVERSION_HALF_CB_ID :
+        hadc->ConvHalfCpltCallback = pCallback;
+        break;
+      
+      case HAL_ADC_LEVEL_OUT_OF_WINDOW_1_CB_ID :
+        hadc->LevelOutOfWindowCallback = pCallback;
+        break;
+      
+      case HAL_ADC_ERROR_CB_ID :
+        hadc->ErrorCallback = pCallback;
+        break;
+      
+      case HAL_ADC_MSPINIT_CB_ID :
+        hadc->MspInitCallback = pCallback;
+        break;
+      
+      case HAL_ADC_MSPDEINIT_CB_ID :
+        hadc->MspDeInitCallback = pCallback;
+        break;
+      
+      default :
+        /* Update the error code */
+        hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+
+        /* Return error status */
+        status = HAL_ERROR;
+        break;
+    }
+  }
+  else if (HAL_ADC_STATE_RESET == hadc->State)
+  {
+    switch (CallbackID)
+    {
+      case HAL_ADC_MSPINIT_CB_ID :
+        hadc->MspInitCallback = pCallback;
+        break;
+      
+      case HAL_ADC_MSPDEINIT_CB_ID :
+        hadc->MspDeInitCallback = pCallback;
+        break;
+      
+      default :
+        /* Update the error code */
+        hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+      
+        /* Return error status */
+        status = HAL_ERROR;
+        break;
+    }
+  }
+  else
+  {
+    /* Update the error code */
+    hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+    
+    /* Return error status */
+    status =  HAL_ERROR;
+  }
+  
+  return status;
+}
+
+/**
+  * @brief  Unregister a ADC Callback
+  *         ADC callback is redirected to the weak predefined callback
+  * @param  hadc Pointer to a ADC_HandleTypeDef structure that contains
+  *                the configuration information for the specified ADC.
+  * @param  CallbackID ID of the callback to be unregistered
+  *         This parameter can be one of the following values:
+  *          @arg @ref HAL_ADC_CONVERSION_COMPLETE_CB_ID      ADC conversion complete callback ID
+  *          @arg @ref HAL_ADC_CONVERSION_HALF_CB_ID          ADC conversion complete callback ID
+  *          @arg @ref HAL_ADC_LEVEL_OUT_OF_WINDOW_1_CB_ID    ADC analog watchdog 1 callback ID
+  *          @arg @ref HAL_ADC_ERROR_CB_ID                    ADC error callback ID
+  *          @arg @ref HAL_ADC_INJ_CONVERSION_COMPLETE_CB_ID  ADC group injected conversion complete callback ID
+  *          @arg @ref HAL_ADC_MSPINIT_CB_ID                  ADC Msp Init callback ID
+  *          @arg @ref HAL_ADC_MSPDEINIT_CB_ID                ADC Msp DeInit callback ID
+  *          @arg @ref HAL_ADC_MSPINIT_CB_ID MspInit callback ID
+  *          @arg @ref HAL_ADC_MSPDEINIT_CB_ID MspDeInit callback ID
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_ADC_UnRegisterCallback(ADC_HandleTypeDef *hadc, HAL_ADC_CallbackIDTypeDef CallbackID)
+{
+  HAL_StatusTypeDef status = HAL_OK;
+  
+  if ((hadc->State & HAL_ADC_STATE_READY) != 0)
+  {
+    switch (CallbackID)
+    {
+      case HAL_ADC_CONVERSION_COMPLETE_CB_ID :
+        hadc->ConvCpltCallback = HAL_ADC_ConvCpltCallback;
+        break;
+      
+      case HAL_ADC_CONVERSION_HALF_CB_ID :
+        hadc->ConvHalfCpltCallback = HAL_ADC_ConvHalfCpltCallback;
+        break;
+      
+      case HAL_ADC_LEVEL_OUT_OF_WINDOW_1_CB_ID :
+        hadc->LevelOutOfWindowCallback = HAL_ADC_LevelOutOfWindowCallback;
+        break;
+      
+      case HAL_ADC_ERROR_CB_ID :
+        hadc->ErrorCallback = HAL_ADC_ErrorCallback;
+        break;
+      
+      case HAL_ADC_MSPINIT_CB_ID :
+        hadc->MspInitCallback = HAL_ADC_MspInit; /* Legacy weak MspInit              */
+        break;
+      
+      case HAL_ADC_MSPDEINIT_CB_ID :
+        hadc->MspDeInitCallback = HAL_ADC_MspDeInit; /* Legacy weak MspDeInit            */
+        break;
+      
+      default :
+        /* Update the error code */
+        hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+        
+        /* Return error status */
+        status =  HAL_ERROR;
+        break;
+    }
+  }
+  else if (HAL_ADC_STATE_RESET == hadc->State)
+  {
+    switch (CallbackID)
+    {
+      case HAL_ADC_MSPINIT_CB_ID :
+        hadc->MspInitCallback = HAL_ADC_MspInit;                   /* Legacy weak MspInit              */
+        break;
+        
+      case HAL_ADC_MSPDEINIT_CB_ID :
+        hadc->MspDeInitCallback = HAL_ADC_MspDeInit;               /* Legacy weak MspDeInit            */
+        break;
+        
+      default :
+        /* Update the error code */
+        hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+        
+        /* Return error status */
+        status =  HAL_ERROR;
+        break;
+    }
+  }
+  else
+  {
+    /* Update the error code */
+    hadc->ErrorCode |= HAL_ADC_ERROR_INVALID_CALLBACK;
+    
+    /* Return error status */
+    status =  HAL_ERROR;
+  }
+  
+  return status;
+}
+
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
 
 /**
   * @}
@@ -752,7 +1021,7 @@ __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 /**
   * @brief  Enables ADC, starts conversion of regular group.
   *         Interruptions enabled in this function: None.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef* hadc)
@@ -817,7 +1086,7 @@ HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Stop ADC conversion of regular group, disable ADC peripheral.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 HAL_StatusTypeDef HAL_ADC_Stop(ADC_HandleTypeDef* hadc)
@@ -870,8 +1139,8 @@ HAL_StatusTypeDef HAL_ADC_Stop(ADC_HandleTypeDef* hadc)
   *         performed on each conversion. Nevertheless, polling can still 
   *         be performed on the complete sequence (ADC init
   *         parameter "EOCSelection" set to ADC_EOC_SEQ_CONV).
-  * @param  hadc: ADC handle
-  * @param  Timeout: Timeout value in millisecond.
+  * @param  hadc ADC handle
+  * @param  Timeout Timeout value in millisecond.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef* hadc, uint32_t Timeout)
@@ -986,12 +1255,12 @@ HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef* hadc, uint32_t Ti
 
 /**
   * @brief  Poll for conversion event.
-  * @param  hadc: ADC handle
-  * @param  EventType: the ADC event type.
+  * @param  hadc ADC handle
+  * @param  EventType the ADC event type.
   *          This parameter can be one of the following values:
   *            @arg ADC_AWD_EVENT: ADC Analog watchdog event
   *            @arg ADC_OVR_EVENT: ADC Overrun event
-  * @param  Timeout: Timeout value in millisecond.
+  * @param  Timeout Timeout value in millisecond.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t EventType, uint32_t Timeout)
@@ -1067,7 +1336,7 @@ HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t EventTy
   *            parameter "EOCSelection"
   *          - overrun (if available)
   *         Each of these interruptions has its dedicated callback function.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_Start_IT(ADC_HandleTypeDef* hadc)
@@ -1148,7 +1417,7 @@ HAL_StatusTypeDef HAL_ADC_Start_IT(ADC_HandleTypeDef* hadc)
 /**
   * @brief  Stop ADC conversion of regular group, disable interruption of 
   *         end-of-conversion, disable ADC peripheral.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 HAL_StatusTypeDef HAL_ADC_Stop_IT(ADC_HandleTypeDef* hadc)
@@ -1199,9 +1468,9 @@ HAL_StatusTypeDef HAL_ADC_Stop_IT(ADC_HandleTypeDef* hadc)
   *          - DMA half transfer
   *          - overrun
   *         Each of these interruptions has its dedicated callback function.
-  * @param  hadc: ADC handle
-  * @param  pData: The destination Buffer address.
-  * @param  Length: The length of data to be transferred from ADC peripheral to memory.
+  * @param  hadc ADC handle
+  * @param  pData The destination Buffer address.
+  * @param  Length The length of data to be transferred from ADC peripheral to memory.
   * @retval None
   */
 HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length)
@@ -1290,7 +1559,7 @@ HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, ui
   * @brief  Stop ADC conversion of regular group, disable ADC DMA transfer, disable 
   *         ADC peripheral.
   *         Each of these interruptions has its dedicated callback function.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef* hadc)
@@ -1372,7 +1641,7 @@ HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef* hadc)
   *         in programming model IT: @ref HAL_ADC_IRQHandler(), in programming
   *         model polling: @ref HAL_ADC_PollForConversion() 
   *         or @ref __HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_EOS).
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval ADC group regular conversion data
   */
 uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef* hadc)
@@ -1389,7 +1658,7 @@ uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Handles ADC interrupt request.  
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
@@ -1444,11 +1713,14 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
       }
     }
     
-    /* Conversion complete callback */
     /* Note: into callback, to determine if conversion has been triggered     */
     /*       from EOC or EOS, possibility to use:                             */
     /*        " if( __HAL_ADC_GET_FLAG(&hadc, ADC_FLAG_EOS)) "                */
-      HAL_ADC_ConvCpltCallback(hadc);
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+      hadc->ConvCpltCallback(hadc);
+#else
+    HAL_ADC_ConvCpltCallback(hadc);
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
 
     
     /* Clear regular group conversion flag */
@@ -1465,8 +1737,11 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
       /* Set ADC state */
       SET_BIT(hadc->State, HAL_ADC_STATE_AWD1);
 
-    /* Level out of window callback */ 
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+      hadc->LevelOutOfWindowCallback(hadc);
+#else
     HAL_ADC_LevelOutOfWindowCallback(hadc);
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
     
     /* Clear ADC Analog watchdog flag */
     __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_AWD);
@@ -1492,8 +1767,11 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
       /* Clear ADC overrun flag */
       __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_OVR);
       
-      /* Error callback */ 
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+      hadc->ErrorCallback(hadc);
+#else
       HAL_ADC_ErrorCallback(hadc);
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
     }
     
     /* Clear the Overrun flag */
@@ -1505,7 +1783,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Conversion complete callback in non blocking mode 
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
@@ -1520,7 +1798,7 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Conversion DMA half-transfer callback in non blocking mode 
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
@@ -1535,7 +1813,7 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Analog watchdog callback in non blocking mode. 
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
@@ -1551,7 +1829,7 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 /**
   * @brief  ADC error callback in non blocking mode
   *        (ADC conversion with interruption or transfer by DMA)
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval None
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
@@ -1604,8 +1882,8 @@ __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
   *         "ADC_ChannelConfTypeDef".
-  * @param  hadc: ADC handle
-  * @param  sConfig: Structure of ADC channel for regular group.
+  * @param  hadc ADC handle
+  * @param  sConfig Structure of ADC channel for regular group.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConfTypeDef* sConfig)
@@ -1737,8 +2015,8 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
   *         "ADC_AnalogWDGConfTypeDef".
-  * @param  hadc: ADC handle
-  * @param  AnalogWDGConfig: Structure of ADC analog watchdog configuration
+  * @param  hadc ADC handle
+  * @param  AnalogWDGConfig Structure of ADC analog watchdog configuration
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDGConfTypeDef* AnalogWDGConfig)
@@ -1860,7 +2138,7 @@ HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDG
   *         For example:                                                         
   *           " if (HAL_IS_BIT_SET(HAL_ADC_GetState(hadc1), HAL_ADC_STATE_REG_BUSY)) "
   *           " if (HAL_IS_BIT_SET(HAL_ADC_GetState(hadc1), HAL_ADC_STATE_AWD1)    ) "
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL state
   */
 uint32_t HAL_ADC_GetState(ADC_HandleTypeDef* hadc)
@@ -1874,7 +2152,7 @@ uint32_t HAL_ADC_GetState(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Return the ADC error code
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval ADC Error Code
   */
 uint32_t HAL_ADC_GetError(ADC_HandleTypeDef *hadc)
@@ -1904,7 +2182,7 @@ uint32_t HAL_ADC_GetError(ADC_HandleTypeDef *hadc)
   *         flag ADC_FLAG_RDY is not usable.
   *         Therefore, this function must be called under condition of
   *         "if (hadc->Init.LowPowerAutoPowerOff != ENABLE)".
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 static HAL_StatusTypeDef ADC_Enable(ADC_HandleTypeDef* hadc)
@@ -1969,7 +2247,7 @@ static HAL_StatusTypeDef ADC_Enable(ADC_HandleTypeDef* hadc)
   * @brief  Disable the selected ADC.
   * @note   Prerequisite condition to use this function: ADC conversions must be
   *         stopped.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 static HAL_StatusTypeDef ADC_Disable(ADC_HandleTypeDef* hadc)
@@ -2026,7 +2304,7 @@ static HAL_StatusTypeDef ADC_Disable(ADC_HandleTypeDef* hadc)
   * @brief  Stop ADC conversion.
   * @note   Prerequisite condition to use this function: ADC conversions must be
   *         stopped to disable the ADC.
-  * @param  hadc: ADC handle
+  * @param  hadc ADC handle
   * @retval HAL status.
   */
 static HAL_StatusTypeDef ADC_ConversionStop(ADC_HandleTypeDef* hadc)
@@ -2077,7 +2355,7 @@ static HAL_StatusTypeDef ADC_ConversionStop(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  DMA transfer complete callback. 
-  * @param  hdma: pointer to DMA handle.
+  * @param  hdma pointer to DMA handle.
   * @retval None
   */
 static void ADC_DMAConvCplt(DMA_HandleTypeDef *hdma)
@@ -2126,7 +2404,11 @@ static void ADC_DMAConvCplt(DMA_HandleTypeDef *hdma)
     }
 
     /* Conversion complete callback */
-    HAL_ADC_ConvCpltCallback(hadc); 
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+    hadc->ConvCpltCallback(hadc);
+#else
+    HAL_ADC_ConvCpltCallback(hadc);
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
   }
   else
   {
@@ -2138,7 +2420,7 @@ static void ADC_DMAConvCplt(DMA_HandleTypeDef *hdma)
 
 /**
   * @brief  DMA half transfer complete callback. 
-  * @param  hdma: pointer to DMA handle.
+  * @param  hdma pointer to DMA handle.
   * @retval None
   */
 static void ADC_DMAHalfConvCplt(DMA_HandleTypeDef *hdma)   
@@ -2147,12 +2429,16 @@ static void ADC_DMAHalfConvCplt(DMA_HandleTypeDef *hdma)
   ADC_HandleTypeDef* hadc = ( ADC_HandleTypeDef* )((DMA_HandleTypeDef* )hdma)->Parent;
   
   /* Half conversion callback */
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+    hadc->ConvHalfCpltCallback(hadc);
+#else
   HAL_ADC_ConvHalfCpltCallback(hadc); 
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
 }
 
 /**
   * @brief  DMA error callback 
-  * @param  hdma: pointer to DMA handle.
+  * @param  hdma pointer to DMA handle.
   * @retval None
   */
 static void ADC_DMAError(DMA_HandleTypeDef *hdma)   
@@ -2167,7 +2453,11 @@ static void ADC_DMAError(DMA_HandleTypeDef *hdma)
   SET_BIT(hadc->ErrorCode, HAL_ADC_ERROR_DMA);
   
   /* Error callback */
+#if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
+  hadc->ErrorCallback(hadc);
+#else
   HAL_ADC_ErrorCallback(hadc); 
+#endif /* USE_HAL_ADC_REGISTER_CALLBACKS */
 }
 
 /**

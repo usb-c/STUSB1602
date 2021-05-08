@@ -2,30 +2,22 @@
   ******************************************************************************
   * @file    usbd_conf_template.c
   * @author  MCD Application Team
-  * @version V2.4.2
-  * @date    11-December-2015
   * @brief   USB Device configuration and interface file
-  *          This template should be copied to the user folder, renamed and customized
-  *          following user needs.  
+  *          This template should be copied to the user folder,
+  *          renamed and customized following user needs.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
-  *
-  *        http://www.st.com/software_license_agreement_liberty_v2
-  *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                      www.st.com/SLA0044
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_core.h"
@@ -41,7 +33,9 @@
   * @retval USBD Status
   */
 USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
-{    
+{
+  UNUSED(pdev);
+
   return USBD_OK;
 }
 
@@ -52,16 +46,20 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   */
 USBD_StatusTypeDef USBD_LL_DeInit(USBD_HandleTypeDef *pdev)
 {
+  UNUSED(pdev);
+
   return USBD_OK;
 }
 
 /**
-  * @brief  Starts the Low Level portion of the Device driver. 
+  * @brief  Starts the Low Level portion of the Device driver.
   * @param  pdev: Device handle
   * @retval USBD Status
   */
 USBD_StatusTypeDef USBD_LL_Start(USBD_HandleTypeDef *pdev)
 {
+  UNUSED(pdev);
+
   return USBD_OK;
 }
 
@@ -72,6 +70,8 @@ USBD_StatusTypeDef USBD_LL_Start(USBD_HandleTypeDef *pdev)
   */
 USBD_StatusTypeDef USBD_LL_Stop(USBD_HandleTypeDef *pdev)
 {
+  UNUSED(pdev);
+
   return USBD_OK;
 }
 
@@ -83,11 +83,14 @@ USBD_StatusTypeDef USBD_LL_Stop(USBD_HandleTypeDef *pdev)
   * @param  ep_mps: Endpoint Max Packet Size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_OpenEP(USBD_HandleTypeDef *pdev,
-                                  uint8_t ep_addr,
-                                  uint8_t ep_type,
-                                  uint16_t ep_mps)
+USBD_StatusTypeDef USBD_LL_OpenEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr,
+                                  uint8_t ep_type, uint16_t ep_mps)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+  UNUSED(ep_type);
+  UNUSED(ep_mps);
+
   return USBD_OK;
 }
 
@@ -99,6 +102,9 @@ USBD_StatusTypeDef USBD_LL_OpenEP(USBD_HandleTypeDef *pdev,
   */
 USBD_StatusTypeDef USBD_LL_CloseEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
   return USBD_OK;
 }
 
@@ -110,6 +116,9 @@ USBD_StatusTypeDef USBD_LL_CloseEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   */
 USBD_StatusTypeDef USBD_LL_FlushEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
   return USBD_OK;
 }
 
@@ -121,6 +130,9 @@ USBD_StatusTypeDef USBD_LL_FlushEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   */
 USBD_StatusTypeDef USBD_LL_StallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
   return USBD_OK;
 }
 
@@ -130,9 +142,13 @@ USBD_StatusTypeDef USBD_LL_StallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_ClearStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+USBD_StatusTypeDef USBD_LL_ClearStallEP(USBD_HandleTypeDef *pdev,
+                                        uint8_t ep_addr)
 {
-  return USBD_OK; 
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
+  return USBD_OK;
 }
 
 /**
@@ -143,7 +159,10 @@ USBD_StatusTypeDef USBD_LL_ClearStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_add
   */
 uint8_t USBD_LL_IsStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
 {
-   return 0;
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
+  return 0U;
 }
 
 /**
@@ -152,9 +171,13 @@ uint8_t USBD_LL_IsStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_SetUSBAddress(USBD_HandleTypeDef *pdev, uint8_t dev_addr)
+USBD_StatusTypeDef USBD_LL_SetUSBAddress(USBD_HandleTypeDef *pdev,
+                                         uint8_t dev_addr)
 {
-  return USBD_OK; 
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
+  return USBD_OK;
 }
 
 /**
@@ -162,14 +185,17 @@ USBD_StatusTypeDef USBD_LL_SetUSBAddress(USBD_HandleTypeDef *pdev, uint8_t dev_a
   * @param  pdev: Device handle
   * @param  ep_addr: Endpoint Number
   * @param  pbuf: Pointer to data to be sent
-  * @param  size: Data size    
+  * @param  size: Data size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev, 
-                                    uint8_t ep_addr,
-                                    uint8_t *pbuf,
-                                    uint16_t size)
+USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev, uint8_t ep_addr,
+                                    uint8_t *pbuf, uint32_t size)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+  UNUSED(pbuf);
+  UNUSED(size);
+
   return USBD_OK;
 }
 
@@ -181,11 +207,15 @@ USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev,
   * @param  size: Data size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev, 
-                                          uint8_t ep_addr,
-                                          uint8_t *pbuf,
-                                          uint16_t size)
+USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev,
+                                          uint8_t ep_addr, uint8_t *pbuf,
+                                          uint32_t size)
 {
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+  UNUSED(pbuf);
+  UNUSED(size);
+
   return USBD_OK;
 }
 
@@ -197,7 +227,10 @@ USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev,
   */
 uint32_t USBD_LL_GetRxDataSize(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
 {
-  return 0;
+  UNUSED(pdev);
+  UNUSED(ep_addr);
+
+  return 0U;
 }
 
 /**
@@ -207,6 +240,7 @@ uint32_t USBD_LL_GetRxDataSize(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   */
 void USBD_LL_Delay(uint32_t Delay)
 {
+  UNUSED(Delay);
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

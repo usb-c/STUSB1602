@@ -106,7 +106,7 @@ void CAD_Set_default_ResistorRp(uint8_t PortNum, CAD_RP_Source_Current_Adv_Typed
 }
 
 /** Publique Function not used in 1602 context **/
-#if 0
+#if 1
 uint32_t CAD_Set_ResistorRp(uint8_t PortNum, CAD_RP_Source_Current_Adv_Typedef RpValue)
 {
   return 1; /* Dynamique update of the resistor  */
@@ -130,11 +130,8 @@ void CAD_Init(uint8_t PortNum, USBPD_SettingsTypeDef *Settings, USBPD_ParamsType
   _handle->settings = Settings;
   _handle->state = USBPD_CAD_STATE_RESET;
   _handle->cc = CCNONE;
-  _handle->CurrentHWcondition = _handle->OldHWCondtion = HW_Detachment;
   _handle->SNK_Source_Current_Adv = vRd_Undefined;
-#ifdef _RTOS  
   Ports[PortNum].USBPD_CAD_WakeUp = WakeUp;
-#endif  
   CAD_Set_default_ResistorRp(PortNum,DPM_Settings[PortNum].CAD_DefaultResistor);
 }
 
