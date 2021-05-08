@@ -5,4 +5,4 @@ The USB-C PD stack is supported on the following microcontrollers:
   - or STM32G474 (ARM Cortex-M4 core)
   - or STM32L4R5 (ARM Cortex-M4 core)
 
-Select the firwmare version closest to your STM32 hardware
+
