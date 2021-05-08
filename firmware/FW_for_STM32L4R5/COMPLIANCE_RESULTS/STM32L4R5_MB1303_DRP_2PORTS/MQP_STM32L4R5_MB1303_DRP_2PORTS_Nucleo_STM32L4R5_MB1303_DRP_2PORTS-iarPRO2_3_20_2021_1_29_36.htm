@@ -1,0 +1,4351 @@
+<HTML>
+<HEAD>
+<TITLE>PD Compliance Report</TITLE>
+<style>
+h1 {
+	color: #66CCFF;
+	font-size: 1.8em;
+	text-align: left;
+	font-family: "Arial"
+}
+h2 {
+	color: #66CCFF;
+	font-size: 1.3em;
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-align: left;
+	font-family: "Arial"
+}
+h3 {
+	color: #000032;
+	font-size: 1.2em;
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-align: left;
+	font-family: "Arial"
+}
+h4 {
+	color: #000032;
+	font-size: 1.1em;
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+	text-align: left;
+	font-family: "Arial"
+}
+h5 {
+	color: #000032;
+	font-size: 1.0em;
+	text-align: left;
+	font-family: "Arial"
+}
+h6 {
+	color: #000032;
+	font-size: 0.9em;
+	margin-top: 0.1em;
+	margin-bottom: 0.1em;
+	text-align: left;
+	font-family: "Arial"
+}
+p {
+	color: #000000;
+	font-size: 0.8em;
+	margin-top: 0em;
+	margin-bottom: 0.2em;
+	text-align: left;
+	font-family: "Arial"
+}
+table {
+width: 100%;
+}
+table#t01 {
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t01 th {
+border: 0px solid black;
+font-family: "Arial";
+border-collapse: collapse;
+}
+table#t01 td {
+font-family: "Arial";
+font-size: 0.8em;
+margin-top: 0.1em;
+margin-bottom: 0.1em;
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t02 {
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t02 th {
+border: 0px solid black;
+font-family: "Arial";
+border-collapse: collapse;
+}
+table#t02 td {
+font-family: "Arial";
+font-size: 0.8em;
+border: 0px solid black;
+border-collapse: collapse;
+padding-right: 1em;
+padding-bottom: 0.2em;
+}
+table#t03 {
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t03 th {
+border: 0px solid black;
+font-family: "Arial";
+border-collapse: collapse;
+}
+table#t03 td {
+font-family: "Arial";
+font-size: 0.8em;
+margin-top: 0.1em;
+margin-bottom: 0.1em;
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t04 {
+border: 0px solid black;
+border-collapse: collapse;
+}
+table#t04 th {
+border: 0px solid black;
+font-family: "Arial";
+border-collapse: collapse;
+}
+table#t04 td {
+font-family: "Arial";
+font-size: 0.6em;
+margin-top: 0.1em;
+margin-bottom: 0.5em;
+border: 0px solid black;
+border-collapse: collapse;
+}
+</style>
+</HEAD>
+<BODY>
+<h1>Packet-Master USB-PDT Report on STM STUSB1602_DRP_2PORTS</h1>
+<h6>Copyright © 2010-2021 MQP Electronics Ltd.</h6>
+<h6>GraphicUSB V6.30.03 -- Scripts PDT Rev:1.2.6.30</h6>
+<h6>Test run on Saturday, March 20, 2021 01:30:05</h6>
+<hr>
+<h6>TID: STM32L4R5_MB1303_DRP_2PORTS_Nucleo_STM32L4R5_MB1303_DRP_2PORTS-iar</h6>
+<h6>Vendor Name: STM</h6>
+<h6>Product Name: STUSB1602_DRP_2PORTS</h6>
+<h6>Version Info: sample</h6>
+<h6>VIF: C:\git\gpa_usbpd_v1.2\delivery_L4R5\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_2PORTS\STMicroelectronics__STUSB1602A_DRP_2PORTS.xml.save.xml</h6>
+<h6>VIF Modified Saturday, March 20, 2021 @ 01:29:48</h6>
+<h6>VIF: 3.1.0.2</h6>
+<hr>
+<p>The following tests have been selected:</p>
+<p>BMC-PROT-SEQ-GETCAPS</p>
+<p>BMC-PROT-SEQ-CHKCAB-P-PC</p>
+<p>BMC-PROT-SEQ-NOMRK-P-PC</p>
+<p>BMC-PROT-SEQ-CHKCAB-CP-ACC</p>
+<p>BMC-PROT-SEQ-NOMRK-CP-ACC</p>
+<p>BMC-PROT-SEQ-PRSWAP</p>
+<p>BMC-PROT-SEQ-DRSWAP</p>
+<p>BMC-PROT-SEQ-VCSWAP</p>
+<p>BMC-PROT-SEQ-DISCOV</p>
+<p>BMC-PROT-BIST-NOT-5V-SRC</p>
+<p>BMC-PROT-REV-NUM</p>
+<p>BMC-PROT-GSC-REC</p>
+<p>BMC-PROT-CNTRY-COD</p>
+<p>Installed Plug-In PDT-BT3 meets USB-IF requirements for these tests.</p>
+<hr>
+<h3>Runtime Report</h3>
+<p>UUT declared to meet Rev 3.0</p>
+<p>Cable marker is emulated where appropriate.</p>
+<h3>BMC-PROT-SEQ-GETCAPS</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Source Capabilities received</p>
+<p>Sink Capabilities received</p>
+<p>Now testing as Sink...</p>
+<p>Simulating Detach From UUT...</p>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Source Capabilities received</p>
+<p>Sink Capabilities received</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-CHKCAB-P-PC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-NOMRK-P-PC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-CHKCAB-CP-ACC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request Swap (UUT from Sink to Source)...</p>
+<p>Get Source Capabilities from Sink...</p>
+<p>Source Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Sink.</p>
+<p>PR_Swap was Accepted</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-NOMRK-CP-ACC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request Swap (UUT from Sink to Source)...</p>
+<p>Get Source Capabilities from Sink...</p>
+<p>Source Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Sink.</p>
+<p>PR_Swap was Accepted</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-PRSWAP</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request Swap (UUT from Source to Sink)...</p>
+<p>Get Sink Capabilities from UUT...</p>
+<p>Sink Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Source.</p>
+<p>The PR_Swap was validly accepted.</p>
+<p>Request received from UUT...</p>
+<p>Initial request accepted...</p>
+<p>Request Swap (UUT from Sink to Source)...</p>
+<p>Get Source Capabilities from Sink...</p>
+<p>Source Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Sink.</p>
+<p>The PR_Swap was validly accepted.</p>
+<p>Simulating Detach From UUT...</p>
+<p>-</p>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request Swap (UUT from Sink to Source)...</p>
+<p>Get Source Capabilities from Sink...</p>
+<p>Source Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Sink.</p>
+<p>The PR_Swap was validly accepted.</p>
+<p>Request Swap (UUT from Source to Sink)...</p>
+<p>Get Sink Capabilities from UUT...</p>
+<p>Sink Capabilities seen...</p>
+<p>Swap request completed...</p>
+<p>Tester is now behaving as Source.</p>
+<p>The PR_Swap was validly accepted.</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-DRSWAP</h3>
+<p>Starting as DFP...</p>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request DR_Swap...</p>
+<p>DR_Swap request completed...</p>
+<p>The DR_Swap was validly accepted.</p>
+<p>Request DR_Swap...</p>
+<p>'Reject' response to DR_Swap request</p>
+<p>The DR_Swap was validly rejected.</p>
+<p>Simulating Detach From UUT...</p>
+<p>-</p>
+<p>Starting as UFP...</p>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Request DR_Swap...</p>
+<p>'Reject' response to DR_Swap request</p>
+<p>The DR_Swap was validly rejected.</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-SEQ-VCSWAP</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Sending VCONN_Swap to OFF</p>
+<p>VCONN_Swap request completed...</p>
+<p>The VCONN_Swap was validly accepted.</p>
+<p>Sending VCONN_Swap to ON</p>
+<p>VCONN_Swap request completed...</p>
+<p>The VCONN_Swap was validly accepted.</p>
+<p>Simulating Detach From UUT...</p>
+<p>-</p>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Sending VCONN_Swap to ON</p>
+<p>VCONN_Swap request completed...</p>
+<p>The VCONN_Swap was validly accepted.</p>
+<p>Sending VCONN_Swap to OFF</p>
+<p>VCONN_Swap request completed...</p>
+<p>The VCONN_Swap was validly accepted.</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-DISCOV</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Sending Discover ID VDM...</p>
+<p>VDM response received...</p>
+<p>VDM Discover ID request was ACKed ..</p>
+<p>Sending Discover SVIDs VDM...</p>
+<p>VDM response received...</p>
+<p>VDM Discover SVIDs request was NAKed - Discovery Complete</p>
+<p>Sending Invalid Enter Mode VDM...</p>
+<p>VDM response received...</p>
+<p>VDM Enter Mode request was NAKed...</p>
+<p>Sending Invalid Exit Mode VDM...</p>
+<p>VDM response received...</p>
+<p>VDM Enter Mode request was NAKed...</p>
+<p>Sending Invalid Attention VDM...</p>
+<p>VDM request timed out - correctly</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-BIST-NOT-5V-SRC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Provider offers only 5V - pass</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-REV-NUM</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Simulating Detach From UUT...</p>
+<h3>BMC-PROT-GSC-REC</h3>
+<p>Establish PD Mode...</p>
+<p>Initial request accepted...</p>
+<p>Send Get_Source_Caps but no Request...</p>
+<p>Simulating Detach From UUT...</p>
+<p>End of Tests.  Duration: 00:02:35</p>
+<hr>
+<h3>Post-run Analysis</h3>
+<h3>Vendor Info File Consistency Check</h3>
+<hr>
+<h6>VIF Component Under Test: #1</h6>
+<h6>Test Condition: Revision 2 - Source</h6>
+<h3>Test: BMC-PROT-SEQ-GETCAPS (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #18</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #22-25</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #22</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #23</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #24</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #25</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #26-27</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #26</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #27</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #28-33</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #28</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #29</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #30</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #31</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #32</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #33</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #34-37</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #34</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #35</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #36</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #37</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get Source Capabilities from UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #44-47</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #44</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #45</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #46</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #47</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #48-53</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #48</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #49</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #50</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #51</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #52</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #53</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #54-57</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #54</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #55</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #56</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #57</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h4>Goal: Get Sink Capabilities from UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #68-71</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Sink Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #68</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Sink_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #69</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #70</td>
+<td width = "500" style="vertical-align:top">PD Message - Sink Capabilities (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #71</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #75</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #77</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #139</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #144-145</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #144</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #145</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #146-152</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #146</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #147</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #148</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #149</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #151</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #152</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get Source Capabilities from UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #158-161</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #158</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #159</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #160</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #161</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get Sink Capabilities from UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #172-262</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Sink Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #172</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Sink_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #173</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #174</td>
+<td width = "500" style="vertical-align:top">PD Message - Sink Capabilities (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #175</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #187</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #193</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-SEQ-CHKCAB-P-PC (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #255</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #259-262</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #259</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #260</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #261</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #262</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #263-264</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #263</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #264</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #265-270</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #265</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #266</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #267</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #268</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #269</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #270</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #271-274</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #271</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #272</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #273</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #274</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #281</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #284</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Source</h6>
+<h3>Test: BMC-PROT-SEQ-NOMRK-P-PC (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #345</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #348-349</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #348</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #349</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #350-355</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #350</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #351</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #352</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #353</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #354</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #355</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #356-359</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #356</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #357</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #358</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #359</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #366</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #368</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Source</h6>
+<h3>Test: BMC-PROT-SEQ-CHKCAB-CP-ACC (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #431</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #436-437</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #436</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #437</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #438-444</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #438</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #439</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #440</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #441</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #443</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #444</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure cable checked during PR_Swap (3A Marker).</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #453-456</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #453</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #454</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #455</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #456</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #460-488</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #460</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #461</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #462</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #463</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #469</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #479</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #481</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #484</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #487</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #488</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #489-490</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #489</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #490</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #491-496</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #491</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #492</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #493</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #494</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #495</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #496</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Check Previous Goal)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #549</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #552</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-SEQ-NOMRK-CP-ACC (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #615</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #620-621</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #620</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #621</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #622-628</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #622</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #623</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #624</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #625</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #627</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #628</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure cable checked during PR_Swap (No Marker).</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #637-640</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #637</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #638</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #639</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #640</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #644-672</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #644</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #645</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #646</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #647</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #653</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #663</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #665</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #668</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #671</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #672</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #673-674</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #673</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #674</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #675-804</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #675</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #676</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #677</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #678</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #680</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #681</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Check Previous Goal)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #733</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #735</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-SEQ-PRSWAP (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #797</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #801-804</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #801</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #802</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #803</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #804</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #805-806</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #805</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #806</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #807-813</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #807</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #808</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #809</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #810</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #812</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #813</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #814-817</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #814</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #815</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #816</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #817</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure valid response to PR_Swap Source to Sink.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #826-829</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Sink Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #826</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Sink_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #827</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #828</td>
+<td width = "500" style="vertical-align:top">PD Message - Sink Capabilities (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #829</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Scope Capture #1</td>
+<td width = "500" style="vertical-align:top">VBUS Measurement - Power Role Swap</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">VBUS plot is valid.</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #834-846</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #834</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #835</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #836</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #837</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #838</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #841</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #842</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #844</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #845</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #846</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #847-848</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #847</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #848</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #849-856</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #849</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #850</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #851</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #852</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #855</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #856</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #857-860</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #857</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #858</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #859</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #860</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get Request based on latest Source Capabilities.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #871-872</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #871</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #872</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #873-879</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #873</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #874</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #875</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #876</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #878</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #879</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #880-883</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #880</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #881</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #882</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #883</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure valid response to PR_Swap Sink to Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #922-925</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #922</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #923</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #924</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #925</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Scope Capture #2</td>
+<td width = "500" style="vertical-align:top">VBUS Measurement - Power Role Swap</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">VBUS plot is valid.</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #930-945</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #930</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #931</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #932</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #933</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #934</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #935</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #937</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #940</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #942</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #943</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #944-1173</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #944</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #945</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #946-947</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #946</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #947</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #948-953</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #948</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #949</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #950</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #951</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #952</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #953</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #954-957</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #954</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #955</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #956</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #957</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #980</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #983</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1045</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1051-1052</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1051</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1052</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1053-1059</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1053</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1054</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1055</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1056</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1058</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1059</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure valid response to PR_Swap Sink to Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1068-1071</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1068</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1069</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1070</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1071</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Scope Capture #3</td>
+<td width = "500" style="vertical-align:top">VBUS Measurement - Power Role Swap</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">VBUS plot is valid.</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1076-1089</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1076</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1077</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1078</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1079</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1080</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1081</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1083</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1086</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1088</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1089</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1090-1091</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1090</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1091</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1092-1097</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1092</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1093</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1094</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1095</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1096</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1097</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure valid response to PR_Swap Source to Sink.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1142-1145</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Sink Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1142</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Sink_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1143</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1144</td>
+<td width = "500" style="vertical-align:top">PD Message - Sink Capabilities (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1145</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Scope Capture #4</td>
+<td width = "500" style="vertical-align:top">VBUS Measurement - Power Role Swap</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">VBUS plot is valid.</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1150-1163</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1150</td>
+<td width = "500" style="vertical-align:top">PD Message - PR_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1151</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1152</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1153</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1154</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1158</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1159</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1161</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1162</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1163</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1164-1165</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1164</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1165</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1166-1274</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1166</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1167</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1168</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1169</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1172</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1173</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1194</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1206</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-SEQ-DRSWAP (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1268</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1271-1274</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1271</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1272</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1273</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1274</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1275-1276</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1275</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1276</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1278-1283</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1278</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1279</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1280</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1281</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1282</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1283</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1284-1287</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1284</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1285</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1286</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1287</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure DR_Swap is Accepted.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1296-1299</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Data Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1296</td>
+<td width = "500" style="vertical-align:top">PD Message - DR_Swap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1297</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1298</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1299</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure DR_Swap is Rejected.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1314-1317</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Data Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1314</td>
+<td width = "500" style="vertical-align:top">PD Message - DR_Swap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1315</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1316</td>
+<td width = "500" style="vertical-align:top">PD Message - Reject (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1317</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1331</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1333</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1395</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1400-1401</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1400</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1401</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1402-1409</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1402</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1403</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1404</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1405</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1408</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1409</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure DR_Swap is Rejected.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1417-1508</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Data Role Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1417</td>
+<td width = "500" style="vertical-align:top">PD Message - DR_Swap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1418</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1419</td>
+<td width = "500" style="vertical-align:top">PD Message - Reject (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1420</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1433</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1439</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-SEQ-VCSWAP (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1501</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1505-1508</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1505</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1506</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1507</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1508</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1509-1510</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1509</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1510</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1511-1517</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1511</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1512</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1513</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1514</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1516</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1517</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1518-1521</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1518</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1519</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1520</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1521</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure VCONN_Swap is Accepted by VCONN Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1529-1534</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VCONN Source Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1529</td>
+<td width = "500" style="vertical-align:top">PD Message - VCONN_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1530</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1531</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1532</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1533</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1534</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure VCONN_Swap is Accepted by VCONN non-Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1550-1556</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VCONN Source Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1550</td>
+<td width = "500" style="vertical-align:top">PD Message - VCONN_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1551</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1552</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1553</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1555</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1556</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1580</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1586</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1648</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1653-1654</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1653</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1654</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1655-1661</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1655</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1656</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1657</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1658</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1660</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1661</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure VCONN_Swap is Accepted by VCONN non-Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1670-1676</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VCONN Source Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1670</td>
+<td width = "500" style="vertical-align:top">PD Message - VCONN_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1671</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1672</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1673</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1675</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1676</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Ensure VCONN_Swap is Accepted by VCONN Source.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1691-1696</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VCONN Source Swap)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1691</td>
+<td width = "500" style="vertical-align:top">PD Message - VCONN_Swap (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1692</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1693</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1694</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1695</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1696</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1720</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1726</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-DISCOV (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Sink (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1788</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1794-1795</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1794</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1795</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1796-1802</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1796</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1797</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1798</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1799</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1801</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1802</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Discover ID of UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1809-1812</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1809</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1810</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1811</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1812</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Discover SVIDs of UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1814-1817</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover SVIDs)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1814</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover SVIDs REQ (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1815</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1816</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover SVIDs NAK (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1817</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal failed)</h6>
+<h4>Goal: Confirm UUT responds with NAK to invalid SOP Enter Mode message.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1819-1822</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Enter Mode)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1819</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Enter Mode REQ (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1820</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1821</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Enter Mode NAK (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1822</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Confirm UUT responds with NAK to invalid SOP Exit Mode message.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1824-1827</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Exit Mode)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1824</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Exit Mode REQ (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1825</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1826</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Exit Mode NAK (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1827</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Confirm UUT ignores SOP Attention message.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Events #1829-1830</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Attention)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1829</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM Attention REQ (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1830</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1882</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1888</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-BIST-NOT-5V-SRC (Rev 2.0)</h3>
+<h4>Goal: Get UUT into PD Mode as a Source (5V/100mA)</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1950</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1953-1956</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1953</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1954</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1955</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1956</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1957-1958</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1957</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1958</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1959-1965</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1959</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1960</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1961</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1962</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1964</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1965</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #1966-1969</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1966</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1967</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1968</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1969</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test not required</h6>
+<h6>(Previous Goal succeeded)</h6>
+<h4>Goal: Simulate UUT Detach.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #1977</td>
+<td width = "500" style="vertical-align:top">Detached</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #1980</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<h6>Test Condition: Revision 2 - Source</h6>
+<h3>Test: BMC-PROT-REV-NUM (Rev 2.0)</h3>
+<h6>(Tester engine starts as Rev 4.0)</h6>
+<h4>Goal: Ensure that Rev 3 Request is received after Src Caps Rev 4.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #2041</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2047-2048</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2047</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from Tester)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Invalid Specification Revision (Rev 4.0!)</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2048</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2049-2137</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2049</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2050</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2051</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2052</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2055</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2056</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #2068</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>Test Condition: Revision 2 - Sink</h6>
+<h3>Test: BMC-PROT-GSC-REC (Rev 2.0)</h3>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #2130</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2134-2137</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2134</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 3.0) (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2135</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2136</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Emulated Marker) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B31:28 - (HW Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B27:24 - (Firmware Version) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B19:18 - (Type-C to Type-A/B/C) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B16:B13 - (Cable Latency) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B6:B5 - (VBUS Current Handling Capability) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B4 - (VBUS through cable) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Cable VDO B2:B0 - (USB Superspeed Signaling Support) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2137</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Cable or UUT) (SOP')</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2138-2139</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2138</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2139</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2140-2145</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2140</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2141</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2142</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2143</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2144</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2145</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2146-2149</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2146</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2147</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2148</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2149</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h4>Goal: Get Source Capabilities and Hard Reset from UUT.</h4>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Scope Capture #5</td>
+<td width = "500" style="vertical-align:top">VBUS Measurement - Hard Reset</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">VBUS plot is valid.</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top">tSrcRecover = 800870us (0.66s to 1s)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2157-2160</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Request Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2157</td>
+<td width = "500" style="vertical-align:top">PD Message - Get_Src_Cap (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2158</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2159</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2160</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2161-0</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Hard Reset)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2161</td>
+<td width = "500" style="vertical-align:top">PD Hard Reset (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2163</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2165</td>
+<td width = "500" style="vertical-align:top">VBUS turned on</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2166-2167</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Announce Source Capabilities)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2166</td>
+<td width = "500" style="vertical-align:top">PD Message - Source Capabilities (from UUT)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2167</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2168-2173</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (Power Transition Request)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2168</td>
+<td width = "500" style="vertical-align:top">PD Message - Request (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2169</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2170</td>
+<td width = "500" style="vertical-align:top">PD Message - Accept (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2171</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2172</td>
+<td width = "500" style="vertical-align:top">PD Message - PS_RDY (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2173</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Events #2174-2177</td>
+<td width = "500" style="vertical-align:top">PD Sequence Start (VDM Discover ID)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2174</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID REQ (Rev 2.0) (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2175</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2176</td>
+<td width = "500" style="vertical-align:top">PD Message - VDM - Discover ID ACK (from Tester) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">VDM Header B14:13 - (Structured VDM Version) is not correct</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B30 - (Data Capable as USB Device) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B29:B27 - (Product Type) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">ID Header B15:B0 - (Vendor ID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B31:B16 - (PID) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top"></td>
+<td width = "500" style="vertical-align:top"><font color = "#000000">Product VDO B15:B0 - (bcdDevice) is not VIF specified value.</font></td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Event #2177</td>
+<td width = "500" style="vertical-align:top">PD Message - GoodCRC (from UUT) (SOP)</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<h6>(Previous Goal succeeded)</h6>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Event #2222</td>
+<td width = "500" style="vertical-align:top">VBUS turned off</td>
+<td style="vertical-align:top" style="text-align:right"></td>
+</tr>
+</table>
+<hr>
+<p>For Information Only:</p>
+<p>0 Retries by UUT using SOP</p>
+<p>0 Retries by UUT using SOP'</p>
+<p>0 Retries by Tester using SOP</p>
+<p>0 Retries by Tester using SOP'</p>
+<hr>
+<h3>Error Summary</h3>
+<p>No Post-Run Errors found.</p>
+<p>0 Runtime Errors</p>
+<hr>
+<h3>Test Summary</h3>
+<h4>BMC-PROT-SEQ-GETCAPS</h4>
+<p>BMC-PROT-SEQ-GETCAPS - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-GETCAPS Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-CHKCAB-P-PC</h4>
+<p>BMC-PROT-SEQ-CHKCAB-P-PC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-CHKCAB-P-PC Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-NOMRK-P-PC</h4>
+<p>BMC-PROT-SEQ-NOMRK-P-PC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-NOMRK-P-PC Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-CHKCAB-CP-ACC</h4>
+<p>BMC-PROT-SEQ-CHKCAB-CP-ACC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-CHKCAB-CP-ACC Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-NOMRK-CP-ACC</h4>
+<p>BMC-PROT-SEQ-NOMRK-CP-ACC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-NOMRK-CP-ACC Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-PRSWAP</h4>
+<p>BMC-PROT-SEQ-PRSWAP - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-PRSWAP Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-DRSWAP</h4>
+<p>BMC-PROT-SEQ-DRSWAP - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-DRSWAP Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-SEQ-VCSWAP</h4>
+<p>BMC-PROT-SEQ-VCSWAP - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-SEQ-VCSWAP Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-DISCOV</h4>
+<p>BMC-PROT-DISCOV - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-DISCOV Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-BIST-NOT-5V-SRC</h4>
+<p>BMC-PROT-BIST-NOT-5V-SRC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-BIST-NOT-5V-SRC Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-REV-NUM</h4>
+<p>BMC-PROT-REV-NUM - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-REV-NUM Secondary - <font color="#00CC00">PASS</font></p>
+<h4>BMC-PROT-GSC-REC</h4>
+<p>BMC-PROT-GSC-REC - <font color="#00CC00">PASS</font></p>
+<p>BMC-PROT-GSC-REC Secondary - <font color="#00CC00">PASS</font></p>
+<hr>
+<h2>USB-IF Summary Revision 2.0</h2>
+<p>BMC PHY Tx: <font color="#0000CC">[Required]</font></p>
+<p>BMC PHY Rx: <font color="#0000CC">[Required]</font></p>
+<p>BMC PHY Misc: <font color="#0000CC">[Required]</font></p>
+<p>Protocol Specific: <font color="#00CC00">PASS</font></p>
+<p>Power Specific: <font color="#0000CC">[Required]</font></p>
+<p>Secondary: <font color="#00CC00">PASS</font></p>
+<hr>
+<h3>Message Support Report</h3>
+<table id="t01">
+<tr>
+<td width = "250" style="vertical-align:top">Get_Source_Cap (UUT as Source)</td>
+<td width = "500" style="vertical-align:top">Supported (see Event #46)</td>
+<td style="vertical-align:top" style="text-align:right">OK</td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">Get_Source_Cap (UUT as Sink)</td>
+<td width = "500" style="vertical-align:top">Supported (see Event #174)</td>
+<td style="vertical-align:top" style="text-align:right">OK</td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">DR_Swap</td>
+<td width = "500" style="vertical-align:top">Supported (see Event #1298) but sometimes Rejected (see Event #1316)</td>
+<td style="vertical-align:top" style="text-align:right">OK</td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">PR_Swap</td>
+<td width = "500" style="vertical-align:top">Supported (see Event #1298) but sometimes Rejected (see Event #1316)</td>
+<td style="vertical-align:top" style="text-align:right">OK</td>
+</tr>
+<tr>
+<td width = "250" style="vertical-align:top">VCONN_Swap</td>
+<td width = "500" style="vertical-align:top">Supported (see Event #1298) but sometimes Rejected (see Event #1316)</td>
+<td style="vertical-align:top" style="text-align:right">OK</td>
+</tr>
+</table>
+<h6>End of Report</h6>
+<hr>
+</BODY>
+</HTML>
