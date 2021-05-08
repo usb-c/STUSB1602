@@ -39,4 +39,5 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 
 Notes:
 ----------------
-The USB-PD software stack has only been tested on STM32 with official USB-C test equipments to pass the USB certification, so it is only supported for STM32.
+- The USB-PD software stack has only been tested on STM32 with official USB-C test equipments to pass the USB certification, so it is only supported for STM32.
+- STUSB1602 Linux drivers: not available
