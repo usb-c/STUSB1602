@@ -1,5 +1,6 @@
 # STUSB1602 SW drivers (USB-C Power Delivery)
 Dual-role USB-PD controller for STM32, with Power up to 100W (20V@5A).<br/>
+USB-PD software stack for STM32
 <br/>
 USB-C PD 3.0 analog front-end controller, managed by both I2C and SPI interfaces. Need to run the USB-PD stack in software.<br/>
 The provided USB-PD stack only works on STM32 microcontroller family.<br/>
@@ -36,3 +37,6 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 * __USB Spec:__ USB Type-C v1.2 , USB PD v2.0 & v3.0
 * __USB Certification:__ test ID =  1010032
 
+Notes:
+----------------
+The USB-PD software stack has only been tested on STM32 with official USB-C test equipments to pass the USB certification, so it is only supported for STM32.
