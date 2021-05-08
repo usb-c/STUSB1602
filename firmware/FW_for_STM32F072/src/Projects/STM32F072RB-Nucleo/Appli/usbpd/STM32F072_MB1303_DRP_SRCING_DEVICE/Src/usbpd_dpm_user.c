@@ -994,7 +994,7 @@ USBPD_StatusTypeDef USBPD_DPM_SetupNewPower(uint8_t PortNum)
 USBPD_StatusTypeDef USBPD_DPM_EvaluatePowerRoleSwap(uint8_t PortNum)
 {
   /* USER CODE BEGIN USBPD_DPM_EvaluatePowerRoleSwap */
-#if defined SOURCING_DEVICE
+#ifdef SOURCING_DEVICE
   /* only accepted if role is not already SINK*/
   if (USBPD_PORTPOWERROLE_SRC == DPM_Params[PortNum].PE_PowerRole)
   { 
@@ -1406,7 +1406,8 @@ void USBPD_DPM_GetDataInfo(uint8_t PortNum, USBPD_CORE_DataInfoType_TypeDef Data
         *Size = 4 + 14; /* VID (2) + .PID(2) + sizeof("Not Supported\0")*/
         /* Copy Manufacturer Info into data area for transmission */
         manu_info = (USBPD_MIDB_TypeDef*)&DPM_USER_Settings[PortNum].DPM_ManuInfoPort;
-        memcpy((uint8_t*)Ptr, (uint8_t *)manu_info, 4);
+        /* If Manu info Ref is different from VID project 0xFFFF should be sent as VID*/
+        memset((uint8_t*)Ptr,0xFF, 4);
         memcpy((uint8_t*)(Ptr + 4), (uint8_t *)_notsupported, 14);
       }
       else

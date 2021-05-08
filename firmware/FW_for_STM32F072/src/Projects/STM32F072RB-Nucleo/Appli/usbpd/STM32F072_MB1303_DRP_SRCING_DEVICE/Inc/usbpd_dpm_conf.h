@@ -219,8 +219,8 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
       .MaxOperatingPowerInmWunits   = USBPD_PDP_SNK_IN_WATTS * 1000
     },
 #if  defined(USBPD_USBDATA)
-    .PE_DR_Swap_To_UFP = USBPD_TRUE,                  /* support data swap  to peripheal  */
-    .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* dont't support data swap to host   */
+    .PE_DR_Swap_To_UFP = USBPD_TRUE,                  /* support data swap    */
+    .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* dont't support data swap    */
 #elif  !defined(USBPD_USBDATA)
     .PE_DR_Swap_To_UFP = USBPD_FALSE,                  /* support data swap    */
     .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* support data swap    */

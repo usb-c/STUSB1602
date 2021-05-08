@@ -100,7 +100,7 @@
   #if    USBPD_PORT_COUNT == 2
   #define configTOTAL_HEAP_SIZE                    ((size_t)6000 + 1000)
   #else
-  #define configTOTAL_HEAP_SIZE                    ((size_t)6000)
+  #define configTOTAL_HEAP_SIZE                    ((size_t)5500)
   #endif
 #define configUSE_TRACE_FACILITY                 0
 #define configUSE_16_BIT_TICKS                   0

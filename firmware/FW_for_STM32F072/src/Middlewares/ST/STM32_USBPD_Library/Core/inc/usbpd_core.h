@@ -232,7 +232,7 @@ typedef void (*TRACE_ENTRY_POINT)(TRACE_EVENT type, uint8_t port, uint8_t sop, u
 #define PE_SRC_TSAFE0V_T2                650u   /*!< tSafe0V for SRC: 650 ms                                   */
 #define PE_SNK_TSAFE0V_T2                1000u  /*!< tSafe0V for SNK: 1000 ms                                  */
 #define PE_TSRCTURNON_T4                 275u   /*!< tSrcTurnOn: 275 ms                                        */
-#define PE_TPSSOURCEOFF                  910u   /*!< tPSSourceOff: min 750ms to max 920ms                      */
+#define PE_TPSSOURCEOFF                  900u   /*!< tPSSourceOff: min 750ms to max 920ms                      */
 #define PE_TPSSOURCEON                   470u   /*!< tPSSourceOn: min 390ms to max 480ms                       */
 
 #define PE_TPSTRANSITION                 500u   /*!< tPSTransition: min 450ms to max 550ms                     */
@@ -698,6 +698,16 @@ uint32_t            USBPD_PE_GetMemoryConsumption(void);
   * @retval None
   */
 void                USBPD_PE_SetTrace(TRACE_ENTRY_POINT Ptr, uint8_t Debug);
+
+/**
+  * @brief  Notification function
+  * @note this function is used by DPM_CORE or the stack to inform the user DPM application
+  * @param  PortNum Index of current used port
+  * @param  EventVal event based on @ref USBPD_NotifyEventValue_TypeDef
+  * @retval None
+  */
+void                USBPD_PE_Notification(uint8_t PortNum, USBPD_NotifyEventValue_TypeDef EventVal);
+
 
 #if defined(USBPDCORE_SRC) || defined(USBPDCORE_DRP)
 /**

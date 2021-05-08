@@ -125,10 +125,11 @@ void USBPD_HW_IF_EXTI_Callback(uint16_t GPIO_Pin)
         PHY_HW_IF_RX_Stop(PortNum);
       }
     }
-    if( NSSCurrentState == GPIO_PIN_RESET )
-    {
-     PHY_HW_IF_RX_Start(PortNum);     
-    } 
+    if(( NSSCurrentState == GPIO_PIN_RESET ) && ( HAL_GPIO_ReadPin(TX_EN_GPIO_PORT(PortNum), TX_EN_GPIO_PIN(PortNum)) == GPIO_PIN_RESET))
+      {
+        PHY_HW_IF_RX_Start(PortNum);     
+      }
+
     
     /* store the current NSS status */
     RxNSSStatus[PortNum] = NSSCurrentState;
@@ -144,7 +145,9 @@ void USBPD_HW_IF_EXTI_Callback(uint16_t GPIO_Pin)
     PortNum = 1;
     
     /* Check the NSS current state and compare it with the stored value*/
-    NSSCurrentState = HAL_GPIO_ReadPin(SPI_NSS_PORT(PortNum), SPI_NSS_PIN(PortNum));
+
+   NSSCurrentState = HAL_GPIO_ReadPin(SPI_NSS_PORT(PortNum), SPI_NSS_PIN(PortNum));
+
     
     if( NSSCurrentState == GPIO_PIN_SET || RxNSSStatus[PortNum] == GPIO_PIN_RESET) 
     {
@@ -159,9 +162,10 @@ void USBPD_HW_IF_EXTI_Callback(uint16_t GPIO_Pin)
       }
     }
     if( NSSCurrentState == GPIO_PIN_RESET )
-    {
-     PHY_HW_IF_RX_Start(PortNum);     
-    }     
+      {
+        PHY_HW_IF_RX_Start(PortNum);     
+      }
+
     /* store the current NSS status */
     RxNSSStatus[PortNum] = NSSCurrentState;
     

@@ -732,6 +732,10 @@
           <state>1000</state>
         </option>
         <option>
+          <name>IlinkOptMergeDuplSections</name>
+          <state>1</state>
+        </option>
+        <option>
           <name>CCJLinkDoLogfile</name>
           <state>0</state>
         </option>

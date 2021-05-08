@@ -91,11 +91,9 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
   GPIO_InitStruct.Pin = (GPIO_PIN_11 | GPIO_PIN_12);
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF2_USB;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
-  
   /* Enable USB FS Clock */
   __HAL_RCC_USB_CLK_ENABLE();  
   if(hpcd->Init.low_power_enable == 1)
@@ -572,10 +570,8 @@ static void SystemClockConfig_STOP(void)
   while(LL_RCC_HSI48_IsReady() != 1) 
   {
   };
-  
   /* Main PLL configuration and activation */
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI48, LL_RCC_PLL_MUL_2, LL_RCC_PREDIV_DIV_2);
-  
   LL_RCC_PLL_Enable();
   while(LL_RCC_PLL_IsReady() != 1)
   {

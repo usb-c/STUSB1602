@@ -239,6 +239,8 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
 #ifndef RX_DMACH  
   uint32_t itflag   = rx_spi->Instance->SR;
 #endif 
+
+  
  if (__HAL_SPI_GET_IT_SOURCE(rx_spi, SPI_IT_RXNE)!= RESET) 
   {
     
@@ -248,13 +250,18 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
       *rx_spi->pRxBuffPtr = (*(__IO uint8_t *)&rx_spi->Instance->DR);
       rx_spi->pRxBuffPtr++;
       rx_spi->RxXferCount--;
+      if (rx_spi->RxXferCount == 0 || rx_spi->RxXferCount > TXRX_BUFFER_SIZE ) /* during phy E2 Bist frame are longuer than the buffer but we don't care about content " rejected anyway" so back to buffer start adress */
+      {
+        rx_spi->pRxBuffPtr  = (uint8_t*)Ports[PortNum].pTxRxBuffPtr;
+      }
+
 #endif       
       if ( (USBPD_TIM_IsExpired(((PortNum == 0 )? TIM_PORT0_CA:TIM_PORT1_CA))) && (ud->preamble) )
       {
         /* CRC timeout */ /* too much time between 2 Bytes)*/ 
         ud->exed_flag = 9; 
-        __HAL_SPI_DISABLE_IT(rx_spi, (SPI_IT_RXNE | SPI_IT_ERR  ));  
-        
+        __HAL_SPI_DISABLE_IT(rx_spi, (SPI_IT_RXNE | SPI_IT_ERR | SPI_IT_TXE ));  
+
       }
       else
       {
@@ -269,6 +276,7 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
 #endif            
 #endif           
             {
+           
               
               if (!ud->preamble)                  /* The end of preamble hasn't identified yet */ 
               {
@@ -322,7 +330,9 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
                 /* Callback core phy accumulate */
                 if (Ports[PortNum].cbs.USBPD_HW_IF_RX_Accumulate != NULL)
                 {
+
                   Ports[PortNum].cbs.USBPD_HW_IF_RX_Accumulate(PortNum, temp_data);
+                
                 }
                 
                 /* EOP detecting */
@@ -331,9 +341,11 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
                   /* EOP to be managed */
                   ud->exed_flag = 2;
                   SWCALL_RX_STOP(PortNum);
+
                   
                 }
               }
+            
             }
             else
             {
@@ -341,7 +353,7 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
               if (ud->exed_flag == 2)
               { 
                 ud->exed_flag = 3 ;
-                __HAL_SPI_DISABLE_IT(rx_spi, (SPI_IT_RXNE | SPI_IT_ERR  ));  
+                __HAL_SPI_DISABLE_IT(rx_spi, (SPI_IT_RXNE | SPI_IT_ERR | SPI_IT_TXE ));  
                 
               }  
             }
@@ -350,8 +362,8 @@ void RX_ByteReceiverHandler(uint8_t PortNum)
   }
   if (__HAL_SPI_GET_IT_SOURCE(rx_spi, SPI_IT_ERR)!= RESET)
   {
-    __HAL_SPI_CLEAR_OVRFLAG(rx_spi) ;
-  }
+        __HAL_SPI_CLEAR_OVRFLAG(rx_spi) ;
+}
 }
 
 
@@ -420,10 +432,11 @@ void PHY_HW_IF_RX_Start(uint8_t PortNum)
   
   /* Start DMA receiving */
 #ifdef RX_DMACH
-  HAL_SPI_Receive_DMA(rx_spi, (uint8_t*)Ports[PortNum].pTxRxBuffPtr, TXRX_BUFFER_SIZE);
-  // __HAL_DMA_DISABLE_IT(&Ports[PortNum].hdmarx, DMA_IT_HT | DMA_IT_TC );   
+  HAL_SPI_Receive_DMA(rx_spi, (uint8_t*)Ports[PortNum].pTxRxBuffPtr, TXRX_BUFFER_SIZE );
+ //  __HAL_DMA_DISABLE_IT(&Ports[PortNum].hdmarx, DMA_IT_HT | DMA_IT_TC );   
   __HAL_SPI_ENABLE_IT(rx_spi, SPI_IT_RXNE| SPI_IT_ERR );
 
+  
 #else
   Ports[PortNum].hspi.Instance->DR = 0; 
   HAL_StatusTypeDef Rx_Status ;
@@ -480,6 +493,7 @@ void PHY_HW_IF_RX_Stop(uint8_t PortNum)
   if (USBPD_TIM_IsExpired(((PortNum == 0 )? TIM_PORT0_CA:TIM_PORT1_CA)) )  /* Colision avoidance */
   { 
     ud->exed_flag = 6; 
+
     return ;
   }
   if (ud->exed_flag == 3)  
@@ -514,14 +528,16 @@ void PHY_HW_IF_RX_Stop(uint8_t PortNum)
 */
 void PHY_HW_IF_TX_Done(uint8_t PortNum)
 {
-  
+
   uint8_t i,j = 0;
   USBPD_TIM_Start(((PortNum == 0 )? TIM_PORT0_CA:TIM_PORT1_CA), PHY_TXRX_BYTE_TIMEOUT);
   /* Wait until FIFO is empty */
+
   
 #if defined (SPI_SR_FTLVL) 
   if (Ports[PortNum].TxSpareBits == 0)
   {
+ 
     while ( (Ports[PortNum].hspi.Instance->SR & SPI_SR_FTLVL) != 0);  /* != 0x0800 */
   }
   else
@@ -532,6 +548,9 @@ void PHY_HW_IF_TX_Done(uint8_t PortNum)
     }
   }
   /* Wait for BUSY flag */
+#if  USBPD_PORT_COUNT == 2
+  SPI_ENTER_CRITICAL_SECTION();    
+#endif
   do
   {
     j = USBPD_TIM_IsExpired(((PortNum == 0 )? TIM_PORT0_CA:TIM_PORT1_CA));
@@ -558,10 +577,14 @@ void PHY_HW_IF_TX_Done(uint8_t PortNum)
       while (HAL_GPIO_ReadPin(SPI_CLK_PORT(PortNum), SPI_CLK_PIN(PortNum)) && HAL_GPIO_ReadPin(TX_EN_GPIO_PORT(PortNum), TX_EN_GPIO_PIN(PortNum)));
       /* if TXEN is already disable --> Tx ABORT occurs*/
     }
-  
+  if(GPIO_PIN_RESET==HAL_GPIO_ReadPin(SPI_CLK_PORT(PortNum), SPI_CLK_PIN(PortNum)))
+        while (!HAL_GPIO_ReadPin(SPI_CLK_PORT(PortNum), SPI_CLK_PIN(PortNum)) && HAL_GPIO_ReadPin(TX_EN_GPIO_PORT(PortNum), TX_EN_GPIO_PIN(PortNum)) ); 
+
   /* Reset TX_EN GPIO */
   STUSB16xx_HW_IF_TX_EN_Status(PortNum, GPIO_PIN_RESET);
-  
+#if  USBPD_PORT_COUNT == 2  
+  SPI_LEAVE_CRITICAL_SECTION();
+#endif
   /* Here the SPI has completed the transmission*/
 #if !defined (SPI_SR_FTLVL)  
   Ports[PortNum].hspi.Instance->CR2 = 0; 
@@ -645,6 +668,12 @@ void PHY_HW_IF_TX_ABORT(uint8_t PortNum)
 #else
   Ports[PortNum].hspi.Instance->CR2 = 0; 
 #endif
+   SPI_FORCE_RESET(PortNum);
+  __NOP();
+  SPI_RELEASE_RESET(PortNum);
+    HW_IF_DMA_Init(PortNum);
+    HW_IF_SPI_Init(PortNum);
+    
   /* Check if BIST TX Done */
   if(Ports[PortNum].State==HAL_USBPD_PORT_STATE_BIST)
   {
@@ -700,8 +729,10 @@ USBPD_StatusTypeDef STUSB16xx_HW_IF_Send_Packet(uint8_t PortNum, uint8_t *pData,
 #else  
     HAL_SPI_Transmit_DMA(&Ports[PortNum].hspi, pData, Size+1);
 #endif   
+
     __HAL_SPI_DISABLE_IT(&Ports[PortNum].hspi, SPI_IT_RXNE || SPI_IT_TXE || SPI_IT_ERR  );
     /* Set TX_EN GPIO */
+
     STUSB16xx_HW_IF_TX_EN_Status(PortNum, GPIO_PIN_SET);
   }
   else 

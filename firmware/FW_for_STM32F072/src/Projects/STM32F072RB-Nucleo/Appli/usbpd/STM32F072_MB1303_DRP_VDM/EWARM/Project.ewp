@@ -377,8 +377,8 @@
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32F0xx\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Inc\Legacy</state>
+          <!-- <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB002</state> -->
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB002</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\p-NUCLEO-USB002</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\Components\STUSB1602</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM0</state>
@@ -775,8 +775,8 @@
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state>__ICFEDIT_size_cstack__=0x800</state>
-          <state>__ICFEDIT_size_heap__=0x800</state>
+          <state>__ICFEDIT_size_cstack__=0x900</state>
+          <state>__ICFEDIT_size_heap__=0xC00</state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -975,7 +975,7 @@
         </option>
         <option>
           <name>IlinkOptMergeDuplSections</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkOptUseVfe</name>

@@ -601,7 +601,7 @@ void HW_IF_Switch_Mode(uint8_t PortNum, STUSB1602_SPI_Mode_TypeDef mode)
 #endif
   /* Enable/Disable RX NSS EXT Interrupt */
   HW_IF_NSS_RisingFalling_Interrupt (PortNum, mode == STUSB16xx_SPI_Mode_RX ? ENABLE : DISABLE);
-  
+      
       
 }
 
@@ -624,6 +624,9 @@ void HW_IF_DMA_Init(uint8_t PortNum)
 
   HAL_NVIC_SetPriority(TXDMACHIRQ(PortNum), TXDMACHIRQ_PRIO(PortNum), TXDMACHIRQ_SUB_PRIO(PortNum));
   
+//#ifdef RX_DMACH
+//  HAL_NVIC_SetPriority(RXDMACHIRQ(PortNum), RXDMACHIRQ_PRIO(PortNum), RXDMACHIRQ_SUB_PRIO(PortNum));
+//#endif
 }
 
 
@@ -734,7 +737,7 @@ hdma_tx_spi->Init.Channel =               TX_DMACH(PortNum);
   /* Enable IRQ DMA */
   HAL_NVIC_EnableIRQ(TXDMACHIRQ(PortNum));
 #if defined (SPI_SR_FTLVL)  
-  __HAL_DMA_DISABLE_IT(hdma_tx_spi,  __HAL_DMA_GET_HT_FLAG_INDEX(&Ports[PortNum].hdmatx));  
+  __HAL_DMA_DISABLE_IT(hdma_tx_spi, DMA_IT_HT);
 #endif 
 }
 
@@ -794,13 +797,13 @@ void STUSB16xx_HW_IF_RX_DMA_Init(uint8_t PortNum)
   /* NVIC configuration for DMA & SPI */
   HAL_NVIC_SetPriority(SPI_IRQn(PortNum), SPIx_IRQ_PRIO(PortNum), 0);
   
-#endif
+#endif 
    __HAL_SPI_DISABLE_IT(&Ports[PortNum].hspi, (SPI_IT_RXNE | SPI_IT_ERR | SPI_IT_TXE ));
 #ifdef RX_DMACH   
    /* disabling DMA IT at this point is mandatory to avoid propagating IT from DMA)*/
-   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_HT_FLAG_INDEX(&Ports[PortNum].hdmarx));  
-   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_TC_FLAG_INDEX(&Ports[PortNum].hdmarx));  
-   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  __HAL_DMA_GET_TE_FLAG_INDEX(&Ports[PortNum].hdmarx));  
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  DMA_IT_HT );
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  DMA_IT_TC );
+   __HAL_DMA_DISABLE_IT(hdma_rx_spi,  DMA_IT_TE );
 #endif
 }
 

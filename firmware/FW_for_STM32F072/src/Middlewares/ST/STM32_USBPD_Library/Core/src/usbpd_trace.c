@@ -183,8 +183,13 @@ void  USBPD_TRACE_Add(TRACE_EVENT Type, uint8_t PortNum, uint8_t Sop, uint8_t *P
   }
 
   TRACER_EMB_UnLock();
+  
+  if ( (SCB->ICSR & SCB_ICSR_NMIPENDSET_Msk) == 0)
+{
+TRACER_EMB_SendData();
+}
 
-  TRACER_EMB_SendData();
+//  TRACER_EMB_SendData();
 #else
   return;
 #endif

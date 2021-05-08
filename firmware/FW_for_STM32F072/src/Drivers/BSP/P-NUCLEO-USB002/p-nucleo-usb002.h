@@ -112,7 +112,10 @@ extern "C"
 #define RX_IRQ_PRIO             2   /*!< Rx priority for first interrupt @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
 #define TX_IRQ_PRIO             2   /*!< Tx interrupt priority @note Communication is half duplex so @ref TX_IRQ_PRIO = @ref RX_IRQ_PRIO */
 
+#define SPI_ENTER_CRITICAL_SECTION()  uint32_t primask= __get_PRIMASK();\
+                                        __disable_irq();
 
+#define SPI_LEAVE_CRITICAL_SECTION() __set_PRIMASK(primask)
   
 /** @defgroup P-NUCLEO-USB001_Exported_Macros Exported Macros
   * @{
@@ -229,8 +232,6 @@ void USBPD_HW_IF_GPIO_Toggle(USBPD_BSP_GPIOPins_TypeDef gpio);
 
 #define TXDMACHIRQ_PRIO(__PORT__)                  (TX_IRQ_PRIO )                              /*!< DMA: IRQ priority     */
 #define TXDMACHIRQ_SUB_PRIO(__PORT__)              (0)                              /*!< DMA: IRQ priority     */
-//#define RXDMACHIRQ_PRIO(__PORT__)                  (RX_IRQ_PRIO )                              /*!< DMA: IRQ priority     */
-//#define RXDMACHIRQ_SUB_PRIO(__PORT__)              (2)                              /*!< DMA: IRQ priority     */
 
 #define SPARE_BIT_SUB_CORRECTION                 0
 #define PHY_TXRX_BYTE_TIMEOUT                    60u  /*!< Max time to recieve or send a byte Time Elapsed value [us]       */

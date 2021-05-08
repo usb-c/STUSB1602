@@ -64,8 +64,8 @@ extern uint8_t hUSBDBOSDesc[USB_SIZ_BOS_DESC];
 #if defined(_VDM)
 #define SVDM_DP_STATUS SVDM_SPECIFIC_1
 #define SVDM_DP_CONFIG SVDM_SPECIFIC_2
-#if defined SOURCING_DEVICE
-#define MAX_SVID_USER   0
+#ifdef SOURCING_DEVICE
+#define MAX_SVID_USER   1
 #else
 #define MAX_SVID_USER   1
 #endif
@@ -474,39 +474,31 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverIdentity(uint8_t PortNum, USBPD_Dis
 
   if ((DPM_Params[PortNum].PE_SpecRevision) > USBPD_SPECIFICATION_REV2)
   {
-    if (( USB_CAPABLE== DPM_VDM_Settings[PortNum].VDM_USBHostSupport) && (USB_CAPABLE==DPM_VDM_Settings[PortNum].VDM_USBDeviceSupport))
+    if (( USB_CAPABLE== DPM_VDM_Settings[PortNum].VDM_USBHostSupport) || (USB_CAPABLE==DPM_VDM_Settings[PortNum].VDM_USBDeviceSupport))
     {
       switch (DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)
 
   {
   case PRODUCT_TYPE_HUB:        /*!< PDUSB Hub (UFP)                        */
   case PRODUCT_TYPE_PERIPHERAL: /*!< PDUSB Host (UFP)                       */
+  case PRODUCT_TYPE_AMA:
     {
       /* 2 UFP VDO need to be filled if PD rev3 */
-      USBPD_UFPVdo1_TypeDef      ufp1_vdo =
+      USBPD_UFPVdo_TypeDef      ufp1_vdo =
       {
         .b.USB_HighestSpeed = USB2P0_ONLY,              /*!< USB Highest Speed Support           */
         .b.AlternateModes   = ALTERNATE_MODES_RECONFIG_TYPEC_2P0,     /*!< Alternate Modes based */
-        .b.ConnectorType    = CONNECTOR_TYPE_RESERVED,  /*!< Connector Type */
+        .b.ConnectorType    = CONNECTOR_TYPE_C_RECEPTACLE,  /*!< Connector Type */
 #if defined (_CLASS_BB)
         .b.DeviceCapability = DEVICE_CAPABILITY_USB2P0_BILLBOARD,/*!< Device Capability   */
 #elif defined (_CLASS_HID)
         .b.DeviceCapability = DEVICE_CAPABILITY_USB2P0, /*!< Device Capability   */
 #endif /* CLASS_BB */
-        .b.UFPVDOVersion    = USBPD_VDM_VDO_UFP_VERSION_REV1P1, /*!< Version Number of the VDO (should be set to Version1.1)   */
-      };
-      /* Fill the UFP2 VDO */
-      USBPD_UFPVdo2_TypeDef      ufp2_vdo =
-      {
-        .b.USB3_MaxPower = 0,   /*!< Power in watts required for full functionality excluding any power required for battery charging or for redistribution in [USB 3.2] operation.   */
-        .b.USB3_MinPower = 0,   /*!< Minimum power in watts required to function in [USB 3.2] operation.   */
-        .b.USB4_MaxPower = 0,   /*!< Power in watts required for full functionality excluding any power required for battery charging or for redistribution in [USB4] operation   */
-        .b.USB4_MinPower = 0,   /*!< Minimum power in watts required to function in [USB4] operation.   */
+        .b.UFPVDOVersion    = USBPD_VDM_VDO_UFP_VERSION_REV1P2, /*!< Version Number of the VDO (should be set to Version1.1)   */
       };
 
       sIdentity[PortNum].UFP_VDO_Presence     = 1;
-      sIdentity[PortNum].UFP_VDO1.d32          = ufp1_vdo.d32;
-      sIdentity[PortNum].UFP_VDO2.d32          = ufp2_vdo.d32;
+      sIdentity[PortNum].UFP_VDO.d32          = ufp1_vdo.d32;
       break;
     }
 #if defined(USBPDCORE_VPD)
@@ -540,7 +532,7 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverIdentity(uint8_t PortNum, USBPD_Dis
     }
   
   /************************************************************/
- if ((PRODUCT_TYPE_AMA != DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP) || ((PRODUCT_TYPE_AMA == DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)&& (USBPD_SPECIFICATION_REV3 == DPM_Params[PortNum].PE_SpecRevision)))
+ if (PRODUCT_TYPE_AMA != DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)
  { /* do not send other VDO when AMA VDO is sent */
   switch (DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP)
   {
@@ -567,6 +559,28 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverIdentity(uint8_t PortNum, USBPD_Dis
   }
   }
   }
+      switch (DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP)
+      {
+      case PRODUCT_TYPE_HUB:          /*!< PDUSB Hub (DFP)                        */
+      case PRODUCT_TYPE_HOST:         /*!< PDUSB Host  (DFP)                      */
+      case PRODUCT_TYPE_POWER_BRICK:  /*!< Power Brick (DFP)                      */
+        {
+          /* Fill the DFP VDO */
+          USBPD_DFPVdo_TypeDef      dfp_vdo =
+          {
+            .b.PortNumber        = 0x01,   /*!< Unique port number to identify a specific port on a multi-port device  */
+            .b.ConnectorType     = CONNECTOR_TYPE_C_RECEPTACLE,   /*!< Connector Type                                                         */
+            .b.HostCapability    = HOST_CAPABILITY_USB2P0,   /*!< Host Capability                                                        */
+            .b.DFPVDOVersion     = USBPD_VDM_VDO_DFP_VERSION_REV1P1,   /*!< Version Number of the VDO (should be set to Version1.1)                */
+          };
+          sIdentity[PortNum].DFP_VDO_Presence     = 1;
+          sIdentity[PortNum].DFP_VDO.d32          = dfp_vdo.d32;
+          break;
+        }
+      case PRODUCT_TYPE_NOT_DFP:    /*!< Undefined             */
+      default:
+        break;
+      }
   }
   *pIdentity = sIdentity[PortNum];
 

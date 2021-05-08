@@ -362,7 +362,7 @@
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32F0xx\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Inc</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F0xx_HAL_Driver\Inc\Legacy</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB002</state>
+          <!-- <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB002</state> -->
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\P-NUCLEO-USB002</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\Drivers\BSP\Components\STUSB1602</state>
@@ -758,7 +758,7 @@
         <option>
           <name>IlinkConfigDefines</name>
           <state>__ICFEDIT_size_cstack__=0x600</state>
-          <state>__ICFEDIT_size_heap__=0x400</state>
+          <state>__ICFEDIT_size_heap__=0x500</state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -957,7 +957,7 @@
         </option>
         <option>
           <name>IlinkOptMergeDuplSections</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkOptUseVfe</name>

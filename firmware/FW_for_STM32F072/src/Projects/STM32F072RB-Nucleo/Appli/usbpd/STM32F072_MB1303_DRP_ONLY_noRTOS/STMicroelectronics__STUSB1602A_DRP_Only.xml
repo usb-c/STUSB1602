@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VIF xmlns="http://usb.org/VendorInfoFile.xsd">
-  <VIF_Specification>3.11</VIF_Specification>
+  <VIF_Specification>3.12</VIF_Specification>
   <VIF_App>
     <Vendor>USB-IF</Vendor>
     <Name>Vendor Info File Editor</Name>
-    <Version>3.1.0.1</Version>
+    <Version>3.1.0.2</Version>
   </VIF_App>
-  <Vendor_Name>STMicroelectronics</Vendor_Name>
-  <Model_Part_Number>STUSB1602_DR</Model_Part_Number>
+  <Vendor_Name>STM</Vendor_Name>
+  <Model_Part_Number>STUSB1602_DRP</Model_Part_Number>
   <Product_Revision>A</Product_Revision>
   <TID>XXX</TID>
   <VIF_Product_Type value="0">Port Product</VIF_Product_Type>

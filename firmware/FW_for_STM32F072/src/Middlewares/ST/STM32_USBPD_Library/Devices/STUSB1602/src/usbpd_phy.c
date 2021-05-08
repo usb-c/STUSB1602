@@ -391,6 +391,7 @@ uint16_t USBPD_PHY_GetMinGOODCRCTimerValue(uint8_t PortNum)
 void USBPD_PHY_Reset(uint8_t PortNum)
 {
   /* reset PHY layer */
+  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
   PHY_TxBuffer_Reset(PortNum);
 }
 
@@ -660,6 +661,7 @@ USBPD_StatusTypeDef PHY_PortInit(uint8_t PortNum, const USBPD_PHY_Callbacks *pCa
   
   /* Associate the callbacks */
   PHY_Ports[PortNum].cbs = pCallback;
+  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
   PHY_TxBuffer_Reset(PortNum);
   PHY_Ports[PortNum].State = PHY_StateNone;
   PHY_Ports[PortNum].RxEnable = 0;
@@ -678,7 +680,7 @@ void PHY_TxBuffer_Reset(uint8_t PortNum)
   
   
   
-  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
+//  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
   memset( Ports[PortNum].pTxRxBuffPtr, TX_PREAMBLE, TX_PREAMBLE_SIZE);                          /* preamble is added */
   PHY_Ports[PortNum].pTxBuffer = Ports[PortNum].pTxRxBuffPtr + TX_PREAMBLE_SIZE;
   PHY_Ports[PortNum].TxDatabitLen = 0;
@@ -772,6 +774,11 @@ USBPD_StatusTypeDef PHY_PreparePacket(uint8_t PortNum, USBPD_SOPType_TypeDef Typ
   
   
   /* Clean the Tx buffer */
+#ifdef USBPDCORE_UNCHUNCKED_MODE
+    memset( Ports[PortNum].pTxRxBuffPtr, 0x00, 100);
+#else
+  memset( Ports[PortNum].pTxRxBuffPtr, 0x00, TXRX_BUFFER_SIZE);
+#endif
   PHY_TxBuffer_Reset(PortNum);
   
   /* Start Of Packet SOP */
@@ -1072,12 +1079,7 @@ USBPD_PHY_RX_Status_TypeDef PHY_Rx_Accumulate(uint8_t PortNum, uint32_t data) /*
           pRxbuf = PHY_Ports[PortNum].pRxBuffer + pRxData->DataCount++;         
         else 
         {
-          uint8_t index_byte = pRxData->DataCount++ - __RX_DATA_LEN;
-          if( index_byte >= 4 )
-          {
-            __NOP();
-            break;
-          }
+          uint8_t index_byte = (pRxData->DataCount++ - __RX_DATA_LEN) % 4 ; /*overflow buff protection : if bist data are longuer that CRC is scrapted  __RX_DATA_LEN*/
           pRxbuf = (uint8_t *)&pRxData->Rx_CRC + index_byte; 
         }
         *pRxbuf =  (uint8_t )(data4b_temp & 0x00FF);

@@ -1515,15 +1515,15 @@ STUSB1602_StatusTypeDef STUSB1602_VBUS_Discharge_Time_to_PDO_Set(uint8_t Addr, u
   * @brief STUSB1602 checks the VBUS_DISCHARGE_CTRL State (EN or DIS) (bit7 0x26 -- R/W)
   * @param Addr I2C address of port controller device
   * @retval VBUS_Discharge_State_TypeDef 
-  */   
-VBUS_Discharge_State_TypeDef STUSB1602_VBUS_Discharge_State_Get(uint8_t Addr)
-{    
-   STUSB1602_VBUS_DISCHARGE_CTRL_RegTypeDef reg;
-   
-   STUSB1602_ReadReg(&reg.d8, Addr, STUSB1602_VBUS_DISCHARGE_CTRL_REG, 1); 
-    
-   return (VBUS_Discharge_State_TypeDef)(reg.b.VBUS_DISCHARGE_EN);   
-}
+//  */   
+//VBUS_Discharge_State_TypeDef STUSB1602_VBUS_Discharge_State_Get(uint8_t Addr)
+//{    
+//   STUSB1602_VBUS_DISCHARGE_CTRL_RegTypeDef reg;
+//   
+//   STUSB1602_ReadReg(&reg.d8, Addr, STUSB1602_VBUS_DISCHARGE_CTRL_REG, 1); 
+//    
+//   return (VBUS_Discharge_State_TypeDef)(reg.b.VBUS_DISCHARGE_EN);   
+//}
 
 
 /**

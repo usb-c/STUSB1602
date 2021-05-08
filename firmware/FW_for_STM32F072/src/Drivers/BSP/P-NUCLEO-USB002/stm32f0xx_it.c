@@ -166,7 +166,7 @@ void EXTI2_3_IRQHandler(void)
   */
 void EXTI4_15_IRQHandler(void)
 {
-  HAL_GPIO_EXTI_IRQHandler(SPI_NSS_PIN(0));     
+  HAL_GPIO_EXTI_IRQHandler(SPI_NSS_PIN(0)); 
 #if defined(MB1303) 
 #if USBPD_PORT_COUNT == 2
   HAL_GPIO_EXTI_IRQHandler(SPI_NSS_PIN(1));

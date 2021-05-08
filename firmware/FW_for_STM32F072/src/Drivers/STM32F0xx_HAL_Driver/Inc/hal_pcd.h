@@ -26,7 +26,6 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-//#include "stm32f0xx_ll_usb.h"
 #include "stm32f0xx_ll_usb.h"
 
 #if defined (USB)
@@ -146,7 +145,6 @@ typedef struct
   */
 
 /* Include PCD HAL Extended module */
-//#include "stm32f0xx_hal_pcd_ex.h"
 #include "stm32f0xx_hal_pcd_ex.h"
 
 /* Exported constants --------------------------------------------------------*/

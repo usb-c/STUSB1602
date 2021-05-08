@@ -88,10 +88,10 @@ extern "C" {
                                          }                                                                     \
                                        } while(0u);
 
-#define LE16(addr) (((uint16_t)(*((uint8_t *)(addr))))\
+#define USBPD_LE16(addr) (((uint16_t)(*((uint8_t *)(addr))))\
                     + (((uint16_t)(*(((uint8_t *)(addr)) + 1u))) << 8u))
 
-#define LE32(addr) ((((uint32_t)(*(((uint8_t *)(addr)) + 0u))) + \
+#define USBPD_LE32(addr) ((((uint32_t)(*(((uint8_t *)(addr)) + 0u))) + \
                      (((uint32_t)(*(((uint8_t *)(addr)) + 1u))) << 8u) + \
                      (((uint32_t)(*(((uint8_t *)(addr)) + 2u))) << 16u) + \
                      (((uint32_t)(*(((uint8_t *)(addr)) + 3u))) << 24)))
@@ -953,6 +953,7 @@ typedef uint32_t USBPD_VDM_VDO_ActiveCable_Version_TypeDef;
   * @{
   */
 #define USBPD_VDM_VDO_UFP_VERSION_REV1P1           1u  /*!< Version Number of the UFP VDO Revision 1.1      */
+#define USBPD_VDM_VDO_UFP_VERSION_REV1P2           2u  /*!< Version Number of the UFP VDO Revision 1.2      */
 
 typedef uint32_t USBPD_VDM_VDO_UFP_Version_TypeDef;
 /**
@@ -1431,7 +1432,9 @@ typedef enum
   USBPD_NOTIFY_BIST_SHARED_TEST_MODE_ENTRY = 101u,
   USBPD_NOTIFY_BIST_SHARED_TEST_MODE_EXIT  = 102u,
   USBPD_NOTIFY_STATE_SRC_READY             = 103u,
-  USBPD_NOTIFY_ALL                     = USBPD_NOTIFY_STATE_SRC_READY + 1u,
+  USBPD_NOTIFY_USBSTACK_START              = 104u,
+  USBPD_NOTIFY_USBSTACK_STOP               = 105u,
+  USBPD_NOTIFY_ALL                     = USBPD_NOTIFY_USBSTACK_STOP + 1u,
 } USBPD_NotifyEventValue_TypeDef;
 /**
   * @}
@@ -1446,36 +1449,42 @@ typedef enum
   * @brief Product Type field in ID Header
   * @{
   */
-#define PRODUCT_TYPE_UNDEFINED          0u /*!< Undefined                              */
 
+/* ##### SOP #####*/
 /* Product Type (UFP/DFP): */
 #define PRODUCT_TYPE_HUB                1u /*!< PDUSB Hub (UFP or DFP)                        */
 
 /* Product Type (UFP): */
-#define PRODUCT_TYPE_PERIPHERAL         2u /*!< PDUSB Host (UFP)                       */
+#define PRODUCT_TYPE_NOT_UFP            0u /*!< Not a UFP                              */
+#define PRODUCT_TYPE_PERIPHERAL         2u /*!< PDUSB Peripheral (UFP)                       */
 #if defined(USBPD_REV30_SUPPORT)
 #define PRODUCT_TYPE_PSD                3u /*!< PSD, e.g. power bank (UFP)             */
 #endif /* USBPD_REV30_SUPPORT */
-#define PRODUCT_TYPE_AMA                5u /*!< Alternate Mode Adapter (AMA) (UFP)     */
-#if defined(USBPD_REV30_SUPPORT) && defined(USBPDCORE_VPD)
-#define PRODUCT_TYPE_VPD                6u /*!< VCONN-Powered USB Device (VPD) (UFP)   */
-#endif /* USBPD_REV30_SUPPORT && USBPDCORE_VPD */
-
-/* Product Type (Cable Plug): */
-#define PRODUCT_TYPE_PASSIVE_CABLE      3u /*!< Passive Cable (Cable Plug)             */
-#define PRODUCT_TYPE_ACTIVE_CABLE       4u /*!< Active Cable (Cable Plug)              */
 
 /* Product Type (DFP): */
+#define PRODUCT_TYPE_NOT_DFP            0u /*!< Not a DFP                              */
 #if defined(USBPD_REV30_SUPPORT)
 #define PRODUCT_TYPE_HOST               2u /*!< PDUSB Host  (DFP)                      */
 #define PRODUCT_TYPE_POWER_BRICK        3u /*!< Power Brick (DFP)                      */
 #endif /* USBPD_REV30_SUPPORT */
-#if defined(USBPD_REV30_SUPPORT)
-#define PRODUCT_TYPE_AMC                4u /*!<  Alternate Mode Controller (AMC) (DFP) */
-#endif /* USBPD_REV30_SUPPORT */
+
+/* ##### SOP’ (Cable Plug/VPD) #####*/
+/* Product Type (Cable Plug): */
+#define PRODUCT_TYPE_PASSIVE_CABLE      3u /*!< Passive Cable (Cable Plug)             */
+#define PRODUCT_TYPE_ACTIVE_CABLE       4u /*!< Active Cable (Cable Plug)              */
+#if defined(USBPD_REV30_SUPPORT) && defined(USBPDCORE_VPD)
+#define PRODUCT_TYPE_VPD                6u /*!< VCONN-Powered USB Device (VPD)   */
+#endif /* USBPD_REV30_SUPPORT && USBPDCORE_VPD */
 
 typedef uint32_t USBPD_ProductType_TypeDef;
 
+/* Keep for PD2.0 legacy reasons - should NOT be more used in PD3.0 */
+#define PRODUCT_TYPE_UNDEFINED          PRODUCT_TYPE_NOT_UFP /* or PRODUCT_TYPE_NOT_DFP if DFP Product type */
+/* Product Type (UFP): */
+#define PRODUCT_TYPE_AMA                5u /*!< NOT be more used - Alternate Mode Adapter (AMA) (UFP)     */
+#if defined(USBPD_REV30_SUPPORT)
+#define PRODUCT_TYPE_AMC                4u /*!< NOT be more used - Alternate Mode Controller (AMC) (DFP) */
+#endif /* USBPD_REV30_SUPPORT */
 /**
   * @}
   */
@@ -2566,10 +2575,11 @@ uint32_t XID :          /*!< USB-IF assigned XID */
   * @}
   */
 
-/** @defgroup USBPD_AMAVdo_TypeDef USB PD VDM Alternate Mode Adapter VDO
+/** @defgroup USBPD_AMAVdo_TypeDef USB PD VDM Alternate Mode Adapter VDO (NO MORE USED IN PD3.0)
   * @brief USB PD Alternate Mode Adapter VDO Structure definition
   * @{
   */
+/* #### Keep for PD2.0 legacy reasons but should NOT more used. #### */
 typedef union
 {
   uint32_t d32;
@@ -2602,13 +2612,14 @@ typedef union
   }
   b;
 } USBPD_AMAVdo_TypeDef;
+/* #### Keep for PD2.0 legacy reasons but should NOT more used. #### */
 /**
   * @}
   */
 
 #if defined(USBPD_REV30_SUPPORT)
-/** @defgroup USBPD_UFPVdo1_TypeDef USB PD VDM UFP1 VDO
-  * @brief USB PD UFP1 VDO Structure definition
+/** @defgroup USBPD_UFPVdo_TypeDef USB PD VDM UFP VDO
+  * @brief USB PD UFP VDO Structure definition
   * @{
   */
 typedef union
@@ -2625,29 +2636,10 @@ typedef union
     USBPD_VDM_VDO_UFP_Version_TypeDef UFPVDOVersion : 3u;   /*!< Version Number of the VDO (should be set to Version1.1)   */
   }
   b;
-} USBPD_UFPVdo1_TypeDef;
+} USBPD_UFPVdo_TypeDef;
 /**
   * @}
   */
-
-/** @defgroup USBPD_UFPVdo2_TypeDef USB PD VDM UFP2 VDO
-  * @brief USB PD UFP2 VDO Structure definition
-  * @{
-  */
-typedef union
-{
-  uint32_t d32;
-  struct
-  {
-    uint32_t USB3_MaxPower : 7u;   /*!< Power in watts required for full functionality excluding any power required for battery charging or for redistribution in [USB 3.2] operation.   */
-    uint32_t USB3_MinPower : 7u;   /*!< Minimum power in watts required to function in [USB 3.2] operation.   */
-    uint32_t               : 2u;   /*!< B15…14 Reserved bit                                  */
-    uint32_t USB4_MaxPower : 7u;   /*!< Power in watts required for full functionality excluding any power required for battery charging or for redistribution in [USB4] operation   */
-    uint32_t USB4_MinPower : 7u;   /*!< Minimum power in watts required to function in [USB4] operation.   */
-    uint32_t               : 2u;   /*!< B31…30 Reserved bit                                  */
-  }
-  b;
-} USBPD_UFPVdo2_TypeDef;
 
 /** @defgroup USBPD_DFPVdo_TypeDef USB PD VDM DFP VDO
   * @brief USB PD DFP VDO Structure definition
@@ -2722,8 +2714,7 @@ typedef struct
 #if defined(USBPDCORE_VCONN_SUPPORT)
   USBPD_ActiveCableVdo1_TypeDef ActiveCableVDO1;    /*!< Active Cable VDO 1                                   */
 #endif /* USBPDCORE_VCONN_SUPPORT */
-  USBPD_UFPVdo1_TypeDef     UFP_VDO1;               /*!< UFP VDO 1                                            */
-  USBPD_UFPVdo2_TypeDef     UFP_VDO2;               /*!< UFP VDO 2                                            */
+  USBPD_UFPVdo_TypeDef      UFP_VDO;                /*!< UFP VDO                                             */
   USBPD_DFPVdo_TypeDef      DFP_VDO;                /*!< DFP VDO                                              */
 #if defined(USBPDCORE_VPD)
   USBPD_VPDVdo_TypeDef      VPD_VDO;                /*!< VPD VDO                                              */
