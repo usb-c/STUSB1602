@@ -250,6 +250,7 @@
           <state>_ERROR_RECOVERY</state>
           <state>_VCONN_SUPPORT</state>
           <state>_ADC_MONITORING_na</state>
+          <state>_GPIO_FOR_SRC_na</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

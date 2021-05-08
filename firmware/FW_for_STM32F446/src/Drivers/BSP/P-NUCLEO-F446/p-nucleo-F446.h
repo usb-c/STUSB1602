@@ -220,7 +220,7 @@ void USBPD_HW_IF_GPIO_Toggle(USBPD_BSP_GPIOPins_TypeDef gpio);
 #define RXDMACHIRQ_PRIO(__PORT__)                  (RX_IRQ_PRIO )                              /*!< DMA: IRQ priority     */
 #define RXDMACHIRQ_SUB_PRIO(__PORT__)              (0)                              /*!< DMA: IRQ priority     */
 
-#define SPARE_BIT_SUB_CORRECTION                 0
+#define SPARE_BIT_SUB_CORRECTION                 2
 #define PHY_TXRX_BYTE_TIMEOUT                    50  /*!< Max time to recieve or send a byte Time Elapsed value [us]       */
 #define SWCALL_RX_STOP(PORT)  LL_EXTI_GenerateSWI_0_31( SPI_NSS_PIN(PORT)) /* Macro Generating SWIE */
 /**

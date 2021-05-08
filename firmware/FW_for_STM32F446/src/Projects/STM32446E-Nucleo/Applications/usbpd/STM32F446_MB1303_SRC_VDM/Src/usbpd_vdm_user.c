@@ -64,9 +64,11 @@ extern uint8_t hUSBDBOSDesc[USB_SIZ_BOS_DESC];
 #if defined(_VDM)
 #define SVDM_DP_STATUS SVDM_SPECIFIC_1
 #define SVDM_DP_CONFIG SVDM_SPECIFIC_2
-
+#if defined SOURCING_DEVICE
+#define MAX_SVID_USER   0
+#else
 #define MAX_SVID_USER   1
-
+#endif
 /*
  * DP Pin assignement
  */
@@ -416,8 +418,22 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverIdentity(uint8_t PortNum, USBPD_Dis
     IDHeaderVDO[PortNum].b30.ModalOperation       = DPM_VDM_Settings[PortNum].VDM_ModalOperation;
     IDHeaderVDO[PortNum].b30.USBHostCapability    = DPM_VDM_Settings[PortNum].VDM_USBHostSupport;
     IDHeaderVDO[PortNum].b30.USBDevCapability     = DPM_VDM_Settings[PortNum].VDM_USBDeviceSupport;
-    IDHeaderVDO[PortNum].b30.ProductTypeUFPorCP   = DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP;
-    IDHeaderVDO[PortNum].b30.ProductTypeDFP       = DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP;
+    if (PRODUCT_TYPE_AMA==DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)
+    {
+          IDHeaderVDO[PortNum].b30.ProductTypeUFPorCP   = PRODUCT_TYPE_PERIPHERAL;
+    }
+    else
+    {
+          IDHeaderVDO[PortNum].b30.ProductTypeUFPorCP   = DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP;
+    }
+    if (PRODUCT_TYPE_AMC==DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP)
+    {
+      IDHeaderVDO[PortNum].b30.ProductTypeDFP       = PRODUCT_TYPE_UNDEFINED;
+    }
+    else
+    {
+      IDHeaderVDO[PortNum].b30.ProductTypeDFP       = DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP;
+    }
   }
   else
   {
@@ -524,7 +540,7 @@ static USBPD_StatusTypeDef USBPD_VDM_DiscoverIdentity(uint8_t PortNum, USBPD_Dis
     }
   
   /************************************************************/
- if (PRODUCT_TYPE_AMA != DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)
+ if ((PRODUCT_TYPE_AMA != DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP) || ((PRODUCT_TYPE_AMA == DPM_VDM_Settings[PortNum].VDM_ProductTypeUFPorCP)&& (USBPD_SPECIFICATION_REV3 == DPM_Params[PortNum].PE_SpecRevision)))
  { /* do not send other VDO when AMA VDO is sent */
   switch (DPM_VDM_Settings[PortNum].VDM_ProductTypeDFP)
   {
@@ -623,7 +639,6 @@ static USBPD_StatusTypeDef USBPD_VDM_ModeEnter(uint8_t PortNum, uint16_t SVID, u
   USBPD_StatusTypeDef status = USBPD_NAK;
 #ifdef _CLASS_BB
   USBD_BosDescTypedef *pUSBBosDesc = (USBD_BosDescTypedef *)hUSBDBOSDesc;
-#endif /* CLASS_BB */ 
   if(VDM_Mode_On[PortNum] != 0) return status;
 
   if ((DISPLAY_PORT_SVID == SVID) && (ModeIndex == 1))
@@ -631,13 +646,13 @@ static USBPD_StatusTypeDef USBPD_VDM_ModeEnter(uint8_t PortNum, uint16_t SVID, u
     status = USBPD_ACK;
     VDM_Mode_On[PortNum] = 1;
 
-#ifdef _CLASS_BB
     /* Do not expose billboard anymore */
     pUSBBosDesc->wTotalLength = 0x19;
     pUSBBosDesc->bNumDeviceCaps = 0x1;
-#endif /* CLASS_BB */
   }
+ #endif /* CLASS_BB */
 
+#ifdef _CLASS_BB
 #if MODE_DP_NUMBER==2u
   if ((DISPLAY_PORT_SVID == SVID) && (ModeIndex == 2))
   {
@@ -645,7 +660,7 @@ static USBPD_StatusTypeDef USBPD_VDM_ModeEnter(uint8_t PortNum, uint16_t SVID, u
     VDM_Mode_On[PortNum] = 2;
   }
 #endif /* MODE_DP_NUMBER==2u */
-
+#endif
   return status;
 /* USER CODE END USBPD_VDM_ModeEnter */
 }
@@ -1048,7 +1063,7 @@ static void USBPD_VDM_InformMode(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType,
       DPM_Ports[PortNum].VDM_ModesPortPartner.SVID = pModesInfo->SVID;
 
       dp_mode.d32 = (DPM_Ports[PortNum].VDM_ModesPortPartner.Modes[0]);
-
+#if _CLASS_BB
       {
         /* Enter in the mode only if DFP_D and UFP_D are supported */
         if ((dp_mode.d.SignalDirection == MODE_DP_MODE_BOTH) || (MODE_DP_MODE_SNK == dp_mode.d.SignalDirection))
@@ -1057,15 +1072,18 @@ static void USBPD_VDM_InformMode(uint8_t PortNum, USBPD_SOPType_TypeDef SOPType,
           USBPD_PE_SVDM_RequestModeEnter(PortNum, SOPType, pModesInfo->SVID, 1);
         }
       }
+#endif
     }
     break;
   case SVDM_RESPONDER_NAK :
     {
+#if _CLASS_BB
       /* All the SVIDs have been received, request discovery mode on next SVID available
       in the list */
       Remote_SVID_Mode[PortNum]++;
       /* Request a discovery mode */
       USBPD_PE_SVDM_RequestMode(PortNum, USBPD_SOPTYPE_SOP, DPM_Ports[PortNum].VDM_SVIDPortPartner.SVIDs[Remote_SVID_Mode[PortNum]]);
+#endif
     }
     break;
   case SVDM_RESPONDER_BUSY :

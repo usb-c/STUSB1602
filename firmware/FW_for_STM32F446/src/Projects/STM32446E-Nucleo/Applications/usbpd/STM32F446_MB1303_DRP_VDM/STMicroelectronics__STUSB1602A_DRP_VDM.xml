@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VIF xmlns="http://usb.org/VendorInfoFile.xsd">
-  <VIF_Specification>2.03</VIF_Specification>
+  <VIF_Specification>3.11</VIF_Specification>
   <VIF_App>
     <Vendor>USB-IF</Vendor>
     <Name>Vendor Info File Editor</Name>
-    <Version>2.0.1.0</Version>
+    <Version>3.1.0.1</Version>
   </VIF_App>
   <Vendor_Name>STMicroelectronics</Vendor_Name>
   <Model_Part_Number>STUSB1602_DRP_VDM</Model_Part_Number>
   <Product_Revision>A</Product_Revision>
   <TID>XXX</TID>
   <VIF_Product_Type value="0">Port Product</VIF_Product_Type>
+  <Certification_Type value="0">End Product</Certification_Type>
+  <Product>
+    <Product_VID value="1155">0483</Product_VID>
+  </Product>
   <Component>
     <Port_Label>DRP</Port_Label>
-    <Connector_Type value="2">Type-C™</Connector_Type>
+    <Connector_Type value="2">Type-C®</Connector_Type>
+    <USB4_Supported value="false" />
     <USB_PD_Support value="true" />
     <PD_Port_Type value="4">DRP</PD_Port_Type>
     <Type_C_State_Machine value="2">DRP</Type_C_State_Machine>
     <Port_Battery_Powered value="false" />
     <BC_1_2_Support value="0">None</BC_1_2_Support>
-    <PD_Specification_Revision value="2">Revision 3.0</PD_Specification_Revision>
+    <PD_Spec_Revision_Major value="3" />
+    <PD_Spec_Revision_Minor value="0" />
+    <PD_Spec_Version_Major value="0" />
+    <PD_Spec_Version_Minor value="0" />
+    <PD_Specification_Revision value="2">Revision 3</PD_Specification_Revision>
     <SOP_Capable value="true" />
     <SOP_P_Capable value="true" />
     <SOP_PP_Capable value="false" />
@@ -28,20 +37,21 @@
     <Manufacturer_Info_Supported_Port value="true" />
     <Manufacturer_Info_VID_Port value="1155">0483</Manufacturer_Info_VID_Port>
     <Manufacturer_Info_PID_Port value="2">0002</Manufacturer_Info_PID_Port>
-    <USB_Comms_Capable value="true" />
-    <DR_Swap_To_DFP_Supported value="false" />
-    <DR_Swap_To_UFP_Supported value="true" />
     <Unconstrained_Power value="true" />
-    <VCONN_Swap_To_On_Supported value="true" />
-    <VCONN_Swap_To_Off_Supported value="true" />
-    <Responds_To_Discov_SOP_UFP value="true" />
-    <Responds_To_Discov_SOP_DFP value="true" />
-    <Attempts_Discov_SOP value="true" />
+    <ID_Header_Connector_Type_SOP value="2">USB Type-C® Receptacle</ID_Header_Connector_Type_SOP>
     <Chunking_Implemented_SOP value="true" />
     <Unchunked_Extended_Messages_Supported value="true" />
     <Security_Msgs_Supported_SOP value="false" />
     <Num_Fixed_Batteries value="0" />
     <Num_Swappable_Battery_Slots value="0" />
+    <USB_Comms_Capable value="true" />
+    <DR_Swap_To_DFP_Supported value="false" />
+    <DR_Swap_To_UFP_Supported value="true" />
+    <VCONN_Swap_To_On_Supported value="true" />
+    <VCONN_Swap_To_Off_Supported value="true" />
+    <Responds_To_Discov_SOP_UFP value="true" />
+    <Responds_To_Discov_SOP_DFP value="true" />
+    <Attempts_Discov_SOP value="true" />
     <Type_C_Can_Act_As_Host value="false" />
     <Type_C_Can_Act_As_Device value="true" />
     <Type_C_Implements_Try_SRC value="false" />
@@ -53,10 +63,11 @@
     <Captive_Cable value="false" />
     <RP_Value value="2">3A</RP_Value>
     <Type_C_Port_On_Hub value="false" />
-    <Type_C_Power_Source value="2">Externally Powered</Type_C_Power_Source>
+    <Type_C_Power_Source value="2">Both</Type_C_Power_Source>
     <Type_C_Sources_VCONN value="true" />
     <Type_C_Is_Alt_Mode_Controller value="false" />
     <Type_C_Is_Alt_Mode_Adapter value="true" />
+    <Device_Supports_USB_Data value="true" />
     <Device_Speed value="0">USB 2</Device_Speed>
     <Device_Contains_Captive_Retimer value="false" />
     <PD_Power_As_Source value="15000">15000 mW</PD_Power_As_Source>
@@ -118,6 +129,7 @@
         <SOPSVIDModeList>
           <SOPSVIDMode>
             <SVID_Mode_Enter_SOP value="true" />
+            <SVID_Mode_Recog_Value_SOP value="0">00000000</SVID_Mode_Recog_Value_SOP>
           </SOPSVIDMode>
         </SOPSVIDModeList>
       </SOPSVID>

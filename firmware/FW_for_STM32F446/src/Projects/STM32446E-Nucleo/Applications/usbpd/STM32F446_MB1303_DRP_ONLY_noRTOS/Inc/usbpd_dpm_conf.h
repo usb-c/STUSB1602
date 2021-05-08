@@ -171,13 +171,8 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
       .OperatingPowerInmWunits       = (USBPD_PDP_SNK_IN_WATTS *1000/ USBPD_BOARD_REQUESTED_VOLTAGE_MV)*1000,
       .MaxOperatingPowerInmWunits   = USBPD_PDP_SNK_IN_WATTS * 1000
     },
-#if    defined (SINKING_HOST)
-    .PE_DR_Swap_To_UFP = USBPD_FALSE,                  /* don't support data swap    */
-    .PE_DR_Swap_To_DFP = USBPD_TRUE,                  /* support data swap    */
-#else
     .PE_DR_Swap_To_UFP = USBPD_FALSE,                  /* support data swap    */
     .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* support data swap    */
-#endif
 #ifdef _VCONN_SUPPORT
     .PE_VconnSwap = USBPD_TRUE,                 /* support VCONN swap   */
 #else

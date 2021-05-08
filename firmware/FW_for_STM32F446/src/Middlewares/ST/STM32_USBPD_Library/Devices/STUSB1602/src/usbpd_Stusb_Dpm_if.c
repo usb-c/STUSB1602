@@ -747,6 +747,8 @@ void HW_IF_Port_SetInitialRole(uint8_t PortNum,USBPD_PortPowerRole_TypeDef role)
     
   }  
 #else 
+  STUSB1602_VBUS_Select_Status_Set(STUSB1602_I2C_Add(PortNum), 5100); 
+  STUSB1602_VBUS_Select_Status_Set(STUSB1602_I2C_Add(PortNum), 5000);
   STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
 #endif
   
@@ -755,6 +757,7 @@ void HW_IF_Port_SetInitialRole(uint8_t PortNum,USBPD_PortPowerRole_TypeDef role)
   {
     
     /*0x1F*/
+   // STUSB1602_Power_Mode_Set(STUSB1602_I2C_Add(PortNum), DRP_w_accessory_TrySRC_supp);//DRP_w_accessory_supp);  
     STUSB1602_Power_Mode_Set(STUSB1602_I2C_Add(PortNum), DRP_w_accessory_supp);  
     
   }
@@ -785,6 +788,7 @@ void HW_IF_Port_SetInitialRole(uint8_t PortNum,USBPD_PortPowerRole_TypeDef role)
     default:
       
       /*0x1F*/
+   //   STUSB1602_Power_Mode_Set(STUSB1602_I2C_Add(PortNum), DRP_w_accessory_TrySRC_supp);//DRP_w_accessory_supp);  
       STUSB1602_Power_Mode_Set(STUSB1602_I2C_Add(PortNum), DRP_w_accessory_supp);  
       
       break;
@@ -879,7 +883,7 @@ uint32_t CAD_StateMachine(uint8_t PortNum, USBPD_CAD_EVENT *Event, CCxPin_TypeDe
     break;
     
   case USBPD_CAD_STATE_EXIT_ERRORRECOVERY :
-    if( HAL_GetTick() - timeout_errorrecovery > 27)
+    if( HAL_GetTick() - timeout_errorrecovery > 275)
     {
       /* Exit the error recovery ie enable the resistor */
       USBPD_HW_IF_ExitErrorRecovery(PortNum);
@@ -932,13 +936,15 @@ uint32_t CAD_StateMachine(uint8_t PortNum, USBPD_CAD_EVENT *Event, CCxPin_TypeDe
             STUSB1602_Cc_Detection_Value = STUSB1602_CC_Detection_Status_Get(STUSB1602_I2C_Add(PortNum));
             if (STUSB1602_Cc_Detection_Value.b.CC_ATTACH_STATE)
             {
-              hhw_handle->NbDetach = 0;
+//              hhw_handle->NbDetach = 0;
               /* USBPD_CAD_STATE_ATTACHED */
               CAD_HW_Handles[PortNum].state = USBPD_CAD_STATE_SWITCH_TO_SNK;
               HW_IF_Port_Set_CC(PortNum,CAD_HW_Handles[PortNum].cc);
               /* enable VBUS monitioring to get detach event */
               HW_IF_STUSB1602_Interrupt_Monitoring(PortNum, ENABLE);
             }
+              hhw_handle->NbDetach = 3;
+            *Event = USBPD_CAD_EVENT_DETACHED;
           }
           else
           {
@@ -1340,11 +1346,14 @@ USBPD_StatusTypeDef STUSB16xx_HW_IF_Set_VBus_Monitoring(uint8_t PortNum, uint16_
   /* Sets the VBUS_SELECT DAC reference for VBUS sensing (bit7:0 0x21) */
   ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_Select_Status_Set(STUSB1602_I2C_Add(PortNum), VBus);
   
+  /* Sets the VBUS_VShift_High and VBUS_VShift_Low */
+   ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_VShift_Set(STUSB1602_I2C_Add(PortNum), Hset, Lset);
+
   /* Sets the VBUS_VShift_High (bit7:4 0x22) */
-  ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_VShift_High_Set(STUSB1602_I2C_Add(PortNum), Hset);
+ // ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_VShift_High_Set(STUSB1602_I2C_Add(PortNum), Hset);
   
   /* Sets the VBUS_VShift_Low (bit3:0 0x22) */
-  ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_VShift_Low_Set(STUSB1602_I2C_Add(PortNum), Lset);
+//  ret = (USBPD_StatusTypeDef)STUSB1602_VBUS_VShift_Low_Set(STUSB1602_I2C_Add(PortNum), Lset);
   
   return ret;
 }

@@ -66,6 +66,7 @@ typedef struct
 #define DPM_TIMER_READ_MSK        ((uint16_t)0x7FFFU)       /*!< Read Timer Mask                                                          */
 #define DPM_TIMER_DISABLE_MSK      ((uint16_t)0x0000U)      /*!< Disable Timer Mask */
 #define DPM_BOX_MESSAGES_MAX      30u
+#define DPM_TIMER_RETRY             100u /*!<100ms */
 #if _ADC_MONITORING
 #define DPM_TIMER_ADC               5u /*!< 5ms */
 #endif
@@ -210,7 +211,7 @@ USBPD_StatusTypeDef USBPD_DPM_UserInit(void)
   if(USBPD_OK != USBPD_PWR_IF_PowerResetGlobal()) return USBPD_ERROR;
   
   
-/*GENERATOR_USBPD_STUSB1602 specific */
+/*STUSB1602 specific */
   
   
   return USBPD_OK;
@@ -242,7 +243,7 @@ uint16_t i;
 uint32_t meas_vsrc;
 uint32_t meas_vbus;
 uint32_t step = 0;
-#endif /*GENERATOR_USBPD_STUSB1602 specific */
+#endif /*STUSB1602 specific */
 
 uint16_t current_meas[USBPD_PORT_COUNT][5];      
 
@@ -284,6 +285,69 @@ if (DPM_TIMER_ENABLE_MSK == DPM_Ports[USBPD_PORT_0].DPM_TimerExecute)
       }
     }
   }
+}
+
+USBPD_StatusTypeDef USBPD_Retry_DRSWAP(uint8_t PortNum)
+{
+  USBPD_StatusTypeDef status = USBPD_OK;
+    if ((0==DPM_Ports[PortNum].DR_swap_rejected ) && (DPM_Ports[PortNum].DPM_DR_retry <10))
+    {
+      status= USBPD_DPM_RequestDataRoleSwap(PortNum);
+ 
+        if ( USBPD_BUSY == status)
+        {
+          DPM_START_TIMER(PortNum, DPM_TimerRetry_DRswap, DPM_TIMER_RETRY);
+        }
+        else
+        { 
+          if (USBPD_OK == status)
+          {
+            DPM_Ports[PortNum].DPM_DR_retry ++;
+          }
+          else
+          {
+             DPM_Ports[PortNum].DPM_TimerRetry_DRswap    = 0;
+             DPM_Ports[PortNum].DPM_DR_retry = 0;
+          }
+        }     
+    }
+  else
+  {
+    DPM_Ports[PortNum].DPM_TimerRetry_DRswap    = 0;
+    status = USBPD_OK;
+  }
+  return status;
+}
+
+USBPD_StatusTypeDef USBPD_Retry_PRSWAP(uint8_t PortNum)
+{
+    USBPD_StatusTypeDef status = USBPD_OK;
+  if ((0==DPM_Ports[PortNum].DPM_FlagSendPRSwap ) && (DPM_Ports[PortNum].DPM_PR_retry <10))
+     {
+       status =  USBPD_DPM_RequestPowerRoleSwap(PortNum) ;
+        if ( USBPD_BUSY == status)
+        {
+          DPM_START_TIMER(PortNum, DPM_TimerRetry_PRswap, DPM_TIMER_RETRY);
+        }
+        else
+        {
+          if (USBPD_OK == status)
+          {
+            DPM_Ports[PortNum].DPM_PR_retry ++;
+          }
+          else
+          {
+             DPM_Ports[PortNum].DPM_TimerRetry_PRswap    = 0;
+             DPM_Ports[PortNum].DPM_PR_retry = 0;
+          }
+        }  
+  }
+  else
+  {
+    DPM_Ports[PortNum].DPM_TimerRetry_PRswap    = 0;
+    status = USBPD_OK;
+  }
+  return status;
 }
 
 /**
@@ -392,6 +456,14 @@ void USBPD_DPM_UserTimerCounter(uint8_t PortNum)
   /* USER CODE BEGIN USBPD_DPM_UserTimerCounter */
   
 #ifdef USBPD_REV30_SUPPORT
+  if((DPM_Ports[PortNum].DPM_TimerRetry_DRswap & DPM_TIMER_READ_MSK) > 0)
+  {
+    DPM_Ports[PortNum].DPM_TimerRetry_DRswap--;
+  }
+    if((DPM_Ports[PortNum].DPM_TimerRetry_PRswap & DPM_TIMER_READ_MSK) > 0)
+  {
+    DPM_Ports[PortNum].DPM_TimerRetry_PRswap--;
+  }
 #if _ADC_MONITORING
   if((DPM_Ports[PortNum].DPM_TimerADC & DPM_TIMER_READ_MSK) > 0)
   {
@@ -425,9 +497,11 @@ void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRol
 {
   /* USER CODE BEGIN USBPD_DPM_HardReset */
   USBPD_StatusTypeDef status;
+  DPM_Ports[PortNum].DPM_TimerRetry_DRswap    = 0;
+  DPM_Ports[PortNum].DPM_TimerRetry_PRswap    = 0;
   DPM_Ports[PortNum].DPM_TimerExecute    = 0;
 
-/*GENERATOR_USBPD_STUSB1602 specific */
+/*STUSB1602 specific */
   DPM_Ports[PortNum].DPM_RDOPositionPrevious   = 1;
   DPM_Ports[PortNum].DPM_RequestedVoltage = 5000;
   DPM_Ports[PortNum].DPM_MeasuredCurrent = 0;
@@ -454,7 +528,7 @@ void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRol
     APPLI_Set_Current_Limit(PortNum,DPM_Ports[PortNum].DPM_RequestedCurrent); 
     DPM_Ports[PortNum].DPM_VBUSCC = DPM_Ports[PortNum].DPM_RequestedVoltage;
     DPM_Ports[PortNum].DPM_origine = 5000;
-    
+    APPLI_SetVoltage(PortNum, 5000);
     switch(Status)
     {
     case USBPD_HR_STATUS_START_ACK:
@@ -462,6 +536,9 @@ void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRol
 #if defined(_TRACE)
       __DEBUG_CALLBACK(PortNum, "USBPD_PE_HardReset(USBPD_HR_STATUS_START_ACK)");
 #endif /* defined(_TRACE)*/
+      STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
+      STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
+ 
       if (USBPD_PORTPOWERROLE_SRC == CurrentRole)
       {
         /* Restore default Role in case of Power Swap failing due to no PS_READY from Sink (TC PC.E2)  */
@@ -473,6 +550,9 @@ void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRol
       break;
     case USBPD_HR_STATUS_START_REQ:
       DPM_Ports[PortNum].DPM_FlagHardResetOngoing = 1;
+      STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
+      STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
+
 #if defined(_TRACE)
       __DEBUG_CALLBACK(PortNum, "USBPD_PE_HardReset(USBPD_HR_STATUS_START_REQ)");
 #endif /* defined(_TRACE)*/      
@@ -529,14 +609,6 @@ void USBPD_DPM_HardReset(uint8_t PortNum, USBPD_PortPowerRole_TypeDef CurrentRol
 USBPD_StatusTypeDef USBPD_DPM_EvaluatePowerRoleSwap(uint8_t PortNum)
 {
   /* USER CODE BEGIN USBPD_DPM_EvaluatePowerRoleSwap */
-#if defined SINKING_HOST
-  /* only accepted if role is not already SINK*/
-  if (USBPD_PORTPOWERROLE_SRC == DPM_Params[PortNum].PE_PowerRole)
-  { 
-    return USBPD_REJECT;
-  }
-  else
-#endif
   return USBPD_ACCEPT;
   /* USER CODE END USBPD_DPM_EvaluatePowerRoleSwap */
 }
@@ -590,19 +662,8 @@ case USBPD_NOTIFY_PE_DISABLED:
     FlagExplicitContract = 2;
 #endif /* _OPTIM_CONSO */
 
-#if defined SINKING_HOST
-    if (USBPD_PORTPOWERROLE_SRC == DPM_Params[PortNum].PE_PowerRole)
-    {
-      /* ask for a power role swap */
-        USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_PR_SWAP, USBPD_SOPTYPE_SOP);
-    }
-    else
-    {
-      /* ask for data role swap */
-       USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_DR_SWAP, USBPD_SOPTYPE_SOP);
 
-    }
-#endif
+
     break;
     /*
     End Power Notification
@@ -625,6 +686,9 @@ case USBPD_NOTIFY_PE_DISABLED:
     DPM_Ports[PortNum].DPM_RDOPosition  = DPM_Ports[PortNum].DPM_RDOPositionPrevious;
     DPM_Ports[PortNum].DPM_RequestDOMsg = DPM_Ports[PortNum].DPM_RequestDOMsgPrevious;
     break;
+  case USBPD_NOTIFY_DATAROLESWAP_REJECTED:
+    DPM_Ports[PortNum].DR_swap_rejected =1;
+    break;
     
 
     /* end Laert notif*/
@@ -635,6 +699,11 @@ case USBPD_NOTIFY_PE_DISABLED:
     {
 #if defined(USBPD_REV30_SUPPORT)
 #endif /* USBPD_REV30_SUPPORT */
+    }
+    break;
+    
+  case USBPD_NOTIFY_STATE_SRC_READY:
+    {
     }
     break;
     
@@ -1175,6 +1244,10 @@ USBPD_StatusTypeDef USBPD_DPM_RequestGetSinkCapability(uint8_t PortNum)
 */
 USBPD_StatusTypeDef USBPD_DPM_RequestDataRoleSwap(uint8_t PortNum)
 {
+#ifdef _DEBUG_TRACE
+        USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0, (uint8_t *) "Req DR_swap", sizeof("Req DR_swap"));
+#endif
+      
   return USBPD_PE_Request_CtrlMessage(PortNum, USBPD_CONTROLMSG_DR_SWAP, USBPD_SOPTYPE_SOP);
 }
 

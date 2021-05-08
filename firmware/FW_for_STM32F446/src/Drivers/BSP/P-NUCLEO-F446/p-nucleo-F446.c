@@ -631,7 +631,12 @@ int16_t APPLI_GetIvbus(uint8_t PortNum)
 {
   /*  #warning "[NB] Ivbus measurement not used actually"*/
   int16_t signed_current;
+#if _ADC_MONITORING
   signed_current = (int16_t)(MAMP( ADCxConvertedValues[IBUS_INDEX(PortNum)]));
+#else
+  signed_current = 100;
+#endif
+
   if (signed_current < 0)
     return (- signed_current);
   else
@@ -679,6 +684,7 @@ HAL_StatusTypeDef APPLI_SetVoltage(uint8_t PortNum ,uint32_t vbus_vvar)
   /* VBUS_Monitoring functional adjust monitoring and set Vbus output target */
   if (5000 == vbus_vvar)
   {
+      (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar+100, 5, 10);
    ret = (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar, 5, 10);
 #if USBPD_USBDATA
 extern USBPD_ParamsTypeDef DPM_Params[USBPD_PORT_COUNT];
@@ -692,6 +698,8 @@ extern USBPD_ParamsTypeDef DPM_Params[USBPD_PORT_COUNT];
    }
    else
    {
+       (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar+100, 10, 10);
+  ret= (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar, 10, 10);
        STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
        STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
 #ifdef _DEBUG_TRACE
@@ -701,12 +709,14 @@ extern USBPD_ParamsTypeDef DPM_Params[USBPD_PORT_COUNT];
   }
   else /* VBUS above 5 V */
   {
+      (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar+100, 10, 10);
+  ret= (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar, 10, 10);
    STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
    STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
 #ifdef _DEBUG_TRACE
   USBPD_TRACE_Add(USBPD_TRACE_DEBUG, PortNum, 0, (uint8_t *) "VBUS_Range_enable2", sizeof("VBUS_Range_enable2"));
 #endif
-   ret = (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar, 10, 10);
+//   ret = (HAL_StatusTypeDef)STUSB16xx_HW_IF_Set_VBus_Monitoring(PortNum, vbus_vvar, 10, 10);
   }
 #else
   }

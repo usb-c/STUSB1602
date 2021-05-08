@@ -1519,7 +1519,7 @@ uint8_t STUSB1602_VBUS_VShift_High_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_High_Set(uint8_t Addr, uint8_t Set);
 int8_t STUSB1602_VBUS_VShift_Low_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_Low_Set(uint8_t Addr, int8_t Set);
-
+STUSB1602_StatusTypeDef STUSB1602_VBUS_VShift_Set(uint8_t Addr, uint8_t HSet, uint8_t LSet);
 /*0x23*/
 SW_RESET_TypeDef STUSB1602_SW_RESET_Get(uint8_t Addr);
 STUSB1602_StatusTypeDef STUSB1602_SW_RESET_Set(uint8_t Addr, SW_RESET_TypeDef Rst);

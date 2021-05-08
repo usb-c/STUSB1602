@@ -278,6 +278,8 @@ if ((_PDO_POWER_) > (_SNK_POWER_)) \
         
         if (USBPD_VSAFE_0V == Vsafe)
         {
+       STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
+       STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
           /* Vsafe0V */
           Vbus_board = APPLI_GetVBUS(PortNum);
           status = (Vbus_board < 800 ? USBPD_OK: USBPD_ERROR);

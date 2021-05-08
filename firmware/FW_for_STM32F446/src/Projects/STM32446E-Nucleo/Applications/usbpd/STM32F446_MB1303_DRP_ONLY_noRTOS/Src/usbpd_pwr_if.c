@@ -660,6 +660,8 @@ USBPD_StatusTypeDef USBPD_PWR_IF_SetProfile(uint8_t PortNum, uint8_t Profile, ui
         
         if (USBPD_VSAFE_0V == Vsafe)
         {
+       STUSB1602_VBUS_Range_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Range_Enable);
+       STUSB1602_VBUS_Presence_State_Set(STUSB1602_I2C_Add(PortNum), VBUS_Presence_Enable);
           /* Vsafe0V */
           Vbus_board = APPLI_GetVBUS(PortNum);
           status = (Vbus_board < 800 ? USBPD_OK: USBPD_ERROR);

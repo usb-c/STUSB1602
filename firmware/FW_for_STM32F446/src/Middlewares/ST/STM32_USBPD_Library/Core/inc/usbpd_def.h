@@ -68,7 +68,8 @@ extern "C" {
   * @param  __MINMV__ Min Requested voltage in mV units
   * @retval 1 if valid voltage else 0
   */
-#define USBPD_IS_VALID_VOLTAGE(__MV__, __MAXMV__, __MINMV__) ((((__MV__) <= (__MAXMV__)) && ((__MV__) >= (__MINMV__)))? 1u: 0u)
+#define USBPD_IS_VALID_VOLTAGE(__MV__, __MAXMV__, __MINMV__) ((((__MV__) <= (__MAXMV__))\
+                                                               && ((__MV__) >= (__MINMV__)))? 1u: 0u)
 
 #define DIV_ROUND_UP(x, y) (((x) + ((y) - 1u)) / (y))
 #define MV2ADC(__X__)           ( (__X__*4095) / 3300 )
@@ -88,12 +89,12 @@ extern "C" {
                                        } while(0u);
 
 #define LE16(addr) (((uint16_t)(*((uint8_t *)(addr))))\
-                                             + (((uint16_t)(*(((uint8_t *)(addr)) + 1u))) << 8u))
+                    + (((uint16_t)(*(((uint8_t *)(addr)) + 1u))) << 8u))
 
 #define LE32(addr) ((((uint32_t)(*(((uint8_t *)(addr)) + 0u))) + \
-                                              (((uint32_t)(*(((uint8_t *)(addr)) + 1u))) << 8u) + \
-                                              (((uint32_t)(*(((uint8_t *)(addr)) + 2u))) << 16u) + \
-                                              (((uint32_t)(*(((uint8_t *)(addr)) + 3u))) << 24)))
+                     (((uint32_t)(*(((uint8_t *)(addr)) + 1u))) << 8u) + \
+                     (((uint32_t)(*(((uint8_t *)(addr)) + 2u))) << 16u) + \
+                     (((uint32_t)(*(((uint8_t *)(addr)) + 3u))) << 24)))
 
 /**
   * @}
@@ -333,7 +334,7 @@ extern "C" {
 #define USBPD_MAX_NB_PDO                 (7U)              /*!< Maximum number of supported Power Data Objects: fix by the Specification */
 #define BIST_CARRIER_MODE_MS             (50U)             /*!< Time in ms of the BIST signal*/
 
-/* 
+/*
   @brief Maximum size of the RX buffer allocated in the stack to receive a PD frame
   @note TX buffer size is used internally in the stack (size if available in @ref USBPD_PHY_SendMessage)
    */
@@ -678,7 +679,8 @@ extern "C" {
 /** @defgroup USBPD_FWUPD_MSGTYPE USB-PD Firmware Update Message Request and Responses Defines
   * @{
   */
-typedef enum {    
+typedef enum
+{
   VPD_NONE                   = 0u,  /*!< status none, no VPD detection ongoing                      */
   VPD_UNKNOWN                = 1u,  /*!< status unknow                                              */
   VPD_NOPD                   = 2u,  /*!< status NOPD support                                        */
@@ -686,8 +688,8 @@ typedef enum {
   VPD_DETECTED               = 4u   /*!< status VPD detected                                        */
 } USBPD_VPD_Status;
 /**
- *@}
- */
+  *@}
+  */
 #endif /* defined(USBPDCORE_VPD) */
 
 #if defined(USBPDCORE_FWUPD)
@@ -830,8 +832,8 @@ typedef enum
   */
 typedef enum
 {
-  USBPD_VSAFE_0V          , /*!< USBPD VSAFE0V   */
-  USBPD_VSAFE_5V          , /*!< USBPD VSAFE5V   */
+  USBPD_VSAFE_0V,           /*!< USBPD VSAFE0V   */
+  USBPD_VSAFE_5V,           /*!< USBPD VSAFE5V   */
 }
 USBPD_VSAFE_StatusTypeDef;
 /**
@@ -988,16 +990,16 @@ typedef uint32_t USBPD_VDM_VDO_VPD_Version_TypeDef;
   */
 typedef enum
 {
-  USBPD_CAD_EVENT_NONE      = 0u  ,         /*!< USBPD CAD event None                                */
-  USBPD_CAD_EVENT_DETACHED  = 1u  ,         /*!< USBPD CAD event No cable detected                   */
-  USBPD_CAD_EVENT_ATTACHED  = 2u  ,         /*!< USBPD CAD event Port partner attached               */
-  USBPD_CAD_EVENT_EMC       = 3u  ,         /*!< USBPD CAD event Electronically Marked Cable detected*/
-  USBPD_CAD_EVENT_ATTEMC    = 4u  ,         /*!< USBPD CAD event Port Partner detected throug EMC    */
-  USBPD_CAD_EVENT_ACCESSORY = 5u  ,         /*!< USBPD CAD event Accessory detected                  */
-  USBPD_CAD_EVENT_DEBUG     = 6u  ,         /*!< USBPD CAD event Debug detected                      */
+  USBPD_CAD_EVENT_NONE      = 0u,           /*!< USBPD CAD event None                                */
+  USBPD_CAD_EVENT_DETACHED  = 1u,           /*!< USBPD CAD event No cable detected                   */
+  USBPD_CAD_EVENT_ATTACHED  = 2u,           /*!< USBPD CAD event Port partner attached               */
+  USBPD_CAD_EVENT_EMC       = 3u,           /*!< USBPD CAD event Electronically Marked Cable detected*/
+  USBPD_CAD_EVENT_ATTEMC    = 4u,           /*!< USBPD CAD event Port Partner detected throug EMC    */
+  USBPD_CAD_EVENT_ACCESSORY = 5u,           /*!< USBPD CAD event Accessory detected                  */
+  USBPD_CAD_EVENT_DEBUG     = 6u,           /*!< USBPD CAD event Debug detected                      */
   /*  USBPD_CAD_EVENT_LEGACY    = 7u  ,*/   /*!< USBPD CAD event legacy cables detected              */
   USPPD_CAD_EVENT_VPD       = 8u,           /*!< USBPD CAD event VPD                                 */
-  USPPD_CAD_EVENT_UNKNOW    = 9u            /*!< USBPD CAD event unknow                              */  
+  USPPD_CAD_EVENT_UNKNOW    = 9u            /*!< USBPD CAD event unknow                              */
 } USBPD_CAD_EVENT;
 /**
   * @}
@@ -1348,12 +1350,12 @@ typedef enum
   USBPD_NOTIFY_POWER_SWAP_TO_SNK_DONE  = 20u,
   USBPD_NOTIFY_POWER_SWAP_TO_SRC_DONE  = 21u,
   USBPD_NOTIFY_POWER_SWAP_REJ          = 22u,
-  USBPD_NOTIFY_POWER_SWAP_NOT_SUPPORTED= 23u,
+  USBPD_NOTIFY_POWER_SWAP_NOT_SUPPORTED = 23u,
   USBPD_NOTIFY_RESISTOR_ASSERT_RP      = 24u,
   USBPD_NOTIFY_RESISTOR_ASSERT_RD      = 25u,
   USBPD_NOTIFY_CABLERESET_REQUESTED    = 26u,
   USBPD_NOTIFY_PROTOCOL_ERROR          = 27u,
-  USBPD_NOTIFY_VCONN_SWAP_NOT_COMPLETED =28u,
+  USBPD_NOTIFY_VCONN_SWAP_NOT_COMPLETED = 28u,
   //USBPD_NOTIFY_SVDM_TIMEOUT            =29u,
   USBPD_NOTIFY_HARDRESET_RX            = 30u,
   USBPD_NOTIFY_HARDRESET_TX            = 31u,
@@ -1392,10 +1394,10 @@ typedef enum
   USBPD_NOTIFY_VCONN_SWAP_WAIT         = 64u,
   USBPD_NOTIFY_VCONN_SWAP_REJECTED     = 65u,
   USBPD_NOTIFY_VCONN_SWAP_COMPLETE     = 66u,
-  USBPD_NOTIFY_VCONN_SWAP_NOT_SUPPORTED= 67u,
+  USBPD_NOTIFY_VCONN_SWAP_NOT_SUPPORTED = 67u,
   USBPD_NOTIFY_CTRL_MSG_SENT           = 68u,
   USBPD_NOTIFY_DATA_MSG_SENT           = 69u,
-  USBPD_NOTIFY_GET_SRC_CAP_EXT_RECEIVED= 70u,
+  USBPD_NOTIFY_GET_SRC_CAP_EXT_RECEIVED = 70u,
   USBPD_NOTIFY_SRC_CAP_EXT_RECEIVED    = 71u,
   USBPD_NOTIFY_SRC_CAP_EXT_SENT        = 72u,
   USBPD_NOTIFY_GET_PPS_STATUS_RECEIVED = 73u,
@@ -1407,7 +1409,7 @@ typedef enum
   USBPD_NOTIFY_STATUS_SENT             = 79u,
   USBPD_NOTIFY_ALERT_RECEIVED          = 80u,
   USBPD_NOTIFY_VDM_IDENTIFY_RECEIVED   = 81u,
-  USBPD_NOTIFY_VDM_CABLE_IDENT_RECEIVED= 82u,
+  USBPD_NOTIFY_VDM_CABLE_IDENT_RECEIVED = 82u,
   USBPD_NOTIFY_VDM_SVID_RECEIVED       = 83u,
   USBPD_NOTIFY_VDM_MODE_RECEIVED       = 84u,
   USBPD_NOTIFY_REQUEST_EXIT_MODE       = 85u,
@@ -1421,14 +1423,15 @@ typedef enum
   USBPD_NOTIFY_ALERT_SENT              = 93u,
   USBPD_NOTIFY_CABLERESET_TX           = 94u,
   USBPD_NOTIFY_PE_DISABLED             = 95u,
-  USBPD_NOTIFY_GET_SNK_CAP_EXT_RECEIVED= 96u,
+  USBPD_NOTIFY_GET_SNK_CAP_EXT_RECEIVED = 96u,
   USBPD_NOTIFY_SNK_CAP_EXT_SENT        = 97u,
   USBPD_NOTIFY_SNK_CAP_EXT_RECEIVED    = 98u,
   USBPD_NOTIFY_DETACH                  = 99u,
-  USBPD_NOTIFY_CABLERESET_RX           =100u,
-  USBPD_NOTIFY_BIST_SHARED_TEST_MODE_ENTRY =101u,
-  USBPD_NOTIFY_BIST_SHARED_TEST_MODE_EXIT  =102u,
-  USBPD_NOTIFY_ALL                     = USBPD_NOTIFY_BIST_SHARED_TEST_MODE_EXIT + 1u,
+  USBPD_NOTIFY_CABLERESET_RX           = 100u,
+  USBPD_NOTIFY_BIST_SHARED_TEST_MODE_ENTRY = 101u,
+  USBPD_NOTIFY_BIST_SHARED_TEST_MODE_EXIT  = 102u,
+  USBPD_NOTIFY_STATE_SRC_READY             = 103u,
+  USBPD_NOTIFY_ALL                     = USBPD_NOTIFY_STATE_SRC_READY + 1u,
 } USBPD_NotifyEventValue_TypeDef;
 /**
   * @}
@@ -1547,7 +1550,7 @@ typedef enum
   CABLE_LATENCY_70NS      = 7u,  /*!< 60ns to 70ns (~7m) */
   CABLE_LATENCY_1000NS    = 8u   /*!< > 70ns (>~7m) for P2.0 or 1000ns  (~100m) for P3.0    */
 #if defined(USBPD_REV30_SUPPORT)
- ,CABLE_LATENCY_2000NS    = 9u,  /*!< 2000ns (~200m)     */
+  , CABLE_LATENCY_2000NS    = 9u, /*!< 2000ns (~200m)     */
   CABLE_LATENCY_3000NS    = 10u  /*!< 3000ns (~300m)     */
 #endif /* USBPD_REV30_SUPPORT */
 } USBPD_CableLatency;
@@ -1919,23 +1922,23 @@ typedef enum
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo) */
   USBPD_CORE_PPS_STATUS                = 0x0Au,      /*!< PPS Status message content
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo) */
-  USBPD_CORE_ALERT                           ,       /*!< Storing of received Alert message content
+  USBPD_CORE_ALERT,       /*!< Storing of received Alert message content
                                                           (used only in USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_GET_MANUFACTURER_INFO           ,       /*!< Storing of received Get Manufacturer info message content
+  USBPD_CORE_GET_MANUFACTURER_INFO,       /*!< Storing of received Get Manufacturer info message content
                                                           (used only in USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_MANUFACTURER_INFO               ,       /*!< Retrieve of Manufacturer info message content
+  USBPD_CORE_MANUFACTURER_INFO,       /*!< Retrieve of Manufacturer info message content
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_GET_BATTERY_STATUS              ,       /*!< Storing of received Get Battery status message content
+  USBPD_CORE_GET_BATTERY_STATUS,       /*!< Storing of received Get Battery status message content
                                                           (used only in USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_BATTERY_STATUS                  ,       /*!< Retrieve of Battery status message content
+  USBPD_CORE_BATTERY_STATUS,       /*!< Retrieve of Battery status message content
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_GET_BATTERY_CAPABILITY          ,       /*!< Storing of received Get Battery capability message content
+  USBPD_CORE_GET_BATTERY_CAPABILITY,       /*!< Storing of received Get Battery capability message content
                                                           (used only in USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_BATTERY_CAPABILITY              ,       /*!< Retrieve of Battery capability message content
+  USBPD_CORE_BATTERY_CAPABILITY,       /*!< Retrieve of Battery capability message content
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo)                          */
-  USBPD_CORE_UNSTRUCTURED_VDM                ,       /*!< Not used - keep for legacy reason                                 */
+  USBPD_CORE_UNSTRUCTURED_VDM,                       /*!< Not used - keep for legacy reason                                 */
 #if defined(USBPDCORE_SNK_CAPA_EXT)
-  USBPD_CORE_SNK_EXTENDED_CAPA               ,       /*!< Storing and retrieve of Sink Extended capability message content
+  USBPD_CORE_SNK_EXTENDED_CAPA,       /*!< Storing and retrieve of Sink Extended capability message content
                                                           (used in USBPD_PE_GetDataInfo and USBPD_PE_SetDataInfo) */
 #endif /* USBPDCORE_SNK_CAPA_EXT */
 } USBPD_CORE_DataInfoType_TypeDef;
@@ -2003,14 +2006,14 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t MaxCurrentIn10mAunits :
-      10u;
-  uint32_t MinVoltageIn50mVunits :
-      10u;
-  uint32_t MaxVoltageIn50mVunits :
-      10u;
-  uint32_t VariableSupply :
-      2u;
+uint32_t MaxCurrentIn10mAunits :
+  10u;
+uint32_t MinVoltageIn50mVunits :
+  10u;
+uint32_t MaxVoltageIn50mVunits :
+  10u;
+uint32_t VariableSupply :
+  2u;
 } USBPD_SRCVariableSupplyPDO_TypeDef;
 
 /**
@@ -2019,14 +2022,14 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t MaxAllowablePowerIn250mWunits :
-      10u;
-  uint32_t MinVoltageIn50mVunits :
-      10u;
-  uint32_t MaxVoltageIn50mVunits :
-      10u;
-  uint32_t Battery :
-      2u;
+uint32_t MaxAllowablePowerIn250mWunits :
+  10u;
+uint32_t MinVoltageIn50mVunits :
+  10u;
+uint32_t MaxVoltageIn50mVunits :
+  10u;
+uint32_t Battery :
+  2u;
 } USBPD_SRCBatterySupplyPDO_TypeDef;
 
 /**
@@ -2035,31 +2038,31 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t OperationalCurrentIn10mAunits :
-      10u;
-  uint32_t VoltageIn50mVunits :
-      10u;
+uint32_t OperationalCurrentIn10mAunits :
+  10u;
+uint32_t VoltageIn50mVunits :
+  10u;
 #if defined(USBPD_REV30_SUPPORT)
-  uint32_t FastRoleSwapRequiredCurrent :
-      2u;
-  uint32_t Reserved20_22 :
-      3u;
+uint32_t FastRoleSwapRequiredCurrent :
+  2u;
+uint32_t Reserved20_22 :
+  3u;
 #else
-  uint32_t Reserved20_24 :
-      5u;
+uint32_t Reserved20_24 :
+  5u;
 #endif /* USBPD_REV30_SUPPORT */
-  uint32_t DataRoleSwap :
-      1u;
-  uint32_t USBCommunicationsCapable :
-      1;
-  uint32_t ExternallyPowered :
-      1u;
-  uint32_t HigherCapability :
-      1u;
-  uint32_t DualRolePower :
-      1u;
-  uint32_t FixedSupply :
-      2u;
+uint32_t DataRoleSwap :
+  1u;
+uint32_t USBCommunicationsCapable :
+  1;
+uint32_t ExternallyPowered :
+  1u;
+uint32_t HigherCapability :
+  1u;
+uint32_t DualRolePower :
+  1u;
+uint32_t FixedSupply :
+  2u;
 } USBPD_SNKFixedSupplyPDO_TypeDef;
 
 /**
@@ -2068,14 +2071,14 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t OperationalCurrentIn10mAunits :
-      10u;
-  uint32_t MinVoltageIn50mVunits :
-      10u;
-  uint32_t MaxVoltageIn50mVunits :
-      10u;
-  uint32_t VariableSupply :
-      2u;
+uint32_t OperationalCurrentIn10mAunits :
+  10u;
+uint32_t MinVoltageIn50mVunits :
+  10u;
+uint32_t MaxVoltageIn50mVunits :
+  10u;
+uint32_t VariableSupply :
+  2u;
 } USBPD_SNKVariableSupplyPDO_TypeDef;
 
 /**
@@ -2084,14 +2087,14 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t OperationalPowerIn250mWunits :
-      10u;
-  uint32_t MinVoltageIn50mVunits :
-      10u;
-  uint32_t MaxVoltageIn50mVunits :
-      10u;
-  uint32_t Battery :
-      2u;
+uint32_t OperationalPowerIn250mWunits :
+  10u;
+uint32_t MinVoltageIn50mVunits :
+  10u;
+uint32_t MaxVoltageIn50mVunits :
+  10u;
+uint32_t Battery :
+  2u;
 } USBPD_SNKBatterySupplyPDO_TypeDef;
 
 /**
@@ -2142,31 +2145,31 @@ typedef union
   */
 typedef struct
 {
-  uint32_t MaxOperatingCurrent10mAunits : /*!< Corresponding to min if GiveBackFlag = 1 */
-      10u;
-  uint32_t OperatingCurrentIn10mAunits :
-      10u;
+uint32_t MaxOperatingCurrent10mAunits : /*!< Corresponding to min if GiveBackFlag = 1 */
+  10u;
+uint32_t OperatingCurrentIn10mAunits :
+  10u;
 #if defined(USBPD_REV30_SUPPORT)
-  uint32_t Reserved20_22 :
-      3u;
-  uint32_t UnchunkedExtendedMessage :
-      1u;
+uint32_t Reserved20_22 :
+  3u;
+uint32_t UnchunkedExtendedMessage :
+  1u;
 #else
-  uint32_t Reserved20_23 :
-      4u;
+uint32_t Reserved20_23 :
+  4u;
 #endif /* USBPD_REV30_SUPPORT */
-  uint32_t NoUSBSuspend :
-      1u;
-  uint32_t USBCommunicationsCapable :
-      1u;
-  uint32_t CapabilityMismatch :
-      1u;
-  uint32_t GiveBackFlag :
-      1u;
-  uint32_t ObjectPosition :
-      3u;
-  uint32_t Reserved31 :
-      1u;
+uint32_t NoUSBSuspend :
+  1u;
+uint32_t USBCommunicationsCapable :
+  1u;
+uint32_t CapabilityMismatch :
+  1u;
+uint32_t GiveBackFlag :
+  1u;
+uint32_t ObjectPosition :
+  3u;
+uint32_t Reserved31 :
+  1u;
 } USBPD_SNKFixedVariableRDO_TypeDef;
 
 /**
@@ -2175,31 +2178,31 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t MaxOperatingPowerIn250mWunits :
-      10u;
-  uint32_t OperatingPowerIn250mWunits :
-      10u;
+uint32_t MaxOperatingPowerIn250mWunits :
+  10u;
+uint32_t OperatingPowerIn250mWunits :
+  10u;
 #if defined(USBPD_REV30_SUPPORT)
-  uint32_t Reserved20_22 :
-      3u;
-  uint32_t UnchunkedExtendedMessage :
-      1u;                                      /*!< Unchunked Extended Messages Supported                    */
+uint32_t Reserved20_22 :
+  3u;
+uint32_t UnchunkedExtendedMessage :
+  1u;                                      /*!< Unchunked Extended Messages Supported                    */
 #else
-  uint32_t Reserved20_23 :
-      4u;
+uint32_t Reserved20_23 :
+  4u;
 #endif /* USBPD_REV30_SUPPORT */
-  uint32_t NoUSBSuspend :
-      1u;
-  uint32_t USBCommunicationsCapable :
-      1u;
-  uint32_t CapabilityMismatch :
-      1u;
-  uint32_t GiveBackFlag :
-      1u;
-  uint32_t ObjectPosition :
-      3u;
-  uint32_t Reserved31 :
-      1u;
+uint32_t NoUSBSuspend :
+  1u;
+uint32_t USBCommunicationsCapable :
+  1u;
+uint32_t CapabilityMismatch :
+  1u;
+uint32_t GiveBackFlag :
+  1u;
+uint32_t ObjectPosition :
+  3u;
+uint32_t Reserved31 :
+  1u;
 } USBPD_SNKBatteryRDO_TypeDef;
 
 #if defined(USBPD_REV30_SUPPORT)
@@ -2287,12 +2290,12 @@ typedef union
   uint32_t d32;
   struct
   {
-    uint32_t BistErrorCounter :
-      16u;
-    uint32_t Reserved16_27 :
-      12u;
-    uint32_t BistMode :
-      4u;
+uint32_t BistErrorCounter :
+    16u;
+uint32_t Reserved16_27 :
+    12u;
+uint32_t BistMode :
+    4u;
   }
   b;
 } USBPD_BISTDataObject_TypeDef;
@@ -2324,9 +2327,9 @@ typedef union
   uint32_t d32;
   struct
   {
-    uint32_t bcdDevice :      /*!< Device version             */
+uint32_t bcdDevice :      /*!< Device version             */
     16u;
-    uint32_t USBProductId :   /*!< USB Product ID             */
+uint32_t USBProductId :   /*!< USB Product ID             */
     16u;
   }
   b;
@@ -2437,21 +2440,21 @@ typedef union
   uint32_t d32;
   struct
   {
-    USBPD_VDM_Command_Typedef Command :         /*!< SVDM Header's Command          */
+USBPD_VDM_Command_Typedef Command :         /*!< SVDM Header's Command          */
     5u;
-    uint32_t Reserved5 :                        /*!< Reserved                       */
+uint32_t Reserved5 :                        /*!< Reserved                       */
     1u;
-    USBPD_VDM_CommandType_Typedef CommandType : /*!< SVDM Header's Command Type     */
+USBPD_VDM_CommandType_Typedef CommandType : /*!< SVDM Header's Command Type     */
     2u;
-    uint32_t ObjectPosition :                   /*!< SVDM Header's Object Position  */
+uint32_t ObjectPosition :                   /*!< SVDM Header's Object Position  */
     3u;
-    uint32_t Reserved11 :                       /*!< Reserved                       */
+uint32_t Reserved11 :                       /*!< Reserved                       */
     2u;
-    uint32_t SVDMVersion :                      /*!< SVDM Header's SVDM Version     */
+uint32_t SVDMVersion :                      /*!< SVDM Header's SVDM Version     */
     2u;
-    USBPD_VDM_VDMType_Typedef VDMType :         /*!< SVDM Header's VDM Type         */
+USBPD_VDM_VDMType_Typedef VDMType :         /*!< SVDM Header's VDM Type         */
     1u;
-    uint32_t SVID :                             /*!< SVDM Header's SVID             */
+uint32_t SVID :                             /*!< SVDM Header's SVID             */
     16u;
   }
   b;
@@ -2553,7 +2556,7 @@ typedef union
   uint32_t d32;
   struct
   {
-    uint32_t XID :          /*!< USB-IF assigned XID */
+uint32_t XID :          /*!< USB-IF assigned XID */
     32;
   }
   b;

@@ -787,7 +787,8 @@
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state></state>
+          <state>__ICFEDIT_size_cstack__=0x1000</state>
+          <state>__ICFEDIT_size_heap__=0xCA0</state>
         </option>
         <option>
           <name>IlinkMapFile</name>

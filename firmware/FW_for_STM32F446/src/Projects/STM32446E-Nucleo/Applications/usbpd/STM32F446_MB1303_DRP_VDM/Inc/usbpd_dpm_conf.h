@@ -218,12 +218,9 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
       .OperatingPowerInmWunits       = (USBPD_PDP_SNK_IN_WATTS *1000/ USBPD_BOARD_REQUESTED_VOLTAGE_MV)*1000,
       .MaxOperatingPowerInmWunits   = USBPD_PDP_SNK_IN_WATTS * 1000
     },
-#if  !defined (SINKING_HOST) && defined(USBPD_USBDATA)
-    .PE_DR_Swap_To_UFP = USBPD_TRUE,                  /* support data swap    */
-    .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* dont't support data swap    */
-#elif  defined (SINKING_HOST)
-    .PE_DR_Swap_To_UFP = USBPD_FALSE,                  /* don't support data swap    */
-    .PE_DR_Swap_To_DFP = USBPD_TRUE,                  /* support data swap    */
+#if  defined(USBPD_USBDATA)
+    .PE_DR_Swap_To_UFP = USBPD_TRUE,                  /* support data swap  to peripheal  */
+    .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* dont't support data swap to host   */
 #elif  !defined(USBPD_USBDATA)
     .PE_DR_Swap_To_UFP = USBPD_FALSE,                  /* support data swap    */
     .PE_DR_Swap_To_DFP = USBPD_FALSE,                  /* support data swap    */
@@ -239,7 +236,7 @@ USBPD_USER_SettingsTypeDef DPM_USER_Settings[USBPD_PORT_COUNT] =
         .VID = USBPD_VID,      /*!< Vendor ID (assigned by the USB-IF)                   */
         .PID = USBPD_PID,      /*!< Product ID (assigned by the manufacturer)            */
         .XID = USBPD_XID,      /*!< Value provided by the USB-IF assigned to the product */
-        .FW_revision = 1,      /*!< Firmware version number                              */
+        .FW_revision = 2,      /*!< Firmware version number                              */
         .HW_revision = 2,      /*!< Hardware version number                              */
         .Voltage_regulation= 0,/*!< Voltage Regulation                                   */
         .Holdup_time = 0,      /*!< Holdup Time                                          */

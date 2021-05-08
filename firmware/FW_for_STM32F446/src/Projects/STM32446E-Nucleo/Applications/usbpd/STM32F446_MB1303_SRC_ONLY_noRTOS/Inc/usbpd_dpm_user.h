@@ -41,6 +41,7 @@ typedef struct
   uint32_t OCP_Limit;                                           /*!< SRC OCP limit                                         */   
   uint16_t CurrentMeas;
 #endif /* USBPD_REV30_SUPPORT */
+  uint8_t DR_swap_rejected;
   uint32_t PE_DR_Swap_To_UFP                             : 1;  /*!< support data swap                                     */
   uint32_t PE_DR_Swap_To_DFP                             : 1;  /*!< support data swap                                     */
   uint32_t PE_VconnSwap                                   : 1;  /*!< support VCONN swap                                    */
@@ -96,6 +97,7 @@ typedef struct
   uint32_t                      DPM_VBUSCC;                               /*!<Vbus target because of CC */
   uint32_t                      DPM_origine;                             /*!<Vbus origine for transition calculation >*/
   uint32_t                      OCP_Limit;                                /*!<Vbus Overcurrent protection limit  >*/
+  uint8_t                       DR_swap_rejected;                         /*!<device reject PR_swap>*/
 #if defined(USBPD_REV30_SUPPORT)
   int16_t                       DPM_MeasuredCurrent;                     /*!< Value of measured current                                            */
 #endif /* USBPD_REV30_SUPPORT */
@@ -115,6 +117,10 @@ typedef struct
   USBPD_GBSDB_TypeDef           DPM_GetBatteryStatus;                    /*!< Get Battery status                                                   */
   USBPD_GBCDB_TypeDef           DPM_GetBatteryCapability;                /*!< Get Battery Capability                                               */
   USBPD_BSDO_TypeDef            DPM_BatteryStatus;                       /*!< Battery status                                                       */
+    volatile uint16_t           DPM_TimerRetry_DRswap;
+    volatile uint16_t           DPM_TimerRetry_PRswap;
+    volatile uint8_t            DPM_DR_retry;
+    volatile uint8_t            DPM_PR_retry;
 #if _ADC_MONITORING
   volatile uint16_t             DPM_TimerADC;                           /*!< Timer to ask regular check vs ADC measurement*/
 #endif
@@ -168,6 +174,8 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
     .DPM_GetBatteryStatus = {0},                    /*!< Get Battery status                                                   */
     .DPM_GetBatteryCapability = {0},                /*!< Get Battery Capability                                               */
     .DPM_BatteryStatus = {0},                       /*!< Battery status                                                       */
+    .DPM_TimerRetry_DRswap =0,
+    .DPM_TimerRetry_PRswap =0,
 #if _ADC_MONITORING
     .DPM_TimerADC = 0,
 #endif
@@ -178,6 +186,8 @@ USBPD_HandleTypeDef DPM_Ports[USBPD_PORT_COUNT] =
   {
     .DPM_Reserved = 0,
 #if defined(USBPD_REV30_SUPPORT)
+    .DPM_TimerRetry_PRswap =0,
+    .DPM_TimerRetry_DRswap =0,
 #if _ADC_MONITORING
     .DPM_TimerADC = 0,
 #endif
@@ -282,6 +292,8 @@ USBPD_StatusTypeDef USBPD_DPM_RequestGetBatteryStatus(uint8_t PortNum, uint8_t *
 USBPD_StatusTypeDef USBPD_DPM_RequestSecurityRequest(uint8_t PortNum);
 USBPD_StatusTypeDef USBPD_DPM_RequestFirwmwareUpdate(uint8_t PortNum, USBPD_ExtendedMsg_TypeDef MessageType, uint8_t *pPayload, uint16_t Size);
 #endif /*USBPD_REV30_SUPPORT*/
+USBPD_StatusTypeDef USBPD_Retry_DRSWAP(uint8_t PortNum);
+USBPD_StatusTypeDef USBPD_Retry_PRSWAP(uint8_t PortNum);
 /**
   * @}
   */

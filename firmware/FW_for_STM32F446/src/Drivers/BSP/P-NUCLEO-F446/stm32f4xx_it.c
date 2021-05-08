@@ -27,8 +27,8 @@
 #endif
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#if defined(_TRACE)
 #include "usbpd_core.h"
+#if defined(_TRACE)
 #include "tracer_emb.h"
 #endif /* _TRACE */
 #if defined(_GUI_INTERFACE)
@@ -304,11 +304,11 @@ void EXTI15_10_IRQHandler(void)
 }
 #if defined(_TRACE)
 void USART1_IRQHandler(void )
-#endif
+//#endif
 { 
     TRACER_EMB_IRQHandlerUSART();
 }
-//#endif
+#endif
 #if defined(USBPD_USBDATA)
 /**
   * @brief  This function handles USB Handler.
