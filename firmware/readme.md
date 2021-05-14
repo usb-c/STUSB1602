@@ -1,3 +1,5 @@
+## Open-source USB PD stack for STM32
+
 * Notes : <br />
 The USB-C PD stack is supported on the following microcontrollers:
   - STM32F072 (ARM Cortex-M0 core)
