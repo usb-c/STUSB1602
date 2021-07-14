@@ -9,11 +9,11 @@ Certified by USB-IF consortium for USB Type-C and USB Power Delivery application
 
 Info:
 ----------------
-* __Device:__       STUSB1602A : USB-C Power Delivery with PPS <br />
+* __Device:__       STUSB1602A : USB-C Power Delivery with PPS (Programmable Power Supply) <br />
 * __Manufacturer:__ STMicroelectronics
 * __Typical Application:__ To communicate over the CC line of the USB-C connector, and negociate power on VBUS
 * __USB power role:__ Source, Sink, or Dual-Role Power (DRP)
-* __USB data  role:__ independant (works with No Data, or with USB Device / USB Host that can be USB2.0 or USB3.1)   <br />
+* __USB data  role:__ independant (works with No Data, or with external USB Device / USB Host that can be USB2.0 or USB3.1)   <br />
 Note: If using the USB-C connector for both Power and Data, then the Power Sink application initial data role (at cable attachment) is always UFP (Device).  <br />
 Similarly, the initial data role of a Power Source application is always DFP (Host). <br />
 To change the role, it is needed to send a USB PD command: PowerRole_Swap or DataRole_Swap.
@@ -36,7 +36,7 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 * __Package:__ QFN24 EP 4x4mm <br />
 * __Part number:__ STUSB1602QTR, STUSB1602AQTR
 * __USB Spec:__ USB Type-C v1.2 , USB PD v2.0 & v3.0
-* __USB Certification:__ test ID =  1010032
+* __USB Certification:__ Test ID =  1010032
 
 Notes:
 ----------------
