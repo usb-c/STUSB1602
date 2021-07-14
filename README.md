@@ -20,10 +20,11 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 
 * __Features:__ software based solution (STM32+STUSB1602) <br />
 * __Requirements:__ ARM Cortex-M microcontroller : <br />
-  - STM32F072 (ARM Cortex-M0 core)
-  - or STM32F446 (ARM Cortex-M4 core)
-  - or STM32G474 (ARM Cortex-M4 core)
-  - or STM32L4R5 (ARM Cortex-M4 core)
+  - STM32F072 (ARM Cortex-M0 core ,  48 MHz) &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB Device 2.0 Full-Speed (UFP)
+  - STM32F446 (ARM Cortex-M4 core , 180 MHz) &nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB OTG 2.0 High-Speed (DRD)
+  - STM32G474 (ARM Cortex-M4 core , 170 MHz) &nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB Device 2.0 Full-Speed (UFP)
+  - STM32L4R5 (ARM Cortex-M4 core , 120 MHz) &nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB OTG 2.0 Full-Speed (DRD)
+
 * __GPIO Requirements:__ SPI (4 pins) + I2C (2 pins) + Interrupt (1 pin) : <br />
   - For 1 USB-C port : 1x SPI + 1x I2C + 1x Interrupt
   - For 2 USB-C ports: 2x SPI + 1x I2C + 2x Interrupt
