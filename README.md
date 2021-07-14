@@ -34,7 +34,7 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 * __Operating supply:__ 5V to 20V directly from Vbus of the USB-C cable. <br /> Or a lower power (3.3V) for battery supplied applications <br />
 * __Power Consumption:__ 113uA for Sink role, 158uA for Source role<br />
 * __Package:__ QFN24 EP 4x4mm <br />
-* __Part number:__ STUSB1602QTR, STUSB1602AQTR
+* __Part number:__ STUSB1602AQTR (STUSB1602QTR is obsolete)
 * __USB Spec:__ USB Type-C v1.2 , USB PD v2.0 & v3.0
 * __USB Certification:__ Test ID =  1010032
 
