@@ -13,12 +13,12 @@ Info:
 * __Manufacturer:__ STMicroelectronics
 * __Typical Application:__ To communicate over the CC line of the USB-C connector, and negociate power on VBUS
 * __USB power role:__ Source, Sink, or Dual-Role Power (DRP)
-* __USB data  role:__ independant (works with No Data, or with USB Data Device that can be USB2.0 or USB3.1)   <br />
-Note: If using the USB-C connector for both Power and Data, then the USB-C specification requires for a Power Sink application that its initial data role (at cable attachment) is always UFP (Device).  <br />
+* __USB data  role:__ independant (works with No Data, or with USB Device / USB Host that can be USB2.0 or USB3.1)   <br />
+Note: If using the USB-C connector for both Power and Data, then the Power Sink application initial data role (at cable attachment) is always UFP (Device).  <br />
 Similarly, the initial data role of a Power Source application is always DFP (Host). <br />
 To change the role, it is needed to send a USB PD command: PowerRole_Swap or DataRole_Swap.
 
-* __Features:__ software based solution (STM32+STUSB1602) <br />
+* __Features:__ software based solution with Analog front-end (STM32+STUSB1602) <br />
 * __Requirements:__ ARM Cortex-M microcontroller : <br />
   - STM32F072 (ARM Cortex-M0 core ,  48 MHz) &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB Device 2.0 Full-Speed (UFP)
   - STM32F446 (ARM Cortex-M4 core , 180 MHz) &nbsp;&nbsp; | &nbsp;&nbsp; USB Data supported: &nbsp; USB OTG 2.0 High-Speed (DRD)
