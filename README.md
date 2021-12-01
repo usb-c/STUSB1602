@@ -40,9 +40,11 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
 
 Notes:
 ----------------
-- Support: The USB-PD software stack has only been tested on STM32 with official USB-C test equipments to pass the USB certification, so it is only supported for STM32.
+- STUSB1602 software library has only been developed for STM32.
+In particular the SPI interface is non-standard because it is not 8-bit aligned. So it may not work with other microcontrollers.
+- Technical Support: The USB-PD software stack has only been tested on STM32 with official USB-C test equipments to pass the USB certification, so it is only supported for STM32.
 - STUSB1602 Linux drivers: Not available
-- Optional features
+- Optional USB-PD features
   - VDM messaging: Supported
   - Alternate mode: Supported
   - Data Role swap: Supported
