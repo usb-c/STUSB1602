@@ -29,7 +29,7 @@ To change the role, it is needed to send a USB PD command: PowerRole_Swap or Dat
   - For 1 USB-C port : 1x SPI + 1x I2C + 1x Interrupt
   - For 2 USB-C ports: 2x SPI + 1x I2C + 2x Interrupt
   <br />
-  Note: SPI is used for USB-PD messaging to CC pin, and I2C is used for chip register's configuration
+  Note: Both I2C and SPI interfaces are mandatory. SPI is used for USB-PD messaging to CC pin, and I2C is used for chip register's configuration
 
 * __Operating supply:__ 5V to 20V directly from Vbus of the USB-C cable. <br /> Or a lower power (3.3V) for battery supplied applications <br />
 * __Power Consumption:__ 113uA for Sink role, 158uA for Source role<br />
